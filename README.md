@@ -1,12 +1,20 @@
-# React + Vite
+# Postify Frontend
+This readme will define all the features of this frontend application. The backend will be integrated later.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Pages
+This react application will use react-dom-router for making a single-page-site. It will have multiple pages.
 
-Currently, two official plugins are available:
+1. Signin/Signup page: This page will do what the name says
+2. Home Page: This page will show the feed of all the posts and stuff which it will fetch from the API.
+3. Profile Page: This page will show the user's profile in which they can change their profile and stuff; and if the user is not logged in it will be a signin/signup button instead
+4. New Post Page: This page will allow the user to create a post. This user can use text and images in their post
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Components
+The pages of the application will be made up of components. Btw why are you reading this?
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. Signup component
+2. Signin component
+3. NavBar component
+4. PostCard component
+5. Button components
+6. Heading/Footer components
