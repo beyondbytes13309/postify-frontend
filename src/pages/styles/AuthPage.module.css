@@ -1,0 +1,13 @@
+.mainDiv {
+
+  display: flex;
+  justify-content: center;
+  
+  background-color: rgba(228, 228, 228, 0.651);
+  height: 100vh
+}
+
+.authFormDiv {
+  /* Do NOT set width or flex rules here */
+  display: inline-block; /* Let it take only the space it needs */
+}
