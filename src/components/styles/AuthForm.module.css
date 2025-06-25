@@ -19,10 +19,9 @@
 .wrapper {
     display: flex;
     justify-content: center;
-    margin: 1rem;
     max-width: 500px;
     max-height: 700px;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
     
 
 }
@@ -32,6 +31,10 @@
     width: 300px;
     font-size: 1rem;
   }
+
+  .auth_email, .auth_password, .auth_username {
+        width: 90%
+    }
 }
 
 /* 450px to 799px */
@@ -40,6 +43,10 @@
     width: 400px;
     font-size: 1.025rem;
   }
+
+  .auth_email, .auth_password, .auth_username {
+        width: 90%
+    }
 }
 
 /* 800px and up */
@@ -58,7 +65,7 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    min-height: 100%;
+
 
     align-items: center;
     padding: 1rem;
@@ -254,6 +261,9 @@
     margin-top: 0.5rem;
     cursor: pointer;
 }
+
+
+
 
 
 

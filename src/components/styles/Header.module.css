@@ -3,15 +3,21 @@
     justify-content: space-between;
     align-items: center;
     padding-inline: 0.3rem;
-    background: linear-gradient(to top right, aqua, rgb(210, 210, 252));
+    background: linear-gradient(to right, #00c6ff, #ab80f0);
+    /*background-color: black;*/
+    min-height: 3rem;
+    max-height: 9rem
+
 }
 
-.title {
-    font-size: 2.5rem;
+.logo {
+    height: 5rem;
+    width: 21%;
+    object-fit: cover;
+    object-position: middle;
 }
 
 .navWrapper {
-    background-color: rgb(255, 255, 255);
     padding: 0.5rem;
 }
 
@@ -19,7 +25,7 @@
     display: none;
     width: 35px;
     height: 35px;
-    background-color: white;
+    background-color: inherit;
     border: none;
     outline: none
 }
@@ -40,7 +46,19 @@
     height: 35px;
 }
 
-@media (max-width: 450px) {
+.navItem {
+    color: white
+}
+
+.navItem:hover {
+    opacity: 0.9;
+}
+
+.navItem:active {
+    opacity: 0.7;
+}
+
+@media (max-width: 650px) {
     .navigation {
         display: none;
         background-color: white;
@@ -48,6 +66,21 @@
     .burgerMenu {
         display: block
     }
+
+    .logo {
+        width: 50%;
+        height: 6rem
+    }
+
 }
+
+@media (max-width: 850px) {
+    .logo {
+        width: 35%;
+        height: 10rem
+    }
+}
+
+
 
 

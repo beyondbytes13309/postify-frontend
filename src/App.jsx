@@ -19,7 +19,7 @@ function App() {
 
     return (
         <>
-            <Header />
+            <Header showOptions={{search: true}}/>
             <AuthPage />
         </>
     )
