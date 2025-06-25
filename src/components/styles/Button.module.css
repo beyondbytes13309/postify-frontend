@@ -1,0 +1,84 @@
+.wrapper {
+    isolation: isolate;
+}
+
+.buttonPrimary,
+.buttonSecondary,
+.buttonDestructive,
+.buttonSuccess,
+.buttonWarning {
+    font-size: 1.025rem;
+    border: none;
+    outline: none;
+    padding: 0.2rem 1rem;
+    width: max-content;
+    cursor: pointer;
+    transition: background-color 0.05s ease-in-out;
+    border-radius: 3px;
+}
+
+.buttonPrimary {
+    background-color: #2563eb;
+    color: white;
+    border-radius: 1000px;
+    box-shadow: 0px 0px 3px 0px blue;
+}
+
+.buttonPrimary:hover {
+    background-color: #1d4ed8;
+}
+
+.buttonSecondary {
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    color: black;
+}
+
+.buttonSecondary:hover {
+    background-color: #e2e8f0;
+}
+
+
+
+.buttonDestructive {
+    background-color: #dc2626;
+    color: white;
+    font-weight: bold;
+}
+
+.buttonDestructive:hover {
+    background-color: #b91c1c;
+}
+
+.buttonSuccess {
+
+    background-color: #16a34a;
+    color: white;
+    font-weight: bold;
+    border-radius: 1000px;
+}
+
+.buttonSuccess:hover {
+    background-color: #15803d;
+}
+
+.buttonWarning {
+    background-color: #facc15;
+    color: #000000;
+    font-weight: bold;
+}
+
+.buttonWarning:hover {
+    background-color: #eab308;
+}
+
+button:active {
+    opacity: 0.9;
+}
+
+button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+

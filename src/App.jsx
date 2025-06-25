@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider, Link, Outlet } from "react-router-
 
 
 import Home from "./pages/Home"
-import Auth from './pages/Auth'
+import AuthPage from './pages/AuthPage'
 import Profile from "./pages/Profile"
 import { useState } from "react"
 
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
         </>,
         children: [
             {path: "/home", element:<Home />},
-            {path: "/auth", element: <Auth />},
+            {path: "/auth", element: <AuthPage />},
             {path: "/profile", element:  <AuthProvider><UserProvider> <Profile /></UserProvider></AuthProvider> }
         ]
     }
