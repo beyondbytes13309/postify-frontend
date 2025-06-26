@@ -6,7 +6,9 @@
 .buttonSecondary,
 .buttonDestructive,
 .buttonSuccess,
-.buttonWarning {
+.buttonWarning,
+
+.buttonPost {
     font-size: 1.025rem;
     border: none;
     outline: none;
@@ -70,6 +72,17 @@
 
 .buttonWarning:hover {
     background-color: #eab308;
+}
+
+.buttonPost {
+    background: linear-gradient(to bottom right, rgb(0, 212, 0), rgb(0, 230, 0));
+    color: rgb(15, 13, 13);
+    font-weight: bold;
+    padding: 0.35rem 1rem;
+}
+
+.buttonPost:hover {
+    background: linear-gradient(to bottom right, rgb(0, 200, 0), rgb(0, 215, 0));
 }
 
 button:active {

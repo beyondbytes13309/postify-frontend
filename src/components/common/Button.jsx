@@ -7,7 +7,9 @@ export default function Button({ children, variant, ...props }) {
         "secondary": "buttonSecondary",
         "destructive": 'buttonDestructive',
         "success": "buttonSuccess",
-        "warning": "buttonWarning"
+        "warning": "buttonWarning",
+
+        "post": "buttonPost"
     }
 
     

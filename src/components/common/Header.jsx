@@ -25,7 +25,7 @@ function Header({ showOptions={search: false, home: false, create: false, profil
             {isLoggedIn && <div className={styles.navWrapper}>
                 <nav className={styles.navigation}>
                     {showOptions.create && (<Link className={styles.navItem} to="/create"><IoMdAdd className={styles.navIcon} /></Link>)}
-                    {showOptions.home && (<Link className={styles.navItem} to="#"><FaHome className={styles.navIcon} /></Link>)}
+                    {showOptions.home && (<Link className={styles.navItem} to="/"><FaHome className={styles.navIcon} /></Link>)}
                     {showOptions.search && (<button className={styles.navItem} onClick={() => setShowSearch(!showSearch)}><IoSearchSharp className={styles.navIcon} /></button>)}
                     {showOptions.profile  && (<Link className={styles.navItem} to="/profile"><CgProfile className={styles.navIcon}/></Link>)}
                     
