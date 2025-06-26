@@ -5,29 +5,35 @@ import { CgProfile } from "react-icons/cg";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoSearchSharp } from "react-icons/io5";
 
+import Search from "./Search";
+
+import { AuthContext } from "../../contexts/AuthContext";
+
 import postify from '../../assets/postify.png'
 
 import styles from '../styles/Header.module.css'
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 function Header({ showOptions={search: false, home: false, create: false, profile: false} }) {
     const [dropDownMenuVisibility, setDropDownMenuVisibility] = useState(true)
-
+    const { isLoggedIn } = useContext(AuthContext)
+    const [showSearch, setShowSearch] = useState(false)
+    
     return (
         <div className={styles.wrapper}>
             <img src={postify} alt=""  className={styles.logo}/>
-            <div className={styles.navWrapper}>
+            {isLoggedIn && <div className={styles.navWrapper}>
                 <nav className={styles.navigation}>
-                    {showOptions.create && (<a className={styles.navItem} href="#"><IoMdAdd className={styles.navIcon} /></a>)}
-                    {showOptions.home && (<a className={styles.navItem} href="#"><FaHome className={styles.navIcon} /></a>)}
-                    {showOptions.search && (<a className={styles.navItem} href="#"><IoSearchSharp className={styles.navIcon} /></a>)}
-                    {showOptions.profile && (<a className={styles.navItem} href="#"><CgProfile className={styles.navIcon}/></a>)}
+                    {showOptions.create && (<Link className={styles.navItem} to="/create"><IoMdAdd className={styles.navIcon} /></Link>)}
+                    {showOptions.home && (<Link className={styles.navItem} to="#"><FaHome className={styles.navIcon} /></Link>)}
+                    {showOptions.search && (<button className={styles.navItem} onClick={() => setShowSearch(!showSearch)}><IoSearchSharp className={styles.navIcon} /></button>)}
+                    {showOptions.profile  && (<Link className={styles.navItem} to="/profile"><CgProfile className={styles.navIcon}/></Link>)}
                     
                 </nav>
 
                 {Object.values(showOptions).some((value) => value) && <button className={styles.burgerMenu} onClick={() => setDropDownMenuVisibility(!dropDownMenuVisibility)}><GiHamburgerMenu className={styles.burgerMenuIcon} /></button>}
-            </div>
-            
+            </div>}
+            {showSearch && <Search />}
         </div>
 
         

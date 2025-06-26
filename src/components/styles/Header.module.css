@@ -11,8 +11,8 @@
 }
 
 .logo {
-    height: 5rem;
-    width: 21%;
+    height: 6rem;
+    width: 17%;
     object-fit: cover;
     object-position: middle;
 }
@@ -47,7 +47,10 @@
 }
 
 .navItem {
-    color: white
+    color: white;
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
 }
 
 .navItem:hover {

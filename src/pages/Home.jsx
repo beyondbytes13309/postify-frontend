@@ -1,14 +1,21 @@
+import { useContext, useEffect } from "react"
 import Feed from "../components/post/Feed"
+import { AuthContext } from "../contexts/AuthContext"
+import { useNavigate } from "react-router-dom"
 
 export default function Home() {
-    
+    const navigate = useNavigate()
+    const { isLoggedIn } = useContext(AuthContext)
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            navigate('/auth')
+        }
+    }, [isLoggedIn])
+
     return (
         <>
-            
-            <Feed></Feed>
-
-        
-
+            {isLoggedIn && <Feed />}
         </>
     )
 }

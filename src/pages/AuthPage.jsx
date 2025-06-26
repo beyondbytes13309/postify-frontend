@@ -1,10 +1,19 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AuthForm from "../components/auth/AuthForm";
 
+import { AuthContext } from "../contexts/AuthContext";
+
 import styles from './styles/AuthPage.module.css'
+import { useNavigate } from "react-router-dom";
 
 export default function AuthPage() {
+    const { isLoggedIn } = useContext(AuthContext)
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (isLoggedIn) navigate('/')
+    }, [isLoggedIn])
     const [method, setMethod] = useState('signup');
 
     const toggleMethod = () =>

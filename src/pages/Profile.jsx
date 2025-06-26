@@ -8,7 +8,15 @@ import { UserContext } from "../contexts/UserContext"
 
 export default function Profile() {
     const { isLoggedIn } = useContext(AuthContext)
-    const { userID, setUserID, username, setUsername, pfpURL, setPfpURL } = useContext(UserContext)
+    const {
+    userID,
+    setUserID,
+    username,
+    setUsername,
+    pfpURL,
+    setPfpURL
+    } = useContext(UserContext);
+
 
     useEffect(() => {
         setUsername("Rana emmar")
@@ -19,9 +27,8 @@ export default function Profile() {
 
     return (
         <>
-            <p>Profile</p>
             {
-                isLoggedIn ? 
+                isLoggedIn ?
                 (
                     <>
                         <UserCard userID={userID} username={username} pfpURL={pfpURL} />

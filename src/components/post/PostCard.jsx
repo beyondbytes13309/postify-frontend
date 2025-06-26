@@ -35,14 +35,14 @@ export default function PostCard({ postID, authorName, authorPfpURL, postText })
                         <button className={styles.reactBtn}>
                             <MdOutlineAddReaction className={styles.reactBtnIcon}/>
                         </button>
-                        <span>0</span>
+                        <span className={styles.reactCount}>0</span>
                     </div>
                     
                     <div className={styles.commentBtnWrapper}>
                         <button className={styles.commentBtn}>
                             <FaRegCommentDots className={styles.commentBtnIcon}/> 
                         </button>
-                        <span>0</span>
+                        <span className={styles.commentCount}>0</span>
                     </div>
                     
                     
