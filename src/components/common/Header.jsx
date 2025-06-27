@@ -7,6 +7,8 @@ import { IoSearchSharp } from "react-icons/io5";
 
 import Search from "./Search";
 
+import HBMenu from "./HBMenu";
+
 import { AuthContext } from "../../contexts/AuthContext";
 
 import postify from '../../assets/postify.png'
@@ -15,7 +17,7 @@ import styles from '../styles/Header.module.css'
 import { useContext, useState } from "react";
 
 function Header({ showOptions={search: false, home: false, create: false, profile: false} }) {
-    const [dropDownMenuVisibility, setDropDownMenuVisibility] = useState(true)
+    const [HBMenuVisibility, setHBMenuVisibility] = useState(false)
     const { isLoggedIn } = useContext(AuthContext)
     const [showSearch, setShowSearch] = useState(false)
     
@@ -31,9 +33,11 @@ function Header({ showOptions={search: false, home: false, create: false, profil
                     
                 </nav>
 
-                {Object.values(showOptions).some((value) => value) && <button className={styles.burgerMenu} onClick={() => setDropDownMenuVisibility(!dropDownMenuVisibility)}><GiHamburgerMenu className={styles.burgerMenuIcon} /></button>}
+                {Object.values(showOptions).some((value) => value) && <button className={styles.burgerMenu} onClick={() => setHBMenuVisibility(!HBMenuVisibility)}><GiHamburgerMenu className={styles.burgerMenuIcon} /></button>}
             </div>}
             {showSearch && <Search />}
+
+            {HBMenuVisibility && <HBMenu showOptions={showOptions}/>}
         </div>
 
         
