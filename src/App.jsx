@@ -6,7 +6,6 @@ import AuthPage from './pages/AuthPage'
 import Profile from "./pages/Profile"
 import Create from './pages/Create'
 
-
 import RootLayout from './pages/RootLayout.jsx'
 
 import { useContext, useState } from "react"
