@@ -1,14 +1,26 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import styles from '../styles/PostCard.module.css'
 
 import { CiMenuKebab } from "react-icons/ci";
 import { FaRegCommentDots } from "react-icons/fa";
 import { MdOutlineAddReaction } from "react-icons/md";
 
+import { motion, AnimatePresence } from 'motion/react';
 
+import CommentSection from '../comment/CommentSection'
 
 export default function PostCard({ postID, authorName, authorPfpURL, postText }) {
-    
+    const commentSectionVariants = {
+        initial: {opacity: 0},
+        animate: {opacity: 1},
+        exit: {opacity: 0}
+    }
+
+    const [showCommentSection, setShowCommentSection] = useState(false)
+
+    const toggleCommentSection = () => {
+        setShowCommentSection(!showCommentSection)
+    }
 
     useEffect(() => {
 
@@ -39,7 +51,7 @@ export default function PostCard({ postID, authorName, authorPfpURL, postText })
                     </div>
                     
                     <div className={styles.commentBtnWrapper}>
-                        <button className={styles.commentBtn}>
+                        <button className={styles.commentBtn} onClick={toggleCommentSection}>
                             <FaRegCommentDots className={styles.commentBtnIcon}/> 
                         </button>
                         <span className={styles.commentCount}>0</span>
@@ -47,6 +59,21 @@ export default function PostCard({ postID, authorName, authorPfpURL, postText })
                     
                     
                 </div>
+
+                <AnimatePresence mode="wait">
+                    {showCommentSection&& <motion.div
+                    method={showCommentSection.toString()}
+                    variants={commentSectionVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    transition={{duration: 0.2, ease: "easeInOut"}}>
+                        {<CommentSection postID={postID} toggleCommentSection={toggleCommentSection}/>}
+                    </motion.div>}
+                    
+                </AnimatePresence>
+                
+
             </div>
         </>
     )
