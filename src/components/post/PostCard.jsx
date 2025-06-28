@@ -5,6 +5,8 @@ import { CiMenuKebab } from "react-icons/ci";
 import { FaRegCommentDots } from "react-icons/fa";
 import { MdOutlineAddReaction } from "react-icons/md";
 
+
+
 import { motion, AnimatePresence } from 'motion/react';
 
 import CommentSection from '../comment/CommentSection'
@@ -68,10 +70,14 @@ export default function PostCard({ postID, authorName, authorPfpURL, postText })
                     animate="animate"
                     exit="exit"
                     transition={{duration: 0.2, ease: "easeInOut"}}>
-                        {<CommentSection postID={postID} toggleCommentSection={toggleCommentSection}/>}
+                        {<CommentSection 
+                        postID={postID} 
+                        toggleCommentSection={toggleCommentSection}/>}
                     </motion.div>}
                     
+                    
                 </AnimatePresence>
+                
                 
 
             </div>
