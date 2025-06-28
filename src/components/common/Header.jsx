@@ -11,7 +11,7 @@ import HBMenu from "./HBMenu";
 
 import { AuthContext } from "../../contexts/AuthContext";
 
-import postify from '../../assets/postify.png'
+import postify from '../../assets/postify.avif'
 
 import styles from '../styles/Header.module.css'
 import { useContext, useState } from "react";

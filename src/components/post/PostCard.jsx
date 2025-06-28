@@ -11,7 +11,8 @@ import { motion, AnimatePresence } from 'motion/react';
 
 import CommentSection from '../comment/CommentSection'
 
-export default function PostCard({ postID, authorName, authorPfpURL, postText }) {
+
+export default function PostCard({ postID, authorName, authorPfpURL, postText, postCommentsNum, postReactionsNum, setShowReactionPicker }) {
     const commentSectionVariants = {
         initial: {opacity: 0},
         animate: {opacity: 1},
@@ -19,14 +20,21 @@ export default function PostCard({ postID, authorName, authorPfpURL, postText })
     }
 
     const [showCommentSection, setShowCommentSection] = useState(false)
+    
+    const [commentCount, setCommentCount] = useState(null)
+    const [reactionCount, setReactionCount] = useState(null)
+
+    useEffect(() => {
+        setCommentCount(postCommentsNum)
+        setReactionCount(postReactionsNum)
+    })
 
     const toggleCommentSection = () => {
         setShowCommentSection(!showCommentSection)
     }
 
-    useEffect(() => {
+    
 
-    }, [])
     return (
         <>
             <div className={styles.wrapper}>
@@ -46,17 +54,17 @@ export default function PostCard({ postID, authorName, authorPfpURL, postText })
 
                 <div className={styles.buttonWrapper}>
                     <div className={styles.reactBtnWrapper}>
-                        <button className={styles.reactBtn}>
+                        <button className={styles.reactBtn} onClick={() => setShowReactionPicker(prev => !prev)}>
                             <MdOutlineAddReaction className={styles.reactBtnIcon}/>
                         </button>
-                        <span className={styles.reactCount}>0</span>
+                        <span className={styles.reactCount}>{reactionCount}</span>
                     </div>
                     
                     <div className={styles.commentBtnWrapper}>
                         <button className={styles.commentBtn} onClick={toggleCommentSection}>
                             <FaRegCommentDots className={styles.commentBtnIcon}/> 
                         </button>
-                        <span className={styles.commentCount}>0</span>
+                        <span className={styles.commentCount}>{commentCount}</span>
                     </div>
                     
                     

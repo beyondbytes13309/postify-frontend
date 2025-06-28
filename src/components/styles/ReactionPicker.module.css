@@ -1,0 +1,30 @@
+.wrapper {
+
+    background-color: rgb(206, 255, 255);
+    position: absolute;
+    display: flex;
+    gap: 1.3rem;
+    align-items: center;
+    border-radius: 5px;
+    box-shadow: 0px 0px 3px gray;
+    padding: 0.45rem;
+
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    
+}
+
+.reactionBtn {
+    background-color: inherit;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+}
+
+.reactionBtnSelected {
+    transform: scale(1.25);
+}

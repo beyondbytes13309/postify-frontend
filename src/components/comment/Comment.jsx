@@ -1,7 +1,6 @@
 import styles from '../styles/Comment.module.css'
 
 export default function Comment({ commentText, commentAuthor, commentEmail }) {
-    console.log("commentText")
     return (
         <>
             <div className={styles.wrapper}>
