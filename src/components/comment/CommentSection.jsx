@@ -32,7 +32,7 @@ export default function CommentSection({ postID, toggleCommentSection }) {
                 <button className={styles.closeBtn}>
                     <IoMdCloseCircle className={styles.closeBtnIcon} onClick={toggleCommentSection}/>
                 </button>
-
+                <p>{postID}</p>
                 <div className={styles.comments}>
                     {
                         comments.map((comment, index) => (

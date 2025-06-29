@@ -7,19 +7,14 @@ import { MdOutlineAddReaction } from "react-icons/md";
 
 
 
-import { motion, AnimatePresence } from 'motion/react';
-
-import CommentSection from '../comment/CommentSection'
 
 
-export default function PostCard({ postID, authorName, authorPfpURL, postText, postCommentsNum, postReactionsNum, setShowReactionPicker }) {
-    const commentSectionVariants = {
-        initial: {opacity: 0},
-        animate: {opacity: 1},
-        exit: {opacity: 0}
-    }
 
-    const [showCommentSection, setShowCommentSection] = useState(false)
+
+export default function PostCard({ postID, authorName, authorPfpURL, postText, postCommentsNum, postReactionsNum, setShowReactionPicker, setShowCommentSection, selected }) {
+    
+
+    
     
     const [commentCount, setCommentCount] = useState(null)
     const [reactionCount, setReactionCount] = useState(null)
@@ -27,11 +22,15 @@ export default function PostCard({ postID, authorName, authorPfpURL, postText, p
     useEffect(() => {
         setCommentCount(postCommentsNum)
         setReactionCount(postReactionsNum)
-    })
+    }, [])
 
-    const toggleCommentSection = () => {
-        setShowCommentSection(!showCommentSection)
-    }
+    useEffect(() => {
+        console.log(selected)
+    }, [selected])
+
+    
+
+    
 
     
 
@@ -61,7 +60,7 @@ export default function PostCard({ postID, authorName, authorPfpURL, postText, p
                     </div>
                     
                     <div className={styles.commentBtnWrapper}>
-                        <button className={styles.commentBtn} onClick={toggleCommentSection}>
+                        <button className={styles.commentBtn} onClick={() => setShowCommentSection(postID)}>
                             <FaRegCommentDots className={styles.commentBtnIcon}/> 
                         </button>
                         <span className={styles.commentCount}>{commentCount}</span>
@@ -70,21 +69,7 @@ export default function PostCard({ postID, authorName, authorPfpURL, postText, p
                     
                 </div>
 
-                <AnimatePresence mode="wait">
-                    {showCommentSection&& <motion.div
-                    method={showCommentSection.toString()}
-                    variants={commentSectionVariants}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    transition={{duration: 0.2, ease: "easeInOut"}}>
-                        {<CommentSection 
-                        postID={postID} 
-                        toggleCommentSection={toggleCommentSection}/>}
-                    </motion.div>}
-                    
-                    
-                </AnimatePresence>
+                
                 
                 
 

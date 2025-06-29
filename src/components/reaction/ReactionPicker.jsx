@@ -2,12 +2,12 @@ import { useState } from 'react'
 import styles from '../styles/ReactionPicker.module.css'
 
 
-export default function ReactionPicker() {
-    const [selected, setSelected] = useState(0)
+export default function ReactionPicker({ selected, setSelected }) {
+    
 
     const toggleReaction = (reaction) => {
         if (selected == reaction) {
-            setSelected(0)
+            setSelected(null)
         } else {
             setSelected(reaction)
         }

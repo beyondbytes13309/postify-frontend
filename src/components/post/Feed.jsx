@@ -3,10 +3,22 @@ import PostCard from './PostCard'
 
 import ReactionPicker from '../reaction/ReactionPicker';
 
+import { motion, AnimatePresence } from 'motion/react';
+import CommentSection from '../comment/CommentSection'
+
 import styles from '../styles/Feed.module.css'
 
 export default function Feed() {
+    const commentSectionVariants = {
+        initial: {opacity: 0},
+        animate: {opacity: 1},
+        exit: {opacity: 0}
+    }
+
     const [showReactionPicker, setShowReactionPicker] = useState(false)
+    const [showCommentSection, setShowCommentSection] = useState(null)
+
+    const [selected, setSelected] = useState(null)
 
     const [posts, setPosts] = useState([
     {
@@ -48,11 +60,27 @@ export default function Feed() {
                     postText={post.postText}
                     postCommentsNum={post.postCommentsNum}
                     postReactionsNum={post.postReactionsNum}
-                    setShowReactionPicker={setShowReactionPicker}/>
+                    setShowReactionPicker={setShowReactionPicker}
+                    setShowCommentSection={setShowCommentSection}
+                    showCommentSection={showCommentSection}
+                    selected={selected}/>
                 })}
             </div>
 
-            {showReactionPicker && <ReactionPicker />}
+            {showReactionPicker && <ReactionPicker selected={selected} setSelected={setSelected}/>}
+            <AnimatePresence mode="wait">
+                    {showCommentSection&& <motion.div
+                    method={showCommentSection.toString()}
+                    variants={commentSectionVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    transition={{duration: 0.2, ease: "easeInOut"}}>
+                        {<CommentSection 
+                        postID={showCommentSection}
+                        toggleCommentSection={() => setShowCommentSection(prev => !prev)}/>}
+                    </motion.div>}
+            </AnimatePresence>
         </>
     )
 }
