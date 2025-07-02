@@ -9,21 +9,8 @@ import { UserContext } from "../contexts/UserContext"
 export default function Profile() {
     const { isLoggedIn } = useContext(AuthContext)
     const {
-    userID,
-    setUserID,
-    username,
-    setUsername,
-    pfpURL,
-    setPfpURL
+    user
     } = useContext(UserContext);
-
-
-    useEffect(() => {
-        setUsername("Rana emmar")
-        setUserID("5984389583458953")
-        setPfpURL("https://cdn.postify.com/pfps/5984389583458953")
-    }, [])
-    
 
     return (
         <>
@@ -31,7 +18,7 @@ export default function Profile() {
                 isLoggedIn ?
                 (
                     <>
-                        <UserCard userID={userID} username={username} pfpURL={pfpURL} />
+                        <UserCard userID={user._id} username={user.username} pfpURL={user.profilePicURL} />
                     </>
                 )
                 :

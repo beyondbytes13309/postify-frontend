@@ -1,13 +1,17 @@
 import styles from '../styles/AuthForm.module.css'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { FaEyeSlash, FaEye, FaGithub, FaTwitter, FaUser } from "react-icons/fa";
 
 import { IoLockClosed } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
 
+import API from '../../../apiRoutes'
 
 import googleIcon from '../../assets/googleIcon.svg'
 import Button from '../common/Button'
+import { AuthContext } from '../../contexts/AuthContext';
+import {UserContext} from '../../contexts/UserContext'
+
 
 
 export default function AuthForm({ type, toggleMethod }) {
@@ -15,6 +19,9 @@ export default function AuthForm({ type, toggleMethod }) {
         'signin': "Sign in now",
         'signup': "Sign up now"
     }
+
+    const { setIsLoggedIn } = useContext(AuthContext)
+    const { setUser } = useContext(UserContext)
 
     const [showPassword, setShowPassword]= useState(false)
 
@@ -64,11 +71,33 @@ export default function AuthForm({ type, toggleMethod }) {
         }
     }
 
-    const handleAuth = (authType) => {
+    const handleAuth = async (authType) => {
         // no need to cut muahs here cuz im only doing frontend rightnow backend will be later
         // alert(`In the future, you will probably ${titles[type] || 'do something great'}`)
 
-        
+        if (authType == 'local_auth') {
+            if (type == 'signin') {
+                const response = await fetch(API.AUTH.loginLocal, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({username, password})})
+                const parsed = await response.json()
+                if (parsed?.code == '005') {
+                    setUser(parsed.user)
+                    setIsLoggedIn(true)
+                } else if (parsed?.code == '001') {
+                    setErrors({username: 'Username does not exist!'})
+                } else if (parsed?.code == '002') {
+                    setErrors({password: 'Password is incorrect!'})
+                }
+            } else if (type == 'signup') {
+                const response = await fetch(API.AUTH.registerLocal, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({email, password})})
+                const parsed = await response.json()
+                if (parsed?.code == '003') {
+                    setErrors({email: 'User with this email already exists!'})
+                } else if (parsed?.code == '004') {
+                    setUser(parsed.user)
+                    setIsLoggedIn(true)
+                }
+            }
+        }
     }
 
     return (

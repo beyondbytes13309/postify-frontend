@@ -7,6 +7,7 @@ const UserProvider = ({ children }) => {
     const [username, setUsername] = useState(null)
     const [pfpURL, setPfpURL] = useState(null)
     
+    const [user, setUser] = useState(null)
 
 
     const value = {
@@ -15,7 +16,9 @@ const UserProvider = ({ children }) => {
         username,
         setUsername,
         pfpURL,
-        setPfpURL
+        setPfpURL,
+        user,
+        setUser
     }
 
     return (
