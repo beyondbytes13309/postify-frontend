@@ -10,7 +10,7 @@ import API from '../../../apiRoutes'
 import googleIcon from '../../assets/googleIcon.svg'
 import Button from '../common/Button'
 import { AuthContext } from '../../contexts/AuthContext';
-import {UserContext} from '../../contexts/UserContext'
+
 
 
 
@@ -20,8 +20,7 @@ export default function AuthForm({ type, toggleMethod }) {
         'signup': "Sign up now"
     }
 
-    const { setIsLoggedIn } = useContext(AuthContext)
-    const { setUser } = useContext(UserContext)
+    const { setIsLoggedIn, setUser } = useContext(AuthContext)
 
     const [showPassword, setShowPassword]= useState(false)
 
@@ -97,6 +96,10 @@ export default function AuthForm({ type, toggleMethod }) {
                     setIsLoggedIn(true)
                 }
             }
+        }
+
+        if (authType == 'google_auth') {
+            window.location.href = API.AUTH.googleAuth
         }
     }
 

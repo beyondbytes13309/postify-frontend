@@ -3,28 +3,37 @@ import { AuthContext } from "../contexts/AuthContext"
 
 import UserCard from "../components/user/UserCard"
 
-import { UserContext } from "../contexts/UserContext"
+import { useNavigate } from "react-router-dom"
+
 
 
 export default function Profile() {
-    const { isLoggedIn } = useContext(AuthContext)
-    const {
-    user
-    } = useContext(UserContext);
+    const navigate = useNavigate()
+
+    const { isLoggedIn, user } = useContext(AuthContext)
+    
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            navigate('auth')
+        }
+    }, [isLoggedIn])
 
     return (
         <>
             {
-                isLoggedIn ?
+                isLoggedIn &&
                 (
                     <>
-                        <UserCard userID={user._id} username={user.username} pfpURL={user.profilePicURL} />
+                        {/*<UserCard userID={} username={user.username} pfpURL={user.profilePicURL} />*/ null}
+
+                        {user ? (
+                            <UserCard user={user.user}/>
+                        ) : null}
+                        
                     </>
                 )
-                :
-                (
-                    <p>Please login</p>
-                )
+               
             }
         </>
     )
