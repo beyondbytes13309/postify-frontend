@@ -53,6 +53,10 @@
     cursor: pointer;
 }
 
+.profilePicURL {
+    border-radius: 50%;
+}
+
 .navItem:hover {
     opacity: 0.9;
 }

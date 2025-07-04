@@ -9,6 +9,7 @@ import API from '../../../apiRoutes'
 
 import googleIcon from '../../assets/googleIcon.svg'
 import Button from '../common/Button'
+import Modal from '../common/Modal'
 import { AuthContext } from '../../contexts/AuthContext';
 
 
@@ -28,6 +29,7 @@ export default function AuthForm({ type, toggleMethod }) {
     const [password, setPassword] = useState('')
     const [username, setUsername] = useState('')
 
+    const [modalVisibility, setModalVisibility] = useState(false)
 
     const [errors, setErrors] = useState({})
 
@@ -76,30 +78,44 @@ export default function AuthForm({ type, toggleMethod }) {
 
         if (authType == 'local_auth') {
             if (type == 'signin') {
-                const response = await fetch(API.AUTH.loginLocal, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({username, password})})
-                const parsed = await response.json()
-                if (parsed?.code == '005') {
-                    setUser(parsed.user)
-                    setIsLoggedIn(true)
-                } else if (parsed?.code == '001') {
-                    setErrors({username: 'Username does not exist!'})
-                } else if (parsed?.code == '002') {
-                    setErrors({password: 'Password is incorrect!'})
+                try {
+                    const response = await fetch(API.AUTH.loginLocal, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({username, password})})
+                    const parsed = await response.json()
+                    if (parsed?.code == '005') {
+                        setUser(parsed.user)
+                        setIsLoggedIn(true)
+                    } else if (parsed?.code == '001') {
+                        setErrors({username: 'Username does not exist!'})
+                    } else if (parsed?.code == '002') {
+                        setErrors({password: 'Password is incorrect!'})
+                    }
+                } catch(e) {
+                    setModalVisibility(true)
                 }
+                
             } else if (type == 'signup') {
-                const response = await fetch(API.AUTH.registerLocal, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({email, password})})
-                const parsed = await response.json()
-                if (parsed?.code == '003') {
+                try {
+                    const response = await fetch(API.AUTH.registerLocal, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({email, password})})
+                    const parsed = await response.json()
+                    if (parsed?.code == '003') {
                     setErrors({email: 'User with this email already exists!'})
-                } else if (parsed?.code == '004') {
-                    setUser(parsed.user)
-                    setIsLoggedIn(true)
+                    } else if (parsed?.code == '004') {
+                        setUser(parsed.user)
+                        setIsLoggedIn(true)
+                    } 
+                } catch(err) {
+                    setModalVisibility(true)
                 }
+                
             }
         }
 
         if (authType == 'google_auth') {
             window.location.href = API.AUTH.googleAuth
+        }
+
+        if (authType == 'github_auth') {
+            window.location.href = API.AUTH.githubAuth
         }
     }
 
@@ -155,7 +171,7 @@ export default function AuthForm({ type, toggleMethod }) {
                     <p>Or continue with</p>
                     <button onClick={() => handleAuth('google_auth')} className={styles.google_btn}><img src={googleIcon} className={styles.google_icon} /> Google</button>
                     <button onClick={() => handleAuth('github_auth')} className={styles.github_btn}><FaGithub /> Github</button>
-                    <button onClick={() => handleAuth('twitter_auth')} className={styles.twitter_btn}><FaTwitter /> Twitter</button>
+                    {/*<button onClick={() => handleAuth('twitter_auth')} className={styles.twitter_btn}><FaTwitter /> Twitter</button>*/ null}
                 </div>
 
                 <p onClick={toggleMethod} className={styles.auth_toggle_text}>{type=='signin' ? "Don't have an account? Create one now" : 
@@ -165,6 +181,13 @@ export default function AuthForm({ type, toggleMethod }) {
             </div>
         </div>
         
+        <Modal visibility={modalVisibility}
+        setVisibility={setModalVisibility}
+        variant='alert'
+        buttonTexts={["Ok"]}
+        title="Error"
+        text="Couldn't make request to the server due to internet"
+        setButtonClick={(btnNum) => {console.log(btnNum)}}/>
         </>
     )
 }

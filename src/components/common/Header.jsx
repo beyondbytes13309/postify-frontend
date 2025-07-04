@@ -18,8 +18,9 @@ import { useContext, useState } from "react";
 
 function Header({ showOptions={search: false, home: false, create: false, profile: false} }) {
     const [HBMenuVisibility, setHBMenuVisibility] = useState(false)
-    const { isLoggedIn } = useContext(AuthContext)
+    const { isLoggedIn, user } = useContext(AuthContext)
     const [showSearch, setShowSearch] = useState(false)
+
     
     return (
         <div className={styles.wrapper}>
@@ -29,7 +30,7 @@ function Header({ showOptions={search: false, home: false, create: false, profil
                     {showOptions.create && (<Link className={styles.navItem} to="/create"><IoMdAdd className={styles.navIcon} /></Link>)}
                     {showOptions.home && (<Link className={styles.navItem} to="/"><FaHome className={styles.navIcon} /></Link>)}
                     {showOptions.search && (<button className={styles.navItem} onClick={() => setShowSearch(!showSearch)}><IoSearchSharp className={styles.navIcon} /></button>)}
-                    {showOptions.profile  && (<Link className={styles.navItem} to="/profile"><CgProfile className={styles.navIcon}/></Link>)}
+                    {showOptions.profile  && (<Link className={styles.navItem} to="/profile"><img className={`${styles.navIcon} ${styles.profilePicURL}`} src={user?.user?.profilePicURL} alt="pfp"/></Link>)}
                     
                 </nav>
 

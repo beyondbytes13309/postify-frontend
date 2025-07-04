@@ -4,7 +4,8 @@ const API = {
     AUTH: {
         loginLocal: `${BASE_URL}/auth/login`,
         registerLocal: `${BASE_URL}/auth/register`,
-        googleAuth: `${BASE_URL}/auth/google`
+        googleAuth: `${BASE_URL}/auth/google`,
+        githubAuth: `${BASE_URL}/auth/github`
     }
 }
 

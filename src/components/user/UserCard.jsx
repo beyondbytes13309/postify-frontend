@@ -1,3 +1,5 @@
+import styles from '../styles/UserCard.module.css'
+import { FaEdit } from "react-icons/fa";
 
 
 export default function UserCard({ user: {_id, username, email, bio, profilePicURL }}) {
@@ -10,11 +12,14 @@ export default function UserCard({ user: {_id, username, email, bio, profilePicU
     return (
         <>
  
-            <h2>Hello {username}</h2>
-            <p>Your userID is {_id}</p>
-            <p>Your pfp is at {profilePicURL}</p>
-            <p>Your email is {email}</p>
-            <p>Your bio is "{bio}"</p>
+            <div className={styles.info}>
+                <img className={styles.profilePicURL} src={profilePicURL} alt="Pfp"/>
+            </div>
+
+            <div className={styles.input}>
+                <button><FaEdit /></button>
+            </div>
+            
 
             
         </>
