@@ -9,14 +9,21 @@ import Loading from '../common/Loading'
 export default function CommentSection({ postID, toggleCommentSection }) {
     const [comments, setComments] = useState([])
     const [isFetching, setIsFetching] = useState(false)
+    const [failed, setFailed] = useState(false)
 
 
     useEffect(() => {
+        
         const fetchAndSetComments = async () => {
-            const response = await fetch("https://jsonplaceholder.typicode.com/comments")
-            const parsed = await response.json()
-            setComments(parsed)
-            setIsFetching(false)
+            try {
+                const response = await fetch("https://jsonplaceholder.typicode.com/comments")
+                const parsed = await response.json()
+                setComments(parsed)
+                setIsFetching(false)
+            } catch(e) {
+                setFailed(true)
+            }
+            
         }
         setIsFetching(true)
         fetchAndSetComments()
@@ -32,7 +39,6 @@ export default function CommentSection({ postID, toggleCommentSection }) {
                 <button className={styles.closeBtn}>
                     <IoMdCloseCircle className={styles.closeBtnIcon} onClick={toggleCommentSection}/>
                 </button>
-                <p>{postID}</p>
                 <div className={styles.comments}>
                     {
                         comments.map((comment, index) => (
@@ -45,7 +51,8 @@ export default function CommentSection({ postID, toggleCommentSection }) {
                     }
                 </div>
                 
-                {isFetching && <Loading />}
+                {isFetching && !failed && <Loading />}
+                {failed && <p className={styles.error}>An error occured!</p>}
             </div>
                 
 

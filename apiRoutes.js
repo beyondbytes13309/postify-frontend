@@ -6,6 +6,10 @@ const API = {
         registerLocal: `${BASE_URL}/auth/register`,
         googleAuth: `${BASE_URL}/auth/google`,
         githubAuth: `${BASE_URL}/auth/github`
+    },
+    USER: {
+        uploadPfp: `${BASE_URL}/user/uploadPfp`,
+        editUser: `${BASE_URL}/user/editUser`
     }
 }
 

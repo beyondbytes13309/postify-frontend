@@ -23,11 +23,6 @@ export default function PostCard({ postID, authorName, authorPfpURL, postText, p
         setCommentCount(postCommentsNum)
         setReactionCount(postReactionsNum)
     }, [])
-
-    useEffect(() => {
-        console.log(selected)
-    }, [selected])
-
     
 
     
