@@ -5,7 +5,8 @@ const API = {
         loginLocal: `${BASE_URL}/auth/login`,
         registerLocal: `${BASE_URL}/auth/register`,
         googleAuth: `${BASE_URL}/auth/google`,
-        githubAuth: `${BASE_URL}/auth/github`
+        githubAuth: `${BASE_URL}/auth/github`,
+        logout: `${BASE_URL}/auth/logout`
     },
     USER: {
         uploadPfp: `${BASE_URL}/user/uploadPfp`,

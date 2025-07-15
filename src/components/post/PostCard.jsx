@@ -38,7 +38,7 @@ export default function PostCard({ postID, authorName, authorPfpURL, postText, p
                         <p className={styles.authorName}>{authorName}</p>
                     </div>
                     
-                    <button className={styles.postMenuBtn}>
+                    <button className={styles.postMenuBtn} title="Options">
                         {<CiMenuKebab className={styles.postMenuIcon}/>}
                     </button>
                 </div>
@@ -47,14 +47,14 @@ export default function PostCard({ postID, authorName, authorPfpURL, postText, p
                 </div>
 
                 <div className={styles.buttonWrapper}>
-                    <div className={styles.reactBtnWrapper}>
+                    <div className={styles.reactBtnWrapper} title="Reactions">
                         <button className={styles.reactBtn} onClick={() => setShowReactionPicker(prev => !prev)}>
                             <MdOutlineAddReaction className={styles.reactBtnIcon}/>
                         </button>
                         <span className={styles.reactCount}>{reactionCount}</span>
                     </div>
                     
-                    <div className={styles.commentBtnWrapper}>
+                    <div className={styles.commentBtnWrapper} title="Comments">
                         <button className={styles.commentBtn} onClick={() => setShowCommentSection(postID)}>
                             <FaRegCommentDots className={styles.commentBtnIcon}/> 
                         </button>

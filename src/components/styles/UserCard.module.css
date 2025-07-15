@@ -1,21 +1,41 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 0px 5px rgba(128, 128, 128, 0.452);
+    height: auto;
+    gap: 0.5rem;
+    margin: 0.5rem;
+    border-radius: 5px;
+    
+}
+
+
+.upperWrapper {
+    display: flex;
+    height: auto;
+}
+
 .info {
     margin: 0.5rem
 }
 
 .pfpRelated {
     position: relative;
-    width: 10rem;
-    height: 10rem;
+    margin-right: auto;
+    width: clamp(10rem, 10vw, 18rem); 
+    aspect-ratio: 1 / 1;    
 }
 
 .profilePicURL {
-    width: 100%;
+    display: block;
     border-radius: 50%;
-    border: 1px solid rgba(0, 0, 0, 0.715);   
-    object-fit: cover;
+    border: 1px solid rgba(0, 0, 0, 0.715);
+    width: 100%;
     height: 100%;
+    object-fit: cover;
     object-position: center;
 }
+
 
 .editPfp {
     position: absolute;
@@ -23,16 +43,61 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
     border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
     opacity: 0;
     border: none;
     font-size: 1.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
+.btnWrapper {
+    display: flex;
+    gap: 0.45rem
+}
+
+.bio {
+    margin-top: 0.6rem
+}
+
+.displayName p {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.displayNameInput {
+    font-size: 1.5rem;
+    padding: 0.3rem
+}
+
+.usernameInput {
+    padding: 0.3rem;
+    font-size: 1rem;
+}
+
+.usernameInput, .displayNameInput {
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.552);
+    margin-top: 0.1rem
+}
+
+.bioInput {
+    resize: none;
+    padding: 0.3rem;
+    min-width: 30%;
+    max-width: 60%;
+}
+
+.username p {
+    color: rgb(102, 77, 77)
+}
+
+.changeStuff {
+    margin-top: 0.5rem
+}
 
 .label:hover {
     opacity: 0.9;
@@ -41,6 +106,26 @@
 
 .label:active {
     opacity: 0.8;
+}
+
+.saveBtn {
+    margin-top: 0.5rem
+}
+
+.basicNumbers {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem
+}
+
+.item1 {
+    font-weight: 600;
+    font-size: 1.5rem
+}
+
+.item2 {
+    color: rgb(124, 87, 87)
 }
 
 

@@ -1,12 +1,15 @@
 import { Outlet } from "react-router-dom";
 import Header from '../components/common/Header'
-import styles from './styles/RootLayout.module.css'
+import AuthProvider from "../contexts/AuthContext";
 
 export default function RootLayout() {
     return (
         <>
-            <Header showOptions={{search: true, home: true, profile: true, create: true}}/>
-            <Outlet className={styles.outlet}/>
+            <AuthProvider>
+                <Header showOptions={{search: true, home: true, profile: true, create: true}}/>
+                <Outlet/>
+            </AuthProvider>
+            
         </>
     )
 }

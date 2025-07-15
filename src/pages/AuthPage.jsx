@@ -5,15 +5,17 @@ import AuthForm from "../components/auth/AuthForm";
 import { AuthContext } from "../contexts/AuthContext";
 
 import styles from './styles/AuthPage.module.css'
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+
 
 export default function AuthPage() {
-    const { isLoggedIn } = useContext(AuthContext)
+    const location = useLocation()
+    const { isLoggedIn, setUser } = useContext(AuthContext)
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (isLoggedIn) navigate('/')
-    }, [isLoggedIn])
+        if (isLoggedIn) return navigate('/')
+    }, [location.pathname])
     const [method, setMethod] = useState('signup');
 
     const toggleMethod = () =>

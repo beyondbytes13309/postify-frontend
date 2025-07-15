@@ -11,7 +11,7 @@ export default function Home() {
     const { isLoggedIn } = useContext(AuthContext)
 
     useEffect(() => {
-        if (!isLoggedIn) {
+        if (isLoggedIn == false) {
             navigate('/auth')
         }
     }, [isLoggedIn])

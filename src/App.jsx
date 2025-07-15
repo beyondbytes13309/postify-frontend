@@ -8,10 +8,6 @@ import Create from './pages/Create'
 
 import RootLayout from './pages/RootLayout.jsx'
 
-import { useContext, useEffect, useState } from "react"
-
-import AuthProvider from "./contexts/AuthContext.jsx"
-
 
 const router = createBrowserRouter([
     {
@@ -44,11 +40,11 @@ function App() {
     return (
         <>
             
-            <AuthProvider>
+            
 
                 <RouterProvider router={router} />
 
-            </AuthProvider>
+            
             
             
         </>

@@ -76,10 +76,12 @@ export default function AuthForm({ type, toggleMethod }) {
         // no need to cut muahs here cuz im only doing frontend rightnow backend will be later
         // alert(`In the future, you will probably ${titles[type] || 'do something great'}`)
 
+        setUser(null)
+
         if (authType == 'local_auth') {
             if (type == 'signin') {
                 try {
-                    const response = await fetch(API.AUTH.loginLocal, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({username, password})})
+                    const response = await fetch(API.AUTH.loginLocal, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({username, password}), credentials: 'include'})
                     const parsed = await response.json()
                     if (parsed?.code == '005') {
                         setUser(parsed.user)
@@ -94,18 +96,17 @@ export default function AuthForm({ type, toggleMethod }) {
                 }
                 
             } else if (type == 'signup') {
-                try {
-                    const response = await fetch(API.AUTH.registerLocal, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({email, password})})
-                    const parsed = await response.json()
-                    if (parsed?.code == '003') {
+               
+                const response = await fetch(API.AUTH.registerLocal, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({email, password})})
+                const parsed = await response.json()
+                
+                if (parsed?.code == '003') {
                     setErrors({email: 'User with this email already exists!'})
-                    } else if (parsed?.code == '004') {
-                        setUser(parsed.user)
-                        setIsLoggedIn(true)
-                    } 
-                } catch(err) {
-                    setModalVisibility(true)
-                }
+                } else if (parsed?.code == '004') {
+                    setUser(parsed.user)
+                    setIsLoggedIn(true)
+                } 
+               
                 
             }
         }
