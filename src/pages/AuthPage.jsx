@@ -15,7 +15,7 @@ export default function AuthPage() {
 
     useEffect(() => {
         if (isLoggedIn) return navigate('/')
-    }, [location.pathname])
+    }, [location.pathname, isLoggedIn])
     const [method, setMethod] = useState('signup');
 
     const toggleMethod = () =>
