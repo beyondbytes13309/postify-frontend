@@ -98,13 +98,20 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
 
         if (Object.values(updateObject).length > 0) {
             const otherResponse = await fetch(API.USER.editUser, {method: 'POST', headers: {"Content-Type": "application/json"}, body: JSON.stringify(updateObject), credentials: 'include'})
-            if (otherResponse.ok) {
+           
+            
+            if (otherResponse.status >=200 && otherResponse.status < 500) {
+              const parsed = await otherResponse.json()
+              if (parsed.code == '020') {
+                modifyModal({variant: 'alert', title: 'Success', text: `Successfuly updated ${Object.keys(updateObject)}`, setButtonClick: null})
+                setModalVisibility(true)
                 setEditStuff(false)
-                const parsed = await otherResponse.json()
-                if (parsed.code == '021') {
-                  modifyModal({variant: 'alert', title: 'Error', text: parsed.data, setButtonClick: null})
-                  setModalVisibility(true)
-                }
+              } else if (parsed.code == '021') {
+                modifyModal({variant: 'alert', title: 'Error', text: parsed.data, setButtonClick: null})
+                setModalVisibility(true)
+              }
+
+              console.log(parsed)
             }
             
         }
@@ -117,11 +124,14 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
             body: formData,
             credentials: "include",
           });
-          if (response.ok) {
-            const parsed = await response.json();
+          
 
+
+          if (response.status >= 200 && response.status < 500) {
+            const parsed = await response.json()
+            
             if (parsed.code == "030") {
-              modifyModal({
+            modifyModal({
                 title: "Error",
                 text: parsed.data,
                 variant: "alert",
@@ -140,6 +150,8 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
               setPreview(profilePicURL);
             }
           }
+          
+         
         }
         
     }
