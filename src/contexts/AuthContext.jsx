@@ -32,13 +32,14 @@ const AuthProvider = ({ children }) => {
                     setIsLoggedIn(true);
                     return
                 } else if (parsed.code == '006') {
-                    console.log(parsed)
                     setIsLoggedIn(false);
                     return
                 } else {
                     setIsLoggedIn(false);
                 }
-            } 
+            } else {
+                setIsLoggedIn(false)
+            }
 
             
         } catch(e) {
@@ -49,9 +50,11 @@ const AuthProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        if (location.pathname == '/auth' || location.pathname == '/') {
+        if (location.pathname == '/auth' || location.pathname == '/' || location.pathname == '/profile') {
             fetchUserData()
         }
+
+
         
     }, [location.pathname])
 
