@@ -23,6 +23,7 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
     const [modalBtnClick, setModalBtnClick] = useState(-1)
 
     const [editStuff, setEditStuff] = useState(false)
+    const [errors, setErrors] = useState({})
     
     const formatToMMDDYYYY = (isoString) => {
       const date = new Date(isoString);
@@ -84,7 +85,62 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
         setModalVisibility(true)
     }
 
+    const validateUserData = () => {
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml', 'image/bmp'];
+      const validationErrors = {}
+
+      modifyModal({ variant: 'alert', title: 'Error', setButtonClick: null })
+
+      if (userBio.length > 160) {
+        validationErrors.bio = "Bio is too long"
+        setUserBio(bio)
+      }
+      if (userUsername.length < 6) {
+        validationErrors.username = 'Username is too short'
+        setUserUsername(username)
+      }
+      if (userUsername.length > 32) {
+        validationErrors.username = 'Username is too long'
+        setUserUsername(username)
+      }
+      if (userDisplayName.length < 3) {
+        validationErrors.displayName = 'Display name is too short'
+        setUserDisplayName(displayName)
+
+      }
+      if (userDisplayName.length > 32) {
+        validationErrors.displayName = 'Display name is too long'
+        setUserDisplayName(displayName)
+      }
+
+      if (file && file.size > 1 * 1024 * 1024) {
+        validationErrors.pfp = 'File exceeds 1MB limit'
+        setFile(null)
+        setPreview(profilePicURL)
+      }
+      if (file && !allowedTypes.includes(file?.type)) {
+        validationErrors.pfp = 'Unsupported file type'
+        setFile(null)
+        setPreview(profilePicURL)
+      }
+
+      
+ 
+      if (Object.keys(validationErrors).length > 0) {
+        setErrors(validationErrors)
+        return true
+      } else {
+        return false
+      }
+      
+    }
+
     const save = async () => {
+        
+      if (validateUserData()) {
+        return
+      }
+
         const updateObject = {}
         if (userBio != bio) {
             updateObject.bio = userBio
@@ -111,7 +167,6 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
                 setModalVisibility(true)
               }
 
-              console.log(parsed)
             }
             
         }
@@ -130,6 +185,8 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
           if (response.status >= 200 && response.status < 500) {
             const parsed = await response.json()
             
+            console.log(parsed)
+
             if (parsed.code == "030") {
             modifyModal({
                 title: "Error",
@@ -148,6 +205,14 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
               });
               setModalVisibility(true);
               setPreview(profilePicURL);
+            } else if (parsed.code == "032") {
+              modifyModal({
+                title: "Success",
+                text: parsed.data,
+                variant: 'alert',
+                buttonClickHandle: null
+              })
+              setModalVisibility(true)
             }
           }
           
@@ -185,7 +250,9 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
                     </label>
                   </>
                 )}
+                
               </div>
+              
 
               <div className={styles.btnWrapper}>
                 <Button
@@ -201,6 +268,10 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
               </div>
             </div>
 
+            <div>
+                {editStuff && <span className={styles.error}>{errors.pfp}</span>}
+            </div>
+
             <div className={styles.changeStuff}>
               <div className={styles.displayName}>
                   {!editStuff && <p>{userDisplayName}</p>}
@@ -210,8 +281,9 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
                     type="text"
                     value={userDisplayName}
                     onChange={(e) => setUserDisplayName(e.target.value)}
-                  />
+                  /> 
                 )}
+                {editStuff && <span className={styles.error}>{errors.displayName}</span>}
               </div>
 
               <div className={styles.username}>
@@ -224,6 +296,7 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
                     onChange={(e) => setUserUsername(e.target.value)}
                   />
                 )}
+                 {editStuff && <span className={styles.error}>{errors.username}</span>}
               </div>
 
               <div className={styles.bio}>
@@ -235,6 +308,7 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
                     onChange={(e) => setUserBio(e.target.value)}
                   />
                 )}
+                 {editStuff && <span className={styles.error}>{errors.bio}</span>}
               </div>
             </div>
 

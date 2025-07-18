@@ -59,6 +59,8 @@
     gap: 0.45rem
 }
 
+
+
 .bio {
     margin-top: 0.6rem
 }
@@ -97,6 +99,11 @@
 
 .changeStuff {
     margin-top: 0.5rem
+}
+
+.error {
+    color: rgb(255, 0, 0);
+    font-size: 0.85rem;
 }
 
 .label:hover {
