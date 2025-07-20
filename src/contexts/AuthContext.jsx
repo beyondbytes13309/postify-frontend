@@ -40,6 +40,9 @@ const AuthProvider = ({ children }) => {
               setIsLoggedIn(false);
             }
           } catch (e) {
+            if (e.name == 'AbortError') {
+              return
+            }
             
             modalInfo.current?.modifyModal?.({
                 title: "Error",

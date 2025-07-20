@@ -48,7 +48,7 @@ export default function PostCard({ postID, authorName, authorPfpURL, postText, p
 
                 <div className={styles.buttonWrapper}>
                     <div className={styles.reactBtnWrapper} title="Reactions">
-                        <button className={styles.reactBtn} onClick={() => setShowReactionPicker(prev => !prev)}>
+                        <button className={styles.reactBtn} onClick={() => setShowReactionPicker(postID)}>
                             <MdOutlineAddReaction className={styles.reactBtnIcon}/>
                         </button>
                         <span className={styles.reactCount}>{reactionCount}</span>

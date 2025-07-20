@@ -2,12 +2,12 @@ import { useState } from 'react'
 import styles from '../styles/ReactionPicker.module.css'
 
 
-export default function ReactionPicker({ selected, setSelected }) {
-    
+export default function ReactionPicker({ postID, setShowReactionPicker }) {
+    const [selected, setSelected] = useState(0)
 
     const toggleReaction = (reaction) => {
         if (selected == reaction) {
-            setSelected(null)
+            setSelected(0)
         } else {
             setSelected(reaction)
         }
@@ -28,9 +28,10 @@ export default function ReactionPicker({ selected, setSelected }) {
 
     return (
         <div className={styles.wrapper}>
-            {Object.values(reactions).map((reaction) => (
-                <button title={reaction[1]} onClick={() => toggleReaction(reaction[0])} className={selected == reaction[0] ?  `${styles.reactionBtn} ${styles.reactionBtnSelected}`: styles.reactionBtn}>{reaction[0]}</button>)
+            {Object.entries(reactions).map(([key, [emoji, label]]) => (
+                <button title={label} onClick={() => {toggleReaction(key); setShowReactionPicker(null)}} className={selected == key ?  `${styles.reactionBtn} ${styles.reactionBtnSelected}`: styles.reactionBtn}>{emoji}</button>)
             )}
+            {selected}
         </div>
     )
 }

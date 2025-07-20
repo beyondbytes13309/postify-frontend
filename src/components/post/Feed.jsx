@@ -67,7 +67,7 @@ export default function Feed() {
                 })}
             </div>
 
-            {showReactionPicker && <ReactionPicker selected={selected} setSelected={setSelected}/>}
+            {showReactionPicker && <ReactionPicker postID={showReactionPicker} setShowReactionPicker={setShowReactionPicker}/>}
             <AnimatePresence mode="wait">
                     {showCommentSection&& <motion.div
                     method={showCommentSection.toString()}
@@ -81,6 +81,7 @@ export default function Feed() {
                         toggleCommentSection={() => setShowCommentSection(prev => !prev)}/>}
                     </motion.div>}
             </AnimatePresence>
+
         </>
     )
 }
