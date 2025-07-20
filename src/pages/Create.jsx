@@ -11,7 +11,7 @@ export default function Create() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (!isLoggedIn) navigate('/auth')
+        if (isLoggedIn == false) navigate('/auth')
     }, [isLoggedIn])
     return (
         <>
