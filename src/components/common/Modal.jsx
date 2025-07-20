@@ -17,10 +17,7 @@ export default forwardRef(function Modal({visibility=true, setVisibility}, ref) 
     })
 
     const handleButtonClick = (btnNum) => {
-        if (localConfig.setButtonClick == function(){}) {
-            localConfig.setButtonClick(btnNum)
-        }
-        
+        localConfig.setButtonClick?.(btnNum)
         setVisibility(false)
     }
     
