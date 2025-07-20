@@ -1,5 +1,5 @@
 import styles from '../styles/AuthForm.module.css'
-import { useContext, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { FaEyeSlash, FaEye, FaGithub, FaTwitter, FaUser } from "react-icons/fa";
 
 import { IoLockClosed } from "react-icons/io5";
@@ -30,6 +30,7 @@ export default function AuthForm({ type, toggleMethod }) {
     const [username, setUsername] = useState('')
 
     const [modalVisibility, setModalVisibility] = useState(false)
+    const modalInfo = useRef({})
 
     const [errors, setErrors] = useState({})
 
@@ -92,6 +93,12 @@ export default function AuthForm({ type, toggleMethod }) {
                         setErrors({password: 'Password is incorrect!'})
                     }
                 } catch(e) {
+                    modalInfo.current.modifyModal({
+                        variant: 'alert',
+                        title: 'Error',
+                        text: "Couldn't make request to the server due to internet",
+                        setButtonClick: null
+                    })
                     setModalVisibility(true)
                 }
                 
@@ -182,13 +189,12 @@ export default function AuthForm({ type, toggleMethod }) {
             </div>
         </div>
         
-        <Modal visibility={modalVisibility}
-        setVisibility={setModalVisibility}
-        variant='alert'
-        buttonTexts={["Ok"]}
-        title="Error"
-        text="Couldn't make request to the server due to internet"
-        setButtonClick={(btnNum) => {console.log(btnNum)}}/>
+        <Modal 
+        ref={modalInfo}
+        visibility={modalVisibility}
+        setVisibility={setModalVisibility}/>
+
+        
         </>
     )
 }
