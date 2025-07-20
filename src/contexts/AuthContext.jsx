@@ -9,16 +9,7 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const location = useLocation()
     const [modalVisibility, setModalVisibility] = useState(false)
-    const modalInfo = useRef({variant: 'alert'})
-
-    const modifyModal = ({title, text, variant, buttons, setButtonClick}) => {
-        modalInfo.current.title = title || modalInfo.current.title
-        modalInfo.current.text = text || modalInfo.current.text
-        modalInfo.current.variant = variant || modalInfo.current.variant
-        modalInfo.current.buttons = buttons || modalInfo.current.buttons
-        modalInfo.current.setButtonClick = setButtonClick || modalInfo.current.setButtonClick
-    }
-
+    const modalInfo = useRef({})
     
     const fetchUserData = async () => {
         try {
@@ -43,7 +34,7 @@ const AuthProvider = ({ children }) => {
 
             
         } catch(e) {
-            modifyModal({ title: 'Error', text: 'Cannot connect to server. Please try again later.' })
+            modalInfo.current.modifyModal({ title: 'Error', text: 'Cannot connect to server. Please try again later.' })
             setModalVisibility(true)
             setIsLoggedIn(false)
         }
@@ -67,11 +58,9 @@ const AuthProvider = ({ children }) => {
             </AuthContext.Provider>
 
             <Modal 
+            ref={modalInfo}
             visibility={modalVisibility}
-            setVisibility={setModalVisibility}
-            variant={modalInfo.current.variant}
-            title={modalInfo.current.title}
-            text={modalInfo.current.text}/>
+            setVisibility={setModalVisibility}/>
         </>
     )
 }
