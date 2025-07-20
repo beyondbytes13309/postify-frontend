@@ -72,16 +72,8 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
 
     
 
-    const modifyModal = ({title, text, variant, buttons, setButtonClick}) => {
-        modalInfo.current.title = title || modalInfo.current.title
-        modalInfo.current.text = text || modalInfo.current.text
-        modalInfo.current.variant = variant || modalInfo.current.variant
-        modalInfo.current.buttons = buttons || modalInfo.current.buttons
-        modalInfo.current.setButtonClick = setButtonClick || modalInfo.current.setButtonClick
-    }
-
     const logout = () => {
-        modifyModal({text: 'Are you sure you want to logout?', title: 'Danger', variant: 'warning', setButtonClick: setModalBtnClick})
+        modalInfo.current.modifyModal({text: 'Are you sure you want to logout?', title: 'Danger', variant: 'warning', setButtonClick: setModalBtnClick})
         setModalVisibility(true)
     }
 
@@ -89,7 +81,7 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
       const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml', 'image/bmp'];
       const validationErrors = {}
 
-      modifyModal({ variant: 'alert', title: 'Error', setButtonClick: null })
+      modalInfo.current.modifyModal({ variant: 'alert', title: 'Error', setButtonClick: null })
 
       if (userBio.length > 160) {
         validationErrors.bio = "Bio is too long"
@@ -159,11 +151,11 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
             if (otherResponse.status >=200 && otherResponse.status < 500) {
               const parsed = await otherResponse.json()
               if (parsed.code == '020') {
-                modifyModal({variant: 'alert', title: 'Success', text: `Successfuly updated ${Object.keys(updateObject)}`, setButtonClick: null})
+                modalInfo.current.modifyModal({variant: 'alert', title: 'Success', text: `Successfuly updated ${Object.keys(updateObject)}`, setButtonClick: null})
                 setModalVisibility(true)
                 setEditStuff(false)
               } else if (parsed.code == '021') {
-                modifyModal({variant: 'alert', title: 'Error', text: parsed.data, setButtonClick: null})
+                modalInfo.current.modifyModal({variant: 'alert', title: 'Error', text: parsed.data, setButtonClick: null})
                 setModalVisibility(true)
               }
 
@@ -184,11 +176,10 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
 
           if (response.status >= 200 && response.status < 500) {
             const parsed = await response.json()
-            
-            console.log(parsed)
+           
 
             if (parsed.code == "030") {
-            modifyModal({
+            modalInfo.current.modifyModal({
                 title: "Error",
                 text: parsed.data,
                 variant: "alert",
@@ -197,7 +188,7 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
               setModalVisibility(true);
               setPreview(profilePicURL);
             } else if (parsed.code == "031") {
-              modifyModal({
+              modalInfo.current.modifyModal({
                 title: "Error",
                 text: parsed.data,
                 variant: "alert",
@@ -206,7 +197,7 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
               setModalVisibility(true);
               setPreview(profilePicURL);
             } else if (parsed.code == "032") {
-              modifyModal({
+              modalInfo.current.modifyModal({
                 title: "Success",
                 text: parsed.data,
                 variant: 'alert',
@@ -336,13 +327,9 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
             </div>
 
             <Modal
+              ref={modalInfo}
               visibility={modalVisibility}
               setVisibility={setModalVisibility}
-              variant={modalInfo.current.variant}
-              buttonTexts={modalInfo.current.buttons}
-              title={modalInfo.current.title}
-              text={modalInfo.current.text}
-              setButtonClick={modalInfo.current.setButtonClick}
             />
           </div>
         </div>
