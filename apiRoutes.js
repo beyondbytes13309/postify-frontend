@@ -15,6 +15,9 @@ const API = {
     POST: {
         createPost: `${BASE_URL}/post/createPost`,
         getPosts: `${BASE_URL}/post/getPosts`
+    },
+    REACTION: {
+        makeReaction: `${BASE_URL}/reaction/makeReaction`
     }
 }
 
