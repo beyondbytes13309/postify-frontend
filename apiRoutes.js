@@ -13,7 +13,8 @@ const API = {
         editUser: `${BASE_URL}/user/editUser`
     },
     POST: {
-        createPost: `${BASE_URL}/post/createPost`
+        createPost: `${BASE_URL}/post/createPost`,
+        getPosts: `${BASE_URL}/post/getPosts`
     }
 }
 

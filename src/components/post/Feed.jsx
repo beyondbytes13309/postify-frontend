@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import PostCard from './PostCard'
 
 import ReactionPicker from '../reaction/ReactionPicker';
@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import CommentSection from '../comment/CommentSection'
 
 import styles from '../styles/Feed.module.css'
+import API from '../../../apiRoutes';
 
 export default function Feed() {
     const commentSectionVariants = {
@@ -19,33 +20,32 @@ export default function Feed() {
     const [showCommentSection, setShowCommentSection] = useState(null)
 
     const [selected, setSelected] = useState(null)
+    const [posts, setPosts] = useState([])
 
-    const [posts, setPosts] = useState([
-    {
-        postID: "4328942389048",
-        authorName: "Muhalay_wali_Influencer",
-        authorPfpURL: "https://i.pinimg.com/736x/db/1f/9a/db1f9a3eaca4758faae5f83947fa807c.jpg",
-        postText: "Me ek influencer hon. Mera kaam logo ko bewaqoof banana 🍌 hai",
-        postCommentsNum: 4,
-        postReactionsNum: 9
-    },
-    {
-        postID: "9182374619283",
-        authorName: "Sohaib Karak",
-        authorPfpURL: "https://cdn.discordapp.com/avatars/1390683404105945119/f28a9d64185d0288a81a9a98055bb5b3.webp?size=240",
-        postText: "mere damag me koi ideas nahi arahay yaar",
-        postCommentsNum: 2,
-        postReactionsNum: 12
-    },
-    {
-        postID: "7283947283947",
-        authorName: "20rs wala chooza",
-        authorPfpURL: "https://cdn.britannica.com/07/183407-050-C35648B5/Chicken.jpg",
-        postText: "Mujhay murghay khana boht acha lagta hai 😋",
-        postCommentsNum: 0,
-        postReactionsNum: 10
-    },
-]);
+    useEffect(() => {
+        const abortController = new AbortController()
+
+        const fetchPosts = async () => {
+            const response = await fetch(API.POST.getPosts, {
+                method: 'GET',
+                credentials: 'include',
+                signal: abortController.signal
+            })
+
+            if (response.status >= 200 && response.status < 500) {
+                const parsed = await response.json()
+                if (parsed.code == '014') {
+                    setPosts(parsed.data)
+                }
+            }
+        }
+
+        fetchPosts()
+
+        return () => {
+            abortController.abort()
+        }
+    }, [])
 
     
     return (
@@ -54,18 +54,22 @@ export default function Feed() {
                 {posts.map((post, index) => {
                     return <PostCard 
                     key={index}
-                    postID={post.postID} 
-                    authorName={post.authorName} 
-                    authorPfpURL={post.authorPfpURL} 
+                    postID={post._id} 
+                    authorName={post.authorID.displayName} 
+                    authorPfpURL={post.authorID.profilePicURL} 
                     postText={post.postText}
-                    postCommentsNum={post.postCommentsNum}
-                    postReactionsNum={post.postReactionsNum}
+                    postCommentsNum={post.commentCount || 0}
+                    postReactionsNum={post.reactionCount || 0}
                     setShowReactionPicker={setShowReactionPicker}
                     setShowCommentSection={setShowCommentSection}
                     showCommentSection={showCommentSection}
                     selected={selected}/>
                 })}
+
+                {posts.length==0 && <p className={styles.noPosts}>No posts yet.</p>}
             </div>
+
+            
 
             {showReactionPicker && <ReactionPicker postID={showReactionPicker} setShowReactionPicker={setShowReactionPicker}/>}
             <AnimatePresence mode="wait">
