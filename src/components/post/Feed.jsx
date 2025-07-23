@@ -53,13 +53,12 @@ export default function Feed() {
     return (
         <>
             <div className={styles.wrapper}>
-                {posts.map((post, index) => {
-                    //{console.log(post)}
+                {posts.length > 0 ? (posts.map((post) => {
                     return <PostCard 
-                    key={index}
+                    key={post._id}
                     postID={post._id} 
-                    authorName={post.authorID.displayName} 
-                    authorPfpURL={post.authorID.profilePicURL} 
+                    authorName={post.authorID?.displayName || 'Deleted User'} 
+                    authorPfpURL={post.authorID?.profilePicURL || 'https://res.cloudinary.com/drwa5qpv4/image/upload/v1751643968/2_km1lrr.png'} 
                     postText={post.postText}
                     postCommentsNum={post.commentCount || 0}
                     postReactionsNum={post.reactions?.length || 0}
@@ -70,9 +69,7 @@ export default function Feed() {
                     userReactionIDFromPostObj={post.userReactionID}
                     setUserReaction={setUserReaction}
                     setUserReactionID={setUserReactionID}/>
-                })}
-
-                {posts.length==0 && <p className={styles.noPosts}>No posts yet.</p>}
+                })) : <p className={styles.noPosts}>No posts yet.</p>}
             </div>
 
             
