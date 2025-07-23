@@ -19,7 +19,7 @@ export default function Feed() {
     const [showReactionPicker, setShowReactionPicker] = useState(false)
     const [showCommentSection, setShowCommentSection] = useState(null)
 
-    const [selected, setSelected] = useState(null)
+    const [userReaction, setUserReaction] = useState(null)
     const [posts, setPosts] = useState([])
 
     useEffect(() => {
@@ -52,6 +52,8 @@ export default function Feed() {
         <>
             <div className={styles.wrapper}>
                 {posts.map((post, index) => {
+                    
+                    //{console.log(post)}
                     return <PostCard 
                     key={index}
                     postID={post._id} 
@@ -59,11 +61,12 @@ export default function Feed() {
                     authorPfpURL={post.authorID.profilePicURL} 
                     postText={post.postText}
                     postCommentsNum={post.commentCount || 0}
-                    postReactionsNum={post.reactionCount || 0}
+                    postReactionsNum={post.reactions?.length || 0}
                     setShowReactionPicker={setShowReactionPicker}
                     setShowCommentSection={setShowCommentSection}
                     showCommentSection={showCommentSection}
-                    selected={selected}/>
+                    userReactionFromPostObj={post.userReaction}
+                    setUserReaction={setUserReaction}/>
                 })}
 
                 {posts.length==0 && <p className={styles.noPosts}>No posts yet.</p>}
@@ -71,7 +74,7 @@ export default function Feed() {
 
             
 
-            {showReactionPicker && <ReactionPicker postID={showReactionPicker} setShowReactionPicker={setShowReactionPicker}/>}
+            {showReactionPicker && <ReactionPicker postID={showReactionPicker} setShowReactionPicker={setShowReactionPicker} userReaction={userReaction}/>}
             <AnimatePresence mode="wait">
                     {showCommentSection&& <motion.div
                     method={showCommentSection.toString()}
@@ -85,7 +88,7 @@ export default function Feed() {
                         toggleCommentSection={() => setShowCommentSection(prev => !prev)}/>}
                     </motion.div>}
             </AnimatePresence>
-
+            {userReaction}
         </>
     )
 }

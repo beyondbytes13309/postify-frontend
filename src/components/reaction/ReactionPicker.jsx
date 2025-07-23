@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from '../styles/ReactionPicker.module.css'
 import API from '../../../apiRoutes'
+import { MdCancel } from "react-icons/md";
 
 
-export default function ReactionPicker({ postID, setShowReactionPicker }) {
+export default function ReactionPicker({ postID, setShowReactionPicker, userReaction }) {
     const [selected, setSelected] = useState(0)
 
     const toggleReaction = (reaction) => {
@@ -13,6 +14,10 @@ export default function ReactionPicker({ postID, setShowReactionPicker }) {
             setSelected(reaction)
         }
     }
+
+    useEffect(() => {
+        setSelected(userReaction)
+    }, [])
 
     const handleMakeReaction = async (reaction) => {
         let finalReaction = 0
@@ -49,8 +54,9 @@ export default function ReactionPicker({ postID, setShowReactionPicker }) {
     return (
         <div className={styles.wrapper}>
             {Object.entries(reactions).map(([key, [emoji, label]]) => (
-                <button title={label} onClick={() => {handleMakeReaction(key); setShowReactionPicker(null)}} className={selected == key ?  `${styles.reactionBtn} ${styles.reactionBtnSelected}`: styles.reactionBtn}>{emoji}</button>)
+                <button key={key} title={label} onClick={() => {handleMakeReaction(key); setShowReactionPicker(null)}} className={selected == key ?  `${styles.reactionBtn} ${styles.reactionBtnSelected}`: styles.reactionBtn}>{emoji}</button>)
             )}
+            <button className={styles.cancelBtn} onClick={() => setShowReactionPicker(null)}><MdCancel /></button>
         </div>
     )
 }
