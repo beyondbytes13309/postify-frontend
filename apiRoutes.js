@@ -17,7 +17,8 @@ const API = {
         getPosts: `${BASE_URL}/post/getPosts`
     },
     REACTION: {
-        makeReaction: `${BASE_URL}/reaction/makeReaction`
+        makeReaction: `${BASE_URL}/reaction/makeReaction`,
+        deleteReaction: `${BASE_URL}/reaction/deleteReaction`
     }
 }
 

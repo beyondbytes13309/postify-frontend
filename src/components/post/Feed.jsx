@@ -20,6 +20,8 @@ export default function Feed() {
     const [showCommentSection, setShowCommentSection] = useState(null)
 
     const [userReaction, setUserReaction] = useState(null)
+    const [userReactionID, setUserReactionID] = useState(null)
+
     const [posts, setPosts] = useState([])
 
     useEffect(() => {
@@ -52,7 +54,6 @@ export default function Feed() {
         <>
             <div className={styles.wrapper}>
                 {posts.map((post, index) => {
-                    
                     //{console.log(post)}
                     return <PostCard 
                     key={index}
@@ -66,7 +67,9 @@ export default function Feed() {
                     setShowCommentSection={setShowCommentSection}
                     showCommentSection={showCommentSection}
                     userReactionFromPostObj={post.userReaction}
-                    setUserReaction={setUserReaction}/>
+                    userReactionIDFromPostObj={post.userReactionID}
+                    setUserReaction={setUserReaction}
+                    setUserReactionID={setUserReactionID}/>
                 })}
 
                 {posts.length==0 && <p className={styles.noPosts}>No posts yet.</p>}
@@ -74,7 +77,7 @@ export default function Feed() {
 
             
 
-            {showReactionPicker && <ReactionPicker postID={showReactionPicker} setShowReactionPicker={setShowReactionPicker} userReaction={userReaction}/>}
+            {showReactionPicker && <ReactionPicker postID={showReactionPicker} setShowReactionPicker={setShowReactionPicker} userReaction={userReaction} userReactionID={userReactionID}/>}
             <AnimatePresence mode="wait">
                     {showCommentSection&& <motion.div
                     method={showCommentSection.toString()}

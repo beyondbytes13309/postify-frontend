@@ -11,7 +11,7 @@ import { MdOutlineAddReaction } from "react-icons/md";
 
 
 
-export default function PostCard({ postID, authorName, authorPfpURL, postText, postCommentsNum, postReactionsNum, setShowReactionPicker, setShowCommentSection, userReactionFromPostObj, setUserReaction }) {
+export default function PostCard({ postID, authorName, authorPfpURL, postText, postCommentsNum, postReactionsNum, setShowReactionPicker, setShowCommentSection, userReactionFromPostObj, userReactionIDFromPostObj, setUserReaction, setUserReactionID }) {
     
 
     
@@ -50,7 +50,7 @@ export default function PostCard({ postID, authorName, authorPfpURL, postText, p
 
                 <div className={styles.buttonWrapper}>
                     <div className={styles.reactBtnWrapper} title="Reactions">
-                        <button className={styles.reactBtn} onClick={() => {setShowReactionPicker(postID); setUserReaction(userReactionFromPostObj)}}>
+                        <button className={styles.reactBtn} onClick={() => {setShowReactionPicker(postID); setUserReaction(userReactionFromPostObj); setUserReactionID(userReactionIDFromPostObj)}}>
                             <MdOutlineAddReaction className={styles.reactBtnIcon}/>
                         </button>
                         <span className={styles.reactCount}>{reactionCount}</span>

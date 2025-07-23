@@ -4,16 +4,30 @@ import API from '../../../apiRoutes'
 import { MdCancel } from "react-icons/md";
 
 
-export default function ReactionPicker({ postID, setShowReactionPicker, userReaction }) {
-    const [selected, setSelected] = useState(0)
-
-    const toggleReaction = (reaction) => {
-        if (selected == reaction) {
-            setSelected(0)
-        } else {
-            setSelected(reaction)
-        }
+const reactionHandler = async ({action="create", reactionType, postID, reactionID}) => {
+    console.log(reactionID)
+    if (action!="create" && action!="delete") {
+        console.error(`Wrong parameter passed to 'reactionHandler': ${action}`)
+        return;
     }
+    const response = await fetch(action==="create" ? API.REACTION.makeReaction : action=="delete" ? API.REACTION.deleteReaction : null, {
+        method: action == 'create' ? 'POST' : 'DELETE',
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(action == "create" ? {
+            postID: postID,
+            reactionType
+        }: action == 'delete' ? {
+            reactionID
+        }: null),
+    });
+
+    
+    console.log("deleting it", await response.json())
+}
+
+export default function ReactionPicker({ postID, setShowReactionPicker, userReaction, userReactionID }) {
+    const [selected, setSelected] = useState(0)
 
     useEffect(() => {
         setSelected(userReaction)
@@ -24,17 +38,13 @@ export default function ReactionPicker({ postID, setShowReactionPicker, userReac
         
         if (selected == reaction) {
             setSelected(0)
-            finalReaction = 0
+            reactionHandler({action: 'delete', reactionID: userReactionID})
+            return
         } else {
             setSelected(reaction)
             finalReaction = reaction
         }
-        const response = await fetch(API.REACTION.makeReaction, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-            body: JSON.stringify({ postID: postID, reactionType: finalReaction }),
-        });
+        reactionHandler({action: 'create', reactionType: finalReaction, postID: postID})
 
     }
 
