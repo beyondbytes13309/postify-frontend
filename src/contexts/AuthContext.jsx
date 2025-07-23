@@ -11,7 +11,6 @@ const AuthProvider = ({ children }) => {
     const [modalVisibility, setModalVisibility] = useState(false)
     const modalInfo = useRef({})
     
-    
 
     useEffect(() => {
         const controller = new AbortController();
@@ -43,12 +42,17 @@ const AuthProvider = ({ children }) => {
             if (e.name == 'AbortError') {
               return
             }
-            
-            modalInfo.current?.modifyModal?.({
+
+            if (e.name == 'TypeError') {
+              modalInfo.current?.modifyModal?.({
                 title: "Error",
-                text: "Cannot connect to server. Please try again later.",
-            });
-            setModalVisibility(true);
+                text: "A network related error occured",
+                setButtonClick: null
+              });
+              setModalVisibility(true);
+            }
+            
+            
             setIsLoggedIn(false);
             
           }
@@ -60,7 +64,7 @@ const AuthProvider = ({ children }) => {
         }
 
         return () => {
-            controller.abort()
+          controller.abort()
         }
 
         

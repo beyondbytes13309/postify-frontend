@@ -20,7 +20,7 @@ export default function AuthForm({ type, toggleMethod }) {
         'signin': "Sign in now",
         'signup': "Sign up now"
     }
-
+ 
     const { setIsLoggedIn, setUser } = useContext(AuthContext)
 
     const [showPassword, setShowPassword]= useState(false)
@@ -85,10 +85,10 @@ export default function AuthForm({ type, toggleMethod }) {
                     const response = await fetch(API.AUTH.loginLocal, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({username, password}), credentials: 'include'})
                     const parsed = await response.json()
                     if (parsed?.code == '005') {
-                        setUser(parsed.user)
+                        setUser(parsed.data)
                         setIsLoggedIn(true)
                     } else if (parsed?.code == '001') {
-                        setErrors({username: 'Username does not exist!'})
+                        setErrors({username: 'User does not exist!'})
                     } else if (parsed?.code == '002') {
                         setErrors({password: 'Password is incorrect!'})
                     }
@@ -104,13 +104,13 @@ export default function AuthForm({ type, toggleMethod }) {
                 
             } else if (type == 'signup') {
                
-                const response = await fetch(API.AUTH.registerLocal, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({email, password})})
+                const response = await fetch(API.AUTH.registerLocal, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({email, password}), credentials: 'include'})
                 const parsed = await response.json()
-                
+
                 if (parsed?.code == '003') {
                     setErrors({email: 'User with this email already exists!'})
                 } else if (parsed?.code == '004') {
-                    setUser(parsed.user)
+                    setUser(parsed.data)
                     setIsLoggedIn(true)
                 } 
                

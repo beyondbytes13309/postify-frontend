@@ -10,11 +10,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 export default function AuthPage() {
     const location = useLocation()
-    const { isLoggedIn, setUser } = useContext(AuthContext)
+    const { isLoggedIn } = useContext(AuthContext)
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (isLoggedIn) return navigate('/')
+        if (isLoggedIn) {
+            navigate('/')
+        }
     }, [location.pathname, isLoggedIn])
     const [method, setMethod] = useState('signup');
 
