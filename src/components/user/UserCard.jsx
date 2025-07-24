@@ -14,7 +14,7 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
     */
 
     const [file, setFile] = useState(null)
-    const [userBio, setUserBio] = useState(bio || 'No bio yet.')
+    const [userBio, setUserBio] = useState(bio)
     const [userUsername, setUserUsername] = useState(username)
     const [userDisplayName, setUserDisplayName] = useState(displayName)
     const [preview, setPreview] = useState(profilePicURL)
@@ -291,11 +291,12 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
               </div>
 
               <div className={styles.bio}>
-                {!editStuff && <p>{userBio}</p>}
+                {!editStuff && <p>{userBio || 'No bio yet.'}</p>}
                 {editStuff && (
                   <textarea className={styles.bioInput}
                     type="text"
                     value={userBio}
+                    placeholder={`My name is ${displayName}...`}
                     onChange={(e) => setUserBio(e.target.value)}
                   />
                 )}

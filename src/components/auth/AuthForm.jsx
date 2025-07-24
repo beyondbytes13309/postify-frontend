@@ -91,15 +91,20 @@ export default function AuthForm({ type, toggleMethod }) {
                         setErrors({username: 'User does not exist!'})
                     } else if (parsed?.code == '002') {
                         setErrors({password: 'Password is incorrect!'})
+                    } else if (parsed?.code == '009') {
+                        setErrors({username: parsed?.data})
                     }
                 } catch(e) {
-                    modalInfo.current.modifyModal({
-                        variant: 'alert',
-                        title: 'Error',
-                        text: "Couldn't make request to the server due to internet",
-                        setButtonClick: null
-                    })
-                    setModalVisibility(true)
+                    if (e.name == 'TypeError') {
+                        modalInfo.current.modifyModal({
+                            variant: 'alert',
+                            title: 'Error',
+                            text: "Couldn't make request to the server due to internet",
+                            setButtonClick: null
+                        })
+                        setModalVisibility(true)
+                    }
+                    
                 }
                 
             } else if (type == 'signup') {
