@@ -297,10 +297,11 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
                     type="text"
                     value={userBio}
                     placeholder={`My name is ${displayName}...`}
-                    onChange={(e) => setUserBio(e.target.value)}
+                    onChange={(e) => e.target.value.length < 160 && setUserBio(e.target.value)}
                   />
                 )}
-                 {editStuff && <span className={styles.error}>{errors.bio}</span>}
+                {editStuff && (<span className={styles.bioLengthCount}>{`${userBio.length}/159`}</span>)}
+                {editStuff && <span className={styles.error}>{errors.bio}</span>}
               </div>
             </div>
 

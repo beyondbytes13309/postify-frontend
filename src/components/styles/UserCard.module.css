@@ -62,7 +62,7 @@
 
 
 .bio {
-    margin-top: 0.6rem
+    margin-top: 0.6rem;
 }
 
 .displayName p {
@@ -104,6 +104,11 @@
 .error {
     color: rgb(255, 0, 0);
     font-size: 0.85rem;
+}
+
+.bioLengthCount {
+    font-size: 0.8rem;
+    margin-left: 0.2rem;
 }
 
 .label:hover {
