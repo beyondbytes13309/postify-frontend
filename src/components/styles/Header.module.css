@@ -1,20 +1,28 @@
-.wrapper {
+.wrapper2 {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-inline: 0.3rem;
     background: linear-gradient(to right, #00c6ff, #ab80f0);
-    /*background-color: black;*/
     min-height: 3rem;
-    max-height: 9rem
-
+    max-height: 9rem;
+    width: 100%;
 }
+
+.wrapper {
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    z-index: 1;
+    
+}
+
 
 .logo {
     height: 6rem;
     width: 17%;
     object-fit: cover;
-    object-position: middle;
+    object-position: center;
 }
 
 .navWrapper {
