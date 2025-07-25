@@ -1,4 +1,5 @@
 import Comment from './Comment'
+import CreateComment from './CreateComment';
 import styles from '../styles/CommentSection.module.css'
 import { useEffect, useState } from 'react'
 
@@ -36,10 +37,13 @@ export default function CommentSection({ postID, toggleCommentSection }) {
             <div className={styles.wrapper}>
                 <h2>Comments</h2>
 
+                
+
                 <button className={styles.closeBtn}>
                     <IoMdCloseCircle className={styles.closeBtnIcon} onClick={toggleCommentSection}/>
                 </button>
                 <div className={styles.comments}>
+                    <CreateComment />
                     {
                         comments.map((comment, index) => (
                             <Comment 

@@ -12,7 +12,7 @@
 }
 
 .comments {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     overflow-y: auto;
     height: 85%;
     display: flex;
