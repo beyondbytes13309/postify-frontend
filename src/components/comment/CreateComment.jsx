@@ -8,7 +8,7 @@ import { GiCancel } from "react-icons/gi";
 
 
 
-export default function CreateComment() {
+export default function CreateComment({ setCreateCommentVisibility }) {
     const [commentText, setCommentText] = useState("")
     return (
         <>
@@ -18,7 +18,7 @@ export default function CreateComment() {
 
                 <div className={styles.commentButtonsWrapper}>
                     <button className={styles.addCommentBtn} ><FaCommentMedical /> Comment</button>
-                    <button className={styles.cancelBtn} ><GiCancel /> Cancel</button>
+                    <button className={styles.cancelBtn} onClick={() => setCreateCommentVisibility(prev => !prev)} ><GiCancel /> Cancel</button>
                 </div>
                 
                 

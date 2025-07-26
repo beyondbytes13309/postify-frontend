@@ -10,7 +10,7 @@
 
 .commentInput {
     width: 99%;
-    padding: 0.3rem;
+    padding: 0.4rem;
     border: 1px solid rgba(128, 128, 128, 0.486);
     border-radius: 3px;
     outline: none;
@@ -49,5 +49,22 @@
 
 .commentButtonsWrapper button:active {
     opacity: 0.7;
+}
+
+.addCommentBtn {
+    background-color: green;
+}
+
+
+@media (min-width: 350px) and (max-width: 800px ) {
+    .commentButtonsWrapper button {
+        font-size: 0.8rem
+    }
+}
+
+@media (min-width: 801px) {
+    .commentButtonsWrapper button {
+        font-size: 1.325rem
+    }
 }
 

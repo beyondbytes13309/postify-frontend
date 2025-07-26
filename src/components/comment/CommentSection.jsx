@@ -4,6 +4,8 @@ import styles from '../styles/CommentSection.module.css'
 import { useEffect, useState } from 'react'
 
 import { IoMdCloseCircle } from "react-icons/io";
+import { IoMdAdd } from "react-icons/io";
+
 
 import Loading from '../common/Loading'
 
@@ -11,7 +13,7 @@ export default function CommentSection({ postID, toggleCommentSection }) {
     const [comments, setComments] = useState([])
     const [isFetching, setIsFetching] = useState(false)
     const [failed, setFailed] = useState(false)
-
+    const [createCommentVisibility, setCreateCommentVisibility] = useState(false)
 
     useEffect(() => {
         
@@ -42,8 +44,14 @@ export default function CommentSection({ postID, toggleCommentSection }) {
                 <button className={styles.closeBtn}>
                     <IoMdCloseCircle className={styles.closeBtnIcon} onClick={toggleCommentSection}/>
                 </button>
+
+                <button className={styles.addCommentBtn} onClick={() => setCreateCommentVisibility(prev => !prev)}>
+                    <IoMdAdd className={styles.addCommentIcon}/>
+                </button>
+
+                
                 <div className={styles.comments}>
-                    <CreateComment />
+                    {createCommentVisibility && <CreateComment setCreateCommentVisibility={setCreateCommentVisibility}/>}
                     {
                         comments.map((comment, index) => (
                             <Comment 
