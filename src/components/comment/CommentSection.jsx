@@ -1,11 +1,11 @@
 import Comment from './Comment'
 import CreateComment from './CreateComment';
 import styles from '../styles/CommentSection.module.css'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 import { IoMdCloseCircle } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
-
+import Modal from '../common/Modal.jsx'
 
 import Loading from '../common/Loading'
 
@@ -14,6 +14,11 @@ export default function CommentSection({ postID, toggleCommentSection }) {
     const [isFetching, setIsFetching] = useState(false)
     const [failed, setFailed] = useState(false)
     const [createCommentVisibility, setCreateCommentVisibility] = useState(false)
+
+    const [modalVisibility, setModalVisibility] = useState(false)
+    const modalInfo = useRef({})
+
+    const [commentCreationState, setCommentCreationState] = useState(false)
 
     useEffect(() => {
         
@@ -33,6 +38,27 @@ export default function CommentSection({ postID, toggleCommentSection }) {
 
     }, [])
 
+    useEffect(() => {
+        if (commentCreationState?.code == '031') {
+            modalInfo?.current?.modifyModal({
+                variant: 'alert',
+                title: 'Success',
+                text: commentCreationState.data,
+                setButtonClick: null
+            })
+            setModalVisibility(true)
+            setCreateCommentVisibility(false)
+        } else if (commentCreationState) {
+            modalInfo?.current?.modifyModal({
+                variant: 'alert',
+                title: 'Error',
+                text: commentCreationState.data,
+                setButtonClick: null
+            })
+            setModalVisibility(true)
+        }
+    }, [commentCreationState])
+
     return (
         <>
             
@@ -51,7 +77,7 @@ export default function CommentSection({ postID, toggleCommentSection }) {
 
                 
                 <div className={styles.comments}>
-                    {createCommentVisibility && <CreateComment setCreateCommentVisibility={setCreateCommentVisibility}/>}
+                    {createCommentVisibility && <CreateComment setCreateCommentVisibility={setCreateCommentVisibility} postID={postID} setCommentCreationState={setCommentCreationState}/>}
                     {
                         comments.map((comment, index) => (
                             <Comment 
@@ -67,7 +93,10 @@ export default function CommentSection({ postID, toggleCommentSection }) {
                 {failed && <p className={styles.error}>An error occured!</p>}
             </div>
                 
-
+            <Modal 
+            ref={modalInfo}
+            visibility={modalVisibility}
+            setVisibility={setModalVisibility}/>
 
         </>
     )

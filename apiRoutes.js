@@ -19,6 +19,9 @@ const API = {
     REACTION: {
         makeReaction: `${BASE_URL}/reaction/makeReaction`,
         deleteReaction: `${BASE_URL}/reaction/deleteReaction`
+    },
+    COMMENT: {
+        makeComment: `${BASE_URL}/comment/createComment`
     }
 }
 
