@@ -21,7 +21,8 @@ const API = {
         deleteReaction: `${BASE_URL}/reaction/deleteReaction`
     },
     COMMENT: {
-        makeComment: `${BASE_URL}/comment/createComment`
+        makeComment: `${BASE_URL}/comment/createComment`,
+        getComments: `${BASE_URL}/comment/getComments`
     }
 }
 

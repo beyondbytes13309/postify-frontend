@@ -8,6 +8,7 @@ import { IoMdAdd } from "react-icons/io";
 import Modal from '../common/Modal.jsx'
 
 import Loading from '../common/Loading'
+import API from '../../../apiRoutes.js';
 
 export default function CommentSection({ postID, toggleCommentSection }) {
     const [comments, setComments] = useState([])
@@ -24,10 +25,14 @@ export default function CommentSection({ postID, toggleCommentSection }) {
         
         const fetchAndSetComments = async () => {
             try {
-                const response = await fetch("https://jsonplaceholder.typicode.com/comments")
+                const response = await fetch(`${API.COMMENT.getComments}?postID=${postID}`, {credentials: 'include'})
                 const parsed = await response.json()
-                setComments(parsed)
-                setIsFetching(false)
+                
+                if (parsed.code == '033') {
+                    setComments(parsed.data)
+                    setIsFetching(false)
+                }
+                
             } catch(e) {
                 setFailed(true)
             }
@@ -78,14 +83,15 @@ export default function CommentSection({ postID, toggleCommentSection }) {
                 
                 <div className={styles.comments}>
                     {createCommentVisibility && <CreateComment setCreateCommentVisibility={setCreateCommentVisibility} postID={postID} setCommentCreationState={setCommentCreationState}/>}
-                    {
+                    { comments?.length > 0 ? 
                         comments.map((comment, index) => (
                             <Comment 
                             key={index} 
-                            commentText={comment.body}
-                            commentAuthor={comment.name}
-                            commentEmail={comment.email} />
-                        ))
+                            commentText={comment.commentText}
+                            commentAuthor={comment.authorID?.displayName || 'Deleted User'}
+                            commentEmail={comment.email} 
+                            profilePicURL={comment.authorID?.profilePicURL || 'https://res.cloudinary.com/drwa5qpv4/image/upload/v1751643968/2_km1lrr.png'}/>
+                        )) : 'No comments yet.'
                     }
                 </div>
                 
