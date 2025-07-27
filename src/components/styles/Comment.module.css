@@ -28,6 +28,12 @@
     font-weight: 600;
 }
 
+.timeAgo {
+    color: rgb(69, 40, 40);
+    font-size: 0.9rem;
+    margin-left: auto;
+}
+
 .commentText {
     font-size: 0.85rem;
 }

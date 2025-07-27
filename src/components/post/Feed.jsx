@@ -60,7 +60,7 @@ export default function Feed() {
                     authorName={post.authorID?.displayName || 'Deleted User'} 
                     authorPfpURL={post.authorID?.profilePicURL || 'https://res.cloudinary.com/drwa5qpv4/image/upload/v1751643968/2_km1lrr.png'} 
                     postText={post.postText}
-                    postCommentsNum={post.commentCount || 0}
+                    postCommentsNum={post.numOfComments || 0}
                     postReactionsNum={post.reactions?.length || 0}
                     setShowReactionPicker={setShowReactionPicker}
                     setShowCommentSection={setShowCommentSection}
@@ -68,7 +68,8 @@ export default function Feed() {
                     userReactionFromPostObj={post.userReaction}
                     userReactionIDFromPostObj={post.userReactionID}
                     setUserReaction={setUserReaction}
-                    setUserReactionID={setUserReactionID}/>
+                    setUserReactionID={setUserReactionID}
+                    createdAt={post.createdAt}/>
                 })) : <p className={styles.noPosts}>No posts yet.</p>}
             </div>
 

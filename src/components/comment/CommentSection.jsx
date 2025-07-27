@@ -30,6 +30,7 @@ export default function CommentSection({ postID, toggleCommentSection }) {
                 
                 if (parsed.code == '033') {
                     setComments(parsed.data)
+                    console.log(parsed.data)
                     setIsFetching(false)
                 }
                 
@@ -90,7 +91,8 @@ export default function CommentSection({ postID, toggleCommentSection }) {
                             commentText={comment.commentText}
                             commentAuthor={comment.authorID?.displayName || 'Deleted User'}
                             commentEmail={comment.email} 
-                            profilePicURL={comment.authorID?.profilePicURL || 'https://res.cloudinary.com/drwa5qpv4/image/upload/v1751643968/2_km1lrr.png'}/>
+                            profilePicURL={comment.authorID?.profilePicURL || 'https://res.cloudinary.com/drwa5qpv4/image/upload/v1751643968/2_km1lrr.png'}
+                            createdAt={comment.createdAt}/>
                         )) : 'No comments yet.'
                     }
                 </div>

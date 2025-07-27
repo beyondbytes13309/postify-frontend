@@ -6,12 +6,13 @@ import { FaRegCommentDots } from "react-icons/fa";
 import { MdOutlineAddReaction } from "react-icons/md";
 
 
+import convertIsoToRelativeTime from '../../utils/isoToTimeAgo';
 
 
 
 
-
-export default function PostCard({ postID, authorName, authorPfpURL, postText, postCommentsNum, postReactionsNum, setShowReactionPicker, setShowCommentSection, userReactionFromPostObj, userReactionIDFromPostObj, setUserReaction, setUserReactionID }) {
+export default function PostCard({ postID, authorName, authorPfpURL, postText, postCommentsNum, postReactionsNum, setShowReactionPicker, setShowCommentSection, userReactionFromPostObj, userReactionIDFromPostObj, setUserReaction, setUserReactionID, createdAt }) {
+    
     
 
     
@@ -39,6 +40,8 @@ export default function PostCard({ postID, authorName, authorPfpURL, postText, p
                         <img src={authorPfpURL} alt="Pfp" className={styles.pfp} />
                         <p className={styles.authorName}>{authorName}</p>
                     </div>
+
+                    <span className={styles.timeAgo}>{convertIsoToRelativeTime(createdAt)}</span>
                     
                     <button className={styles.postMenuBtn} title="Options">
                         {<CiMenuKebab className={styles.postMenuIcon}/>}
