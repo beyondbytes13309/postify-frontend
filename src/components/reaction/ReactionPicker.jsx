@@ -5,9 +5,8 @@ import { MdCancel } from "react-icons/md";
 
 
 const reactionHandler = async ({action="create", reactionType, postID, reactionID}) => {
-    console.log(reactionID)
+    
     if (action!="create" && action!="delete") {
-        console.error(`Wrong parameter passed to 'reactionHandler': ${action}`)
         return;
     }
     const response = await fetch(action==="create" ? API.REACTION.makeReaction : action=="delete" ? API.REACTION.deleteReaction : null, {
@@ -21,9 +20,6 @@ const reactionHandler = async ({action="create", reactionType, postID, reactionI
             reactionID
         }: null),
     });
-
-    
-    console.log("deleting it", await response.json())
 }
 
 export default function ReactionPicker({ postID, setShowReactionPicker, userReaction, userReactionID }) {

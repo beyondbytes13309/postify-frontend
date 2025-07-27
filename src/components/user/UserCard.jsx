@@ -45,22 +45,20 @@ export default function UserCard({ user: {_id, username, displayName, email, bio
 
     const continueLogout = async () => {
             
-            try {
+            
 
-                const response = await fetch(API.AUTH.logout, {method: 'POST', credentials: 'include'})
-                if (response.ok) {
-                    const parsed = await response.json()
-                    if (parsed.code == '011') {
-                        setIsLoggedIn(false)
-                    } else if (parsed.code == '010') {
-                        setModalVisibility(true)
-                        modalInfo.current.text = parsed.data
-                        setModalVariant('alert')
-                    }
-                }
-            } catch(err) {
-                console.log("fk")
-            }
+              const response = await fetch(API.AUTH.logout, {method: 'POST', credentials: 'include'})
+              if (response.ok) {
+                  const parsed = await response.json()
+                  if (parsed.code == '011') {
+                      setIsLoggedIn(false)
+                  } else if (parsed.code == '010') {
+                      setModalVisibility(true)
+                      modalInfo.current.text = parsed.data
+                      setModalVariant('alert')
+                  }
+              }
+            
         }
 
     useEffect(() => {

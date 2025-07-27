@@ -39,7 +39,6 @@ export default function CreatePost() {
 
             if (response.status >= 200 && response.status < 500) {
                 const parsed = await response.json()
-                console.log(parsed)
                 
                 
                 if (parsed.code == '015') {

@@ -2,7 +2,6 @@ import convertIsoToRelativeTime from '../../utils/isoToTimeAgo'
 import styles from '../styles/Comment.module.css'
 
 export default function Comment({ commentText, commentAuthor, profilePicURL, createdAt }) {
-    console.log(commentText, commentAuthor, profilePicURL)
     return (
         <>
             <div className={styles.wrapper}>

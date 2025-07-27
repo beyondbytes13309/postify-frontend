@@ -30,7 +30,6 @@ export default function CommentSection({ postID, toggleCommentSection }) {
                 
                 if (parsed.code == '033') {
                     setComments(parsed.data)
-                    console.log(parsed.data)
                     setIsFetching(false)
                 }
                 
