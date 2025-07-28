@@ -6,20 +6,22 @@ import { MdCancel } from "react-icons/md";
 
 const reactionHandler = async ({action="create", reactionType, postID, reactionID}) => {
     
-    if (action!="create" && action!="delete") {
-        return;
+    if (action == 'create') {
+        const response = await fetch(API.REACTION.makeReaction, {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({
+                postID: postID,
+                reactionType
+            }),
+        });
+    } else if (action == 'delete') {
+        const response = await fetch(`${API.REACTION.deleteReaction}/${reactionID}`, {
+            method: 'DELETE',
+            credentials: 'include'
+        })
     }
-    const response = await fetch(action==="create" ? API.REACTION.makeReaction : action=="delete" ? API.REACTION.deleteReaction : null, {
-        method: action == 'create' ? 'POST' : 'DELETE',
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(action == "create" ? {
-            postID: postID,
-            reactionType
-        }: action == 'delete' ? {
-            reactionID
-        }: null),
-    });
 }
 
 export default function ReactionPicker({ postID, setShowReactionPicker, userReaction, userReactionID }) {
