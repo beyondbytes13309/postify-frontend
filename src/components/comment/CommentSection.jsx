@@ -28,7 +28,7 @@ export default function CommentSection({ postID, toggleCommentSection }) {
                 const response = await fetch(`${API.COMMENT.getComments}?postID=${postID}`, {credentials: 'include'})
                 const parsed = await response.json()
                 
-                if (parsed.code == '033') {
+                if (parsed.code == '032') {
                     setComments(parsed.data)
                     setIsFetching(false)
                 }

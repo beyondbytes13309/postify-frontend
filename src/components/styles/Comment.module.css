@@ -37,3 +37,26 @@
 .commentText {
     font-size: 0.85rem;
 }
+
+.commentMenuBtn{
+    width: 25px;
+    height: 25px;
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
+    
+}
+
+.commentMenuIcon {
+    transform: rotateZ(90deg);
+    width: 70%;
+    height: 70%;
+}
+
+.commentMenuBtn:hover {
+    opacity: 0.75;
+}
+
+.commentMenuBtn:active {
+    opacity: 0.6;
+}
