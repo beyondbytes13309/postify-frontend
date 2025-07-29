@@ -86,12 +86,12 @@ export default function CommentSection({ postID, toggleCommentSection }) {
                     { comments?.length > 0 ? 
                         comments.map((comment, index) => (
                             <Comment 
-                            key={index} 
-                            commentText={comment.commentText}
-                            commentAuthor={comment.authorID?.displayName || 'Deleted User'}
-                            commentEmail={comment.email} 
-                            profilePicURL={comment.authorID?.profilePicURL || 'https://res.cloudinary.com/drwa5qpv4/image/upload/v1751643968/2_km1lrr.png'}
-                            createdAt={comment.createdAt}/>
+                            key={index}
+                            resource={comment}
+                            onDelete={(id) => {
+                                setComments(prev => prev.filter(comment => comment._id != id))
+                            }}
+                            />
                         )) : 'No comments yet.'
                     }
                 </div>
