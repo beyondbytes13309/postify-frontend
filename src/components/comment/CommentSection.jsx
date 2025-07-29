@@ -48,10 +48,12 @@ export default function CommentSection({ postID, toggleCommentSection }) {
             modalInfo?.current?.modifyModal({
                 variant: 'alert',
                 title: 'Success',
-                text: commentCreationState.data,
+                text: commentCreationState.data?.message,
                 setButtonClick: null
             })
             setModalVisibility(true)
+            const comment = commentCreationState?.data?.comment
+            setComments(prev => [ comment,...prev ])
             setCreateCommentVisibility(false)
         } else if (commentCreationState) {
             modalInfo?.current?.modifyModal({
