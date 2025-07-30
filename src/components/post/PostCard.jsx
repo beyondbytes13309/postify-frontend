@@ -1,21 +1,43 @@
 import { useEffect, useState } from 'react'
 import styles from '../styles/PostCard.module.css'
 
+import React from 'react'
+
 import { CiMenuKebab } from "react-icons/ci";
 import { FaRegCommentDots } from "react-icons/fa";
 import { MdOutlineAddReaction } from "react-icons/md";
 
-
+import Options from '../common/Options';
 import convertIsoToRelativeTime from '../../utils/isoToTimeAgo';
 
+import useCan from '../../utils/permissions'
 
+import API from '../../../apiRoutes';
 
+export default React.memo(function PostCard({ resource, setShowReactionPicker, setShowCommentSection, updateCurrentReactionForPost, onDelete }) {
+    const can = useCan()
+    const [showOptions, setShowOptions] = useState(false)
+    const [position, setPosition] = useState({ x: 0, y: 0 })
 
-export default function PostCard({ resource, setShowReactionPicker, setShowCommentSection, updateCurrentReactionForPost }) {
-    
     const postID = resource?._id
     const [commentCount, setCommentCount] = useState(null)
     const [reactionCount, setReactionCount] = useState(null)
+
+    const allowedToDelete = can(['delete_own_post', 'delete_any_post'], resource)
+
+    const handleDelete = async () => {
+      const response = await fetch(`${API.POST.deletePost}/${postID}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      })
+
+      if (response.status >= 200 && response.status < 500) {
+        const parsed = await response.json()
+        if (parsed.code == '012') {
+          onDelete(postID)
+        }
+      }
+    }
 
     useEffect(() => {
         setCommentCount(resource?.numOfComments || 0)
@@ -34,9 +56,17 @@ export default function PostCard({ resource, setShowReactionPicker, setShowComme
 
                     <span className={styles.timeAgo}>{convertIsoToRelativeTime(resource?.createdAt)}</span>
                     
-                    <button className={styles.postMenuBtn} title="Options">
+                    <button className={styles.postMenuBtn} title="Options" onClick={(e) => {setPosition({x: e.clientX, y: e.clientY}); setShowOptions((prev) => !prev)}}>
                         {<CiMenuKebab className={styles.postMenuIcon}/>}
                     </button>
+                    {showOptions && 
+                    <Options 
+                    options={[
+                        { text: allowedToDelete ? 'Delete' : 'Chill', callback: allowedToDelete && handleDelete }
+                    ]}
+                    position={position}
+                    setShowOptions={setShowOptions}/>
+                    }
                 </div>
                 <div className={styles.contentWrapper}>
                     <p>{resource?.postText}</p>
@@ -67,4 +97,4 @@ export default function PostCard({ resource, setShowReactionPicker, setShowComme
             </div>
         </>
     )
-}
+})

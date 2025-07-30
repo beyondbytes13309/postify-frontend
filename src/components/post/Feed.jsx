@@ -62,6 +62,9 @@ export default function Feed() {
                     updateCurrentReactionForPost={() => {
                         setUserReaction(post?.userReaction);
                         setUserReactionID(post?.userReactionID)
+                    }}
+                    onDelete={(id) => {
+                        setPosts(prev => prev.filter(post => post._id !== id))
                     }}/>
                 })) : <p className={styles.noPosts}>No posts yet.</p>}
             </div>
