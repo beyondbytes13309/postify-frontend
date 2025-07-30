@@ -56,20 +56,13 @@ export default function Feed() {
                 {posts.length > 0 ? (posts.map((post) => {
                     return <PostCard 
                     key={post._id}
-                    postID={post._id} 
-                    authorName={post.authorID?.displayName || 'Deleted User'} 
-                    authorPfpURL={post.authorID?.profilePicURL || 'https://res.cloudinary.com/drwa5qpv4/image/upload/v1751643968/2_km1lrr.png'} 
-                    postText={post.postText}
-                    postCommentsNum={post.numOfComments || 0}
-                    postReactionsNum={post.reactions?.length || 0}
+                    resource={post}
                     setShowReactionPicker={setShowReactionPicker}
                     setShowCommentSection={setShowCommentSection}
-                    showCommentSection={showCommentSection}
-                    userReactionFromPostObj={post.userReaction}
-                    userReactionIDFromPostObj={post.userReactionID}
-                    setUserReaction={setUserReaction}
-                    setUserReactionID={setUserReactionID}
-                    createdAt={post.createdAt}/>
+                    updateCurrentReactionForPost={() => {
+                        setUserReaction(post?.userReaction);
+                        setUserReactionID(post?.userReactionID)
+                    }}/>
                 })) : <p className={styles.noPosts}>No posts yet.</p>}
             </div>
 
@@ -89,7 +82,6 @@ export default function Feed() {
                         toggleCommentSection={() => setShowCommentSection(prev => !prev)}/>}
                     </motion.div>}
             </AnimatePresence>
-            {userReaction}
         </>
     )
 }

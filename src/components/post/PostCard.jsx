@@ -11,49 +11,40 @@ import convertIsoToRelativeTime from '../../utils/isoToTimeAgo';
 
 
 
-export default function PostCard({ postID, authorName, authorPfpURL, postText, postCommentsNum, postReactionsNum, setShowReactionPicker, setShowCommentSection, userReactionFromPostObj, userReactionIDFromPostObj, setUserReaction, setUserReactionID, createdAt }) {
+export default function PostCard({ resource, setShowReactionPicker, setShowCommentSection, updateCurrentReactionForPost }) {
     
-    
-
-    
-    
+    const postID = resource?._id
     const [commentCount, setCommentCount] = useState(null)
     const [reactionCount, setReactionCount] = useState(null)
 
     useEffect(() => {
-        setCommentCount(postCommentsNum)
-        setReactionCount(postReactionsNum)
+        setCommentCount(resource?.numOfComments || 0)
+        setReactionCount(resource?.reactions?.length || 0)
     }, [])
 
-    
-    
-
-    
-
-    
 
     return (
         <>
             <div className={styles.wrapper}>
                 <div className={styles.authorWrapper}>
                     <div className={styles.authorWrapperChild}>
-                        <img src={authorPfpURL} alt="Pfp" className={styles.pfp} />
-                        <p className={styles.authorName}>{authorName}</p>
+                        <img src={resource?.authorID?.profilePicURL || 'https://res.cloudinary.com/drwa5qpv4/image/upload/v1751643968/2_km1lrr.png'} alt="Pfp" className={styles.pfp} />
+                        <p className={styles.authorName}>{resource?.authorID?.displayName || 'Deleted User'}</p>
                     </div>
 
-                    <span className={styles.timeAgo}>{convertIsoToRelativeTime(createdAt)}</span>
+                    <span className={styles.timeAgo}>{convertIsoToRelativeTime(resource?.createdAt)}</span>
                     
                     <button className={styles.postMenuBtn} title="Options">
                         {<CiMenuKebab className={styles.postMenuIcon}/>}
                     </button>
                 </div>
                 <div className={styles.contentWrapper}>
-                    <p>{postText}</p>
+                    <p>{resource?.postText}</p>
                 </div>
 
                 <div className={styles.buttonWrapper}>
                     <div className={styles.reactBtnWrapper} title="Reactions">
-                        <button className={styles.reactBtn} onClick={() => {setShowReactionPicker(postID); setUserReaction(userReactionFromPostObj); setUserReactionID(userReactionIDFromPostObj)}}>
+                        <button className={styles.reactBtn} onClick={() => {setShowReactionPicker(postID); updateCurrentReactionForPost()}}>
                             <MdOutlineAddReaction className={styles.reactBtnIcon}/>
                         </button>
                         <span className={styles.reactCount}>{reactionCount}</span>
