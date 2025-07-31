@@ -1,7 +1,5 @@
 function NavBar() {
-    return (
-        <p>hi</p>
-    )
+  return <p>hi</p>;
 }
 
-export default NavBar
+export default NavBar;

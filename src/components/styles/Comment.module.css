@@ -1,62 +1,61 @@
 .wrapper {
-    display: flex;
-    flex-direction: column;
-    width: 90%;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
 
-    border: 1px solid gray;
-    margin: 0.3rem;
-    border-radius: 5px;
-    padding: 0.4rem
+  border: 1px solid gray;
+  margin: 0.3rem;
+  border-radius: 5px;
+  padding: 0.4rem;
 }
 
 .profile {
-    display: flex;
-    gap: 0.3rem;
-    margin-bottom: 0.4rem;
+  display: flex;
+  gap: 0.3rem;
+  margin-bottom: 0.4rem;
 }
 
 .pfp {
-    width: 1.9rem;
-    object-fit: cover;
-    object-position: middle;
-    height: 1.9rem;
-    border-radius: 50%;
+  width: 1.9rem;
+  object-fit: cover;
+  object-position: middle;
+  height: 1.9rem;
+  border-radius: 50%;
 }
 
 .authorName {
-    font-size: 1rem;
-    font-weight: 600;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .timeAgo {
-    color: rgb(69, 40, 40);
-    font-size: 0.9rem;
-    margin-left: auto;
+  color: rgb(69, 40, 40);
+  font-size: 0.9rem;
+  margin-left: auto;
 }
 
 .commentText {
-    font-size: 0.85rem;
+  font-size: 0.85rem;
 }
 
-.commentMenuBtn{
-    width: 25px;
-    height: 25px;
-    background-color: inherit;
-    border: none;
-    cursor: pointer;
-    
+.commentMenuBtn {
+  width: 25px;
+  height: 25px;
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
 }
 
 .commentMenuIcon {
-    transform: rotateZ(90deg);
-    width: 70%;
-    height: 70%;
+  transform: rotateZ(90deg);
+  width: 70%;
+  height: 70%;
 }
 
 .commentMenuBtn:hover {
-    opacity: 0.75;
+  opacity: 0.75;
 }
 
 .commentMenuBtn:active {
-    opacity: 0.6;
+  opacity: 0.6;
 }

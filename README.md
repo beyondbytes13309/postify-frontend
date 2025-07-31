@@ -1,7 +1,9 @@
 # Postify Frontend
+
 This readme will define all the features of this frontend application. The backend will be integrated later.
 
 ## Pages
+
 This react application will use react-dom-router for making a single-page-site. It will have multiple pages.
 
 1. Signin/Signup page: This page will do what the name says
@@ -10,6 +12,7 @@ This react application will use react-dom-router for making a single-page-site. 
 4. New Post Page: This page will allow the user to create a post. This user can use text and images in their post
 
 ## Components
+
 The pages of the application will be made up of components. Btw why are you reading this?
 
 1. Signup component

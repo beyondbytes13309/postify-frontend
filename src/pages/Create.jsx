@@ -2,23 +2,22 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import { useEffect, useContext } from "react";
 
-import styles from './styles/Create.module.css'
+import styles from "./styles/Create.module.css";
 
-import CreatePost from '../components/post/CreatePost'
+import CreatePost from "../components/post/CreatePost";
 
 export default function Create() {
-    const { isLoggedIn } = useContext(AuthContext)
-    const navigate = useNavigate()
+  const { isLoggedIn } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        if (isLoggedIn == false) navigate('/auth')
-    }, [isLoggedIn])
-    return (
-        <>
-            <div className={styles.wrapper}>
-                <CreatePost />
-            </div>
-            
-        </>
-    )
+  useEffect(() => {
+    if (isLoggedIn == false) navigate("/auth");
+  }, [isLoggedIn]);
+  return (
+    <>
+      <div className={styles.wrapper}>
+        <CreatePost />
+      </div>
+    </>
+  );
 }

@@ -1,133 +1,123 @@
 .wrapper {
-    width: 90%;
-    height: auto;
-    background-color: #ffffff;
-    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.537);
-    margin: 0.1rem;
-    display: flex;
-    flex-direction: column;
-    padding: 8px;
-    border-radius: 5px;
+  width: 90%;
+  height: auto;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.537);
+  margin: 0.1rem;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  border-radius: 5px;
 }
 
 .authorWrapper {
-    display: flex;
-    width: 100%;
-    margin-bottom: 4px;
+  display: flex;
+  width: 100%;
+  margin-bottom: 4px;
 }
 
 .authorWrapperChild {
-    
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-    margin-right: auto;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  margin-right: auto;
+  align-items: center;
 }
 
 .authorName {
-    color: rgb(45, 45, 45);
-    font-weight: bold;
-    margin-left: 2px;
-    font-size: 1.155rem;
+  color: rgb(45, 45, 45);
+  font-weight: bold;
+  margin-left: 2px;
+  font-size: 1.155rem;
 }
 
 .pfp {
-    width: 45px;
-    height: 45px;
-    object-fit: cover;
-    object-position: center;
-    border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
 }
 
 .contentWrapper p {
-    color: rgb(29, 29, 29);
-    margin-bottom: 0.5rem;
+  color: rgb(29, 29, 29);
+  margin-bottom: 0.5rem;
 }
 
 .postMenuBtn {
-    width: 30px;
-    height: 30px;
-    background-color: inherit;
-    border: none;
-    cursor: pointer;
+  width: 30px;
+  height: 30px;
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
 }
 
 .postMenuBtn:hover {
-    opacity: 0.75;
+  opacity: 0.75;
 }
 
 .postMenuBtn:active {
-    opacity: 0.6;
+  opacity: 0.6;
 }
 
 .postMenuIcon {
-    width: 70%;
-    height: 70%;
-    transform: rotateZ(90deg);
-
+  width: 70%;
+  height: 70%;
+  transform: rotateZ(90deg);
 }
 
 .timeAgo {
-    color: rgb(69, 40, 40);
-    font-size: 0.9rem;
+  color: rgb(69, 40, 40);
+  font-size: 0.9rem;
 }
 
 .buttonWrapper {
-    display: flex;
-    margin-top: 15px;
-    gap: 17px
+  display: flex;
+  margin-top: 15px;
+  gap: 17px;
 }
 
 .commentBtn,
 .reactBtn {
-    background-color: white;
-    border: none;
-    cursor: pointer;
-    width: 35px;
-    height: 35px;
-    padding: 4px
-
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  width: 35px;
+  height: 35px;
+  padding: 4px;
 }
 
 .reactBtn {
-    font-size: 1.29rem;
+  font-size: 1.29rem;
 }
 
-.commentBtn:hover, .reactBtn:hover {
-    opacity: 0.7;
+.commentBtn:hover,
+.reactBtn:hover {
+  opacity: 0.7;
 }
 
-.commentBtn:active, .reactBtn:active {
-    opacity: 0.5;
+.commentBtn:active,
+.reactBtn:active {
+  opacity: 0.5;
 }
 
 .reactBtnIcon,
 .commentBtnIcon {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .reactCount,
 .commentCount {
-    color: rgb(88, 88, 88);
-    font-size: 0.8rem;
-    margin-left: 2px;
+  color: rgb(88, 88, 88);
+  font-size: 0.8rem;
+  margin-left: 2px;
 }
-
-
 
 .commentBtnWrapper,
 .reactBtnWrapper {
-    display: flex;
-    align-items: center;
-    color: rgb(88, 88, 88);
-    font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  color: rgb(88, 88, 88);
+  font-size: 0.9rem;
 }
-
-
-
-
-
-
-

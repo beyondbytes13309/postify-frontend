@@ -1,15 +1,15 @@
 .outlet {
-    padding-top: 6rem;
+  padding-top: 6rem;
 }
 
 @media (max-width: 850px) {
-    .outlet {
-        padding-top: 10rem;
-    }
+  .outlet {
+    padding-top: 10rem;
+  }
 }
 
 @media (max-width: 650px) {
-    .outlet {
-        padding-top: 9rem;
-    }
+  .outlet {
+    padding-top: 9rem;
+  }
 }

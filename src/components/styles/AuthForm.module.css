@@ -1,29 +1,26 @@
 :root {
-  --BG-COLOR: #fef6e4;                  
-  --SEC-BG-COLOR: #f3d2c1;             
-  --ACC-COLOR: #8bd3dd;               
-  --BORDER-ND-SUBTLE-COLOR: #dad2bc;   
-  --BTN-HIGHLIGHTS-COLOR: #f582ae;    
-  --TEXT-COLOR: #001858;              
-  --GOOGLE-BTN-COLOR: #ffffff;       
-  --GOOGLE-TEXT-COLOR: #5f6368;      
+  --BG-COLOR: #fef6e4;
+  --SEC-BG-COLOR: #f3d2c1;
+  --ACC-COLOR: #8bd3dd;
+  --BORDER-ND-SUBTLE-COLOR: #dad2bc;
+  --BTN-HIGHLIGHTS-COLOR: #f582ae;
+  --TEXT-COLOR: #001858;
+  --GOOGLE-BTN-COLOR: #ffffff;
+  --GOOGLE-TEXT-COLOR: #5f6368;
 
-  --GITHUB-BTN-COLOR: #24292e;     
-  --GITHUB-TEXT-COLOR: #ffffff;      
+  --GITHUB-BTN-COLOR: #24292e;
+  --GITHUB-TEXT-COLOR: #ffffff;
 
-  --TWITTER-BTN-COLOR: #1da1f2;     
-  --TWITTER-TEXT-COLOR: #ffffff;     
+  --TWITTER-BTN-COLOR: #1da1f2;
+  --TWITTER-TEXT-COLOR: #ffffff;
 }
 
-
 .wrapper {
-    display: flex;
-    justify-content: center;
-    max-width: 500px;
-    max-height: 700px;
-    margin-top: 1rem;
-    
-
+  display: flex;
+  justify-content: center;
+  max-width: 500px;
+  max-height: 700px;
+  margin-top: 1rem;
 }
 /* 300px to 449px */
 @media (min-width: 300px) and (max-width: 449px) {
@@ -32,9 +29,11 @@
     font-size: 1rem;
   }
 
-  .auth_email, .auth_password, .auth_username {
-        width: 90%
-    }
+  .auth_email,
+  .auth_password,
+  .auth_username {
+    width: 90%;
+  }
 }
 
 /* 450px to 799px */
@@ -44,117 +43,118 @@
     font-size: 1.025rem;
   }
 
-  .auth_email, .auth_password, .auth_username {
-        width: 90%
-    }
+  .auth_email,
+  .auth_password,
+  .auth_username {
+    width: 90%;
+  }
 }
 
 /* 800px and up */
 @media (min-width: 800px) {
   .wrapper {
     width: 800px;
-    height: 500px
+    height: 500px;
   }
 }
 
-
 .form {
-    width: 100%;
-    background: linear-gradient(to bottom right, var(--SEC-BG-COLOR), var(--ACC-COLOR), var(--BTN-HIGHLIGHTS-COLOR));
-    
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
+  width: 100%;
+  background: linear-gradient(
+    to bottom right,
+    var(--SEC-BG-COLOR),
+    var(--ACC-COLOR),
+    var(--BTN-HIGHLIGHTS-COLOR)
+  );
 
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
 
-    align-items: center;
-    padding: 1rem;
+  align-items: center;
+  padding: 1rem;
 
-    font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 
-    flex-grow: 1
+  flex-grow: 1;
 }
 
 .title {
-    text-align: center;
-    font-size: 1.7rem;
-    text-shadow: 3px 3px 10px pink
+  text-align: center;
+  font-size: 1.7rem;
+  text-shadow: 3px 3px 10px pink;
 }
 
-
 .auth_email {
-    
-    margin-top: 3rem;
-    margin-bottom: 0.1rem;   
+  margin-top: 3rem;
+  margin-bottom: 0.1rem;
 }
 
 .auth_username {
-    margin-top: 3rem;
-    margin-bottom: 0.1rem;
+  margin-top: 3rem;
+  margin-bottom: 0.1rem;
 }
 
 .auth_password {
-    margin-top: 1.5rem;
-    margin-bottom: 0.1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.1rem;
 }
 
-.auth_email, .auth_password, .auth_username {
-    width: 63%;
-    height: 2rem;
-    position: relative;
-    display: flex;
-    flex-direction: column;
+.auth_email,
+.auth_password,
+.auth_username {
+  width: 63%;
+  height: 2rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
-
 
 .passwordShowBtn {
-    position: absolute;
-    right: 7px;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: inherit;
-    border: none;
-    outline: none;
-    cursor: pointer;
-
+  position: absolute;
+  right: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: inherit;
+  border: none;
+  outline: none;
+  cursor: pointer;
 }
 
-.auth_email input, .auth_password input, .auth_username input {
-    width: 100%;
-    height: 100%;
-    border: 1px solid var(--TEXT-COLOR);
-    border-radius: 10px;
-    outline: none;
-    transition: box-shadow 0.3s ease;
-    padding-inline: 10px;
-    
-    font-size: 0.95rem;
+.auth_email input,
+.auth_password input,
+.auth_username input {
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--TEXT-COLOR);
+  border-radius: 10px;
+  outline: none;
+  transition: box-shadow 0.3s ease;
+  padding-inline: 10px;
+
+  font-size: 0.95rem;
 }
-
-
-
-
 
 .auth_email label,
 .auth_password label,
 .auth_username label {
-    position: absolute;
-    top: 5px;
-    left: 10px;
-    transition: transform 0.2s ease-out, color 0.2s ease-out;
-    color: rgba(78, 78, 78, 0.74);
-    cursor: text;
-    display: flex;
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  transition:
+    transform 0.2s ease-out,
+    color 0.2s ease-out;
+  color: rgba(78, 78, 78, 0.74);
+  cursor: text;
+  display: flex;
 
-    gap: 3px
+  gap: 3px;
 }
-
-
 
 .auth_email input:focus,
 .auth_password input:focus,
 .auth_username input:focus {
-    box-shadow: 0px 0px 1px 2px rgba(0, 0, 255, 0.418);
+  box-shadow: 0px 0px 1px 2px rgba(0, 0, 255, 0.418);
 }
 
 .auth_email:has(input:focus) label,
@@ -163,108 +163,97 @@
 .auth_password:has(input:not(:placeholder-shown)) label,
 .auth_username:has(input:focus) label,
 .auth_username:has(input:not(:placeholder-shown)) label {
-    transform: translateY(-135%) scale(1);
-    color: rgb(17, 17, 17);
+  transform: translateY(-135%) scale(1);
+  color: rgb(17, 17, 17);
 }
 
 .errors {
-    color: rgb(179, 57, 57);
-    font-size: 0.7rem;
-    margin-top: 0.1rem;
-    margin-bottom: 0rem;
-
+  color: rgb(179, 57, 57);
+  font-size: 0.7rem;
+  margin-top: 0.1rem;
+  margin-bottom: 0rem;
 }
 
 .signup_btn {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
 
-
-
 .social_buttons {
-    margin-top: 1.7rem;
-    display: flex;
-    gap: 5px;
-    flex-direction: column;
-    width: 100%;
-    align-items: center;
+  margin-top: 1.7rem;
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
 }
 
 .social_buttons p {
-    text-align: center;
-    color: #444444b9;
-    font-size: 0.9rem;
-    margin-bottom: 0.3rem;
+  text-align: center;
+  color: #444444b9;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
 }
 
 .social_buttons button {
-    cursor: pointer;
-    width: 50%;
-    border-radius: 1rem;
-    height: 30px;
-    font-size: 1.015rem;
+  cursor: pointer;
+  width: 50%;
+  border-radius: 1rem;
+  height: 30px;
+  font-size: 1.015rem;
 }
 
 .google_btn {
-    background-color: var(--GOOGLE-BTN-COLOR);
-    color: black;
-    border: 1px solid gray;
-    transition: box-shadow 0.3s ease;
-    display: flex;
-    justify-content: center;
-    gap:2px;
-    align-items: center;
+  background-color: var(--GOOGLE-BTN-COLOR);
+  color: black;
+  border: 1px solid gray;
+  transition: box-shadow 0.3s ease;
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  align-items: center;
 }
 
 .github_btn {
-    background-color: var(--GITHUB-BTN-COLOR);
-    color: var(--GITHUB-TEXT-COLOR);
-    border: 1px solid gray;
-    transition: box-shadow 0.3s ease;
+  background-color: var(--GITHUB-BTN-COLOR);
+  color: var(--GITHUB-TEXT-COLOR);
+  border: 1px solid gray;
+  transition: box-shadow 0.3s ease;
 }
 
 .google_icon {
-    width: 18px;
-    height: 18px;
-    margin-bottom: 2px;
+  width: 18px;
+  height: 18px;
+  margin-bottom: 2px;
 }
 
 .twitter_btn {
-    background-color: var(--TWITTER-BTN-COLOR);
-    color: var(--TWITTER-TEXT-COLOR);
-    border: 1px solid gray;
-    transition: box-shadow 0.3s ease
+  background-color: var(--TWITTER-BTN-COLOR);
+  color: var(--TWITTER-TEXT-COLOR);
+  border: 1px solid gray;
+  transition: box-shadow 0.3s ease;
 }
 
 .google_btn:hover {
-    box-shadow: 0px 0px 10px 2px rgba(255, 255, 255, 0.694);
+  box-shadow: 0px 0px 10px 2px rgba(255, 255, 255, 0.694);
 }
 
 .github_btn:hover {
-    box-shadow: 0px 0px 10px 2px rgba(51, 10, 10, 0.186);
+  box-shadow: 0px 0px 10px 2px rgba(51, 10, 10, 0.186);
 }
 
-
 .twitter_btn:hover {
-    box-shadow: 0px 0px 10px 2px rgba(31, 15, 255, 0.186);
+  box-shadow: 0px 0px 10px 2px rgba(31, 15, 255, 0.186);
 }
 
 .google_btn:active,
 .github_btn:active,
 .twitter_btn:active {
-    opacity: 0.9;
+  opacity: 0.9;
 }
 
 .auth_toggle_text {
-    color: var(--GOOGLE-TEXT-COLOR);
-    font-size: 0.7rem;
-    margin-top: 1rem;
-    cursor: pointer;
+  color: var(--GOOGLE-TEXT-COLOR);
+  font-size: 0.7rem;
+  margin-top: 1rem;
+  cursor: pointer;
 }
-
-
-
-
-
-
-

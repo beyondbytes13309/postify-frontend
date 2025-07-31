@@ -1,28 +1,28 @@
 .optionWrapper {
-    display: flex;
-    flex-direction: column;
-    background-color: rgb(220, 255, 255);
-    border: 1px solid rgb(95, 95, 255);
-    border-radius: 2px;
-    border-top-right-radius: 0px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 2;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(220, 255, 255);
+  border: 1px solid rgb(95, 95, 255);
+  border-radius: 2px;
+  border-top-right-radius: 0px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
 }
 
 .option {
-    background-color: inherit;
-    border: none;
-    font-size: 1.025rem;
-    cursor: pointer;
-    padding: 0.4rem 1.1rem
+  background-color: inherit;
+  border: none;
+  font-size: 1.025rem;
+  cursor: pointer;
+  padding: 0.4rem 1.1rem;
 }
 
 .option:hover {
-    background-color: rgb(255, 253, 253);
+  background-color: rgb(255, 253, 253);
 }
 
 .option:active {
-    background-color: rgb(253, 250, 250);
+  background-color: rgb(253, 250, 250);
 }
