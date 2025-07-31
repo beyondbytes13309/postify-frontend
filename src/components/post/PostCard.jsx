@@ -14,6 +14,19 @@ import useCan from '../../utils/permissions'
 
 import API from '../../../apiRoutes';
 
+const reactionsEmojis = {
+    1: ['👍', 'Like'],
+    2: ['👎', 'Dislike'],
+    3: ['💗', 'Love'],
+    4: ['😂', 'Funny'],
+    5: ['😮', 'Surprised'],
+    6: ['😢', 'Sad'],
+    7: ['😡', 'Angry'],
+    8: ['🧐', 'Curious'],
+    9: ['🤝', 'Respect'],
+    10: ['💡', 'Insightful']
+}
+
 export default React.memo(function PostCard({ resource, setShowReactionPicker, setShowCommentSection, updateCurrentReactionForPost, onDelete }) {
     const can = useCan()
     const [showOptions, setShowOptions] = useState(false)
@@ -22,6 +35,42 @@ export default React.memo(function PostCard({ resource, setShowReactionPicker, s
     const postID = resource?._id
     const [commentCount, setCommentCount] = useState(null)
     const [reactionCount, setReactionCount] = useState(null)
+
+    const [showReactionEmoji, setShowReactionEmoji] = useState(0)
+
+    const summarizeReactions = () => {
+      const reactions = resource?.reactions;
+      if (!Array.isArray(reactions) || reactions.length === 0) {
+        return 0;
+      }
+
+      const reactionNums = reactions
+        .map((reaction) => Number(reaction.reactionType))
+        .filter((num) => num >= 1 && num <= 10);
+
+      if (reactionNums.length === 0) {
+        return 0;
+      }
+
+      // Count each reaction
+      const counts = {};
+      for (const num of reactionNums) {
+        counts[num] = (counts[num] || 0) + 1;
+      }
+
+      // Find the reaction with the highest count
+      let mostCommon = null;
+      let maxCount = 0;
+
+      for (const [reaction, count] of Object.entries(counts)) {
+        if (count > maxCount) {
+          maxCount = count;
+          mostCommon = Number(reaction);
+        }
+      }
+      return reactionsEmojis[mostCommon][0] || 0
+    };
+
 
     const allowedToDelete = can(['delete_own_post', 'delete_any_post'], resource)
 
@@ -42,7 +91,8 @@ export default React.memo(function PostCard({ resource, setShowReactionPicker, s
     useEffect(() => {
         setCommentCount(resource?.numOfComments || 0)
         setReactionCount(resource?.reactions?.length || 0)
-    }, [])
+        setShowReactionEmoji(summarizeReactions() )
+    }, [resource])
 
 
     return (
@@ -75,7 +125,9 @@ export default React.memo(function PostCard({ resource, setShowReactionPicker, s
                 <div className={styles.buttonWrapper}>
                     <div className={styles.reactBtnWrapper} title="Reactions">
                         <button className={styles.reactBtn} onClick={() => {setShowReactionPicker(postID); updateCurrentReactionForPost()}}>
-                            <MdOutlineAddReaction className={styles.reactBtnIcon}/>
+                            {
+                                showReactionEmoji==0 ? <MdOutlineAddReaction className={styles.reactBtnIcon}/>
+                            : <span className={styles.reactBtnIcon}>{showReactionEmoji}</span>}
                         </button>
                         <span className={styles.reactCount}>{reactionCount}</span>
                     </div>
