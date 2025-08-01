@@ -77,18 +77,41 @@
   gap: 17px;
 }
 
+
+.commentBtnWrapper,
+.reactBtnWrapper {
+  display: flex;
+  align-items: center;
+  color: rgb(88, 88, 88);
+  font-size: 0.9rem;
+}
+
+
 .commentBtn,
 .reactBtn {
-  background-color: white;
+  background-color: inherit;
   border: none;
   cursor: pointer;
-  width: 35px;
   height: 35px;
   padding: 4px;
 }
 
 .reactBtn {
   font-size: 1.29rem;
+}
+
+
+.commentBtnIcon, .reactBtnIcon {
+  width: 100%;
+  height: 100%;
+}
+
+
+.reactCount,
+.commentCount {
+  color: rgb(88, 88, 88);
+  font-size: 0.8rem;
+  margin-left: 5px;
 }
 
 .commentBtn:hover,
@@ -99,25 +122,4 @@
 .commentBtn:active,
 .reactBtn:active {
   opacity: 0.5;
-}
-
-.reactBtnIcon,
-.commentBtnIcon {
-  width: 100%;
-  height: 100%;
-}
-
-.reactCount,
-.commentCount {
-  color: rgb(88, 88, 88);
-  font-size: 0.8rem;
-  margin-left: 2px;
-}
-
-.commentBtnWrapper,
-.reactBtnWrapper {
-  display: flex;
-  align-items: center;
-  color: rgb(88, 88, 88);
-  font-size: 0.9rem;
 }

@@ -8,6 +8,7 @@ import { FaRegCommentDots } from "react-icons/fa";
 import { MdOutlineAddReaction } from "react-icons/md";
 
 import Options from "../common/Options";
+import ReactionShower from "../reaction/ReactionShower";
 import convertIsoToRelativeTime from "../../utils/isoToTimeAgo";
 
 import useCan from "../../utils/permissions";
@@ -47,7 +48,7 @@ export default React.memo(function PostCard({
   const summarizeReactions = () => {
     const reactions = resource?.reactions;
     if (!Array.isArray(reactions) || reactions.length === 0) {
-      return 0;
+      return [];
     }
 
     const reactionNums = reactions
@@ -55,7 +56,7 @@ export default React.memo(function PostCard({
       .filter((num) => num >= 1 && num <= 10);
 
     if (reactionNums.length === 0) {
-      return 0;
+      return [];
     }
 
     // Count each reaction
@@ -64,18 +65,15 @@ export default React.memo(function PostCard({
       counts[num] = (counts[num] || 0) + 1;
     }
 
-    // Find the reaction with the highest count
-    let mostCommon = null;
-    let maxCount = 0;
+    // Sort reactions by count descending
+    const sortedReactions = Object.entries(counts)
+      .sort((a, b) => b[1] - a[1]) // sort by count
+      .slice(0, 3) // take top 3
+      .map(([reaction]) => reactionsEmojis[Number(reaction)][0]); // map to emoji
 
-    for (const [reaction, count] of Object.entries(counts)) {
-      if (count > maxCount) {
-        maxCount = count;
-        mostCommon = Number(reaction);
-      }
-    }
-    return reactionsEmojis[mostCommon][0] || 0;
+    return sortedReactions;
   };
+
 
   const allowedToDelete = can(["delete_own_post", "delete_any_post"], resource);
 
@@ -155,13 +153,13 @@ export default React.memo(function PostCard({
               onClick={() => {
                 setShowReactionPicker(postID);
                 updateCurrentReactionForPost();
-              }}
-            >
-              {showReactionEmoji == 0 ? (
-                <MdOutlineAddReaction className={styles.reactBtnIcon} />
-              ) : (
-                <span className={styles.reactBtnIcon}>{showReactionEmoji}</span>
-              )}
+              }}>{ showReactionEmoji.length!= 0 ?
+                <div className={styles.reactBtnIcon}>
+                  <ReactionShower reactions={showReactionEmoji}/>
+                </div>
+                
+                : <MdOutlineAddReaction className={styles.reactBtnIcon} />
+              }
             </button>
             <span className={styles.reactCount}>{reactionCount}</span>
           </div>

@@ -1,0 +1,47 @@
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.reactionShowerWrapper {
+    min-width: 30px;
+    max-width: fit-content;
+    min-height: 30px;
+    position: relative;
+}
+
+.innerWrapper {
+  display: flex;
+  position: relative;
+  align-items: center;
+}
+
+.firstEmoji, .secondEmoji, .thirdEmoji {
+    animation: slideUpFade 0.4s ease forwards;
+    opacity: 0;
+}
+
+.firstEmoji {
+    z-index: 4;
+    opacity: 1;
+}
+
+.secondEmoji {
+    z-index: 3;
+    transform: scale(0.95);
+    animation-delay: 0.2s;
+    margin-left: -10px
+}
+
+.thirdEmoji {
+    z-index: 2;
+    transform: scale(0.9);
+    animation-delay: 0.3s;
+    margin-left: -10px
+}
