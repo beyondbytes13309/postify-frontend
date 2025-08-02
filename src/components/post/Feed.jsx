@@ -9,7 +9,10 @@ import CommentSection from "../comment/CommentSection";
 import styles from "../styles/Feed.module.css";
 import API from "../../../apiRoutes";
 
+import { useSafeFetch } from "../../hooks/useSafeFetch";
+
 export default function Feed() {
+  const { data, error, loading, abort } = useSafeFetch(API.POST.getPosts, {method: 'GET', credentials: 'include'})
   const commentSectionVariants = {
     initial: { opacity: 0 },
     animate: { opacity: 1 },
@@ -25,29 +28,8 @@ export default function Feed() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    const abortController = new AbortController();
-
-    const fetchPosts = async () => {
-      const response = await fetch(API.POST.getPosts, {
-        method: "GET",
-        credentials: "include",
-        signal: abortController.signal,
-      });
-
-      if (response.status >= 200 && response.status < 500) {
-        const parsed = await response.json();
-        if (parsed.code == "014") {
-          setPosts(parsed.data);
-        }
-      }
-    };
-
-    fetchPosts();
-
-    return () => {
-      abortController.abort();
-    };
-  }, []);
+    setPosts(data?.data || [])
+  }, [data])
 
   return (
     <>
@@ -71,8 +53,21 @@ export default function Feed() {
             );
           })
         ) : (
-          <p className={styles.noPosts}>No posts yet.</p>
+          <p className={styles.noPosts}></p>
         )}
+
+        {
+          error && !loading
+        }
+
+        {!loading && !error && Array.isArray(data?.data) && data.data.length === 0 && (
+          <p>No posts yet.</p>
+        )}
+
+        {loading && <p >Loading posts...</p>}
+
+        
+        
       </div>
 
       {showReactionPicker && (
