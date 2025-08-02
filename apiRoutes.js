@@ -11,6 +11,7 @@ const API = {
   USER: {
     uploadPfp: `${BASE_URL}/user/uploadPfp`,
     editUser: `${BASE_URL}/user/editUser`,
+    getUserData: `${BASE_URL}/user/getUserData`
   },
   POST: {
     createPost: `${BASE_URL}/post/createPost`,

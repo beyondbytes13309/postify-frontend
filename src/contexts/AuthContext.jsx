@@ -1,6 +1,7 @@
 import { createContext, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Modal from "../components/common/Modal";
+import API from '../../apiRoutes.js';
 
 export const AuthContext = createContext();
 
@@ -16,7 +17,7 @@ const AuthProvider = ({ children }) => {
 
     const fetchUserData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/", {
+        const response = await fetch(API.USER.getUserData, {
           credentials: "include",
           signal: controller.signal,
         });
