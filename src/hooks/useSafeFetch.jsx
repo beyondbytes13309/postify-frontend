@@ -14,9 +14,9 @@ export function useSafeFetch(url='', options={}) {
 
   useEffect(() => {
     if (!url) {
-     
       return setState(null, 'Url was not provided.', false)
     }
+    setState(null, null, false)
 
     abortControllerRef.current = new AbortController();
 

@@ -4,7 +4,7 @@ import { FaEdit } from "react-icons/fa";
 
 import Button from "../common/Button";
 import Modal from "../common/Modal";
-
+import { useSafeFetch } from "../../hooks/useSafeFetch";
 import API from "../../../apiRoutes";
 
 export default function UserCard({
@@ -34,9 +34,12 @@ export default function UserCard({
   const [modalVisibility, setModalVisibility] = useState(false);
   const modalInfo = useRef({});
   const [modalBtnClick, setModalBtnClick] = useState(-1);
-
   const [editStuff, setEditStuff] = useState(false);
   const [errors, setErrors] = useState({});
+
+  const [url, setUrl] = useState('')
+  const [options, setOptions] = useState({})
+  const { data, error, loading, abort } = useSafeFetch(url, options)
 
   const formatToMMDDYYYY = (isoString) => {
     const date = new Date(isoString);
@@ -56,20 +59,8 @@ export default function UserCard({
   }, [file]);
 
   const continueLogout = async () => {
-    const response = await fetch(API.AUTH.logout, {
-      method: "POST",
-      credentials: "include",
-    });
-    if (response.ok) {
-      const parsed = await response.json();
-      if (parsed.code == "011") {
-        setIsLoggedIn(false);
-      } else if (parsed.code == "010") {
-        setModalVisibility(true);
-        modalInfo.current.text = parsed.data;
-        setModalVariant("alert");
-      }
-    }
+     setOptions({ method: 'POST', credentials: 'include'})
+     setUrl(API.AUTH.logout)
   };
 
   useEffect(() => {
@@ -163,78 +154,83 @@ export default function UserCard({
     }
 
     if (Object.values(updateObject).length > 0) {
-      const otherResponse = await fetch(API.USER.editUser, {
+      setOptions({
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updateObject),
         credentials: "include",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(updateObject),
       });
-
-      if (otherResponse.status >= 200 && otherResponse.status < 500) {
-        const parsed = await otherResponse.json();
-        if (parsed.code == "020") {
-          modalInfo.current.modifyModal({
-            variant: "alert",
-            title: "Success",
-            text: `Successfuly updated ${Object.keys(updateObject)}`,
-            setButtonClick: null,
-          });
-          setModalVisibility(true);
-          setEditStuff(false);
-        } else if (parsed.code == "021") {
-          modalInfo.current.modifyModal({
-            variant: "alert",
-            title: "Error",
-            text: parsed.data,
-            setButtonClick: null,
-          });
-          setModalVisibility(true);
-        }
-      }
+      setUrl(API.USER.editUser)
     }
 
     if (file) {
       const formData = new FormData();
       formData.append("image", file);
-      const response = await fetch(API.USER.uploadPfp, {
+
+      setOptions({
         method: "POST",
-        body: formData,
         credentials: "include",
+        body: formData,
       });
-
-      if (response.status >= 200 && response.status < 500) {
-        const parsed = await response.json();
-
-        if (parsed.code == "030") {
-          modalInfo.current.modifyModal({
-            title: "Error",
-            text: parsed.data,
-            variant: "alert",
-            buttonClickHandle: null,
-          });
-          setModalVisibility(true);
-          setPreview(profilePicURL);
-        } else if (parsed.code == "031") {
-          modalInfo.current.modifyModal({
-            title: "Error",
-            text: parsed.data,
-            variant: "alert",
-            buttonClickHandle: null,
-          });
-          setModalVisibility(true);
-          setPreview(profilePicURL);
-        } else if (parsed.code == "032") {
-          modalInfo.current.modifyModal({
-            title: "Success",
-            text: parsed.data,
-            variant: "alert",
-            buttonClickHandle: null,
-          });
-          setModalVisibility(true);
-        }
-      }
+      setUrl(API.USER.uploadPfp)
     }
   };
+
+  useEffect(() => {
+    if (data?.code == "011") {
+      // logged out successfully
+      setIsLoggedIn(false);
+    } else if (data?.code == "020") {
+      // success in updating fields
+      modalInfo.current.modifyModal({
+        variant: "alert",
+        title: "Success",
+        text: `Successfuly updated fields.`,
+        setButtonClick: null,
+      });
+      setModalVisibility(true);
+      setEditStuff(false);
+    } else if (data?.code == "021") {
+      // error in updating fields
+      modalInfo.current.modifyModal({
+        variant: "alert",
+        title: "Error",
+        text: data.data,
+        setButtonClick: null,
+      });
+      setModalVisibility(true);
+    }
+
+    if (data?.code == "030") {
+      modalInfo.current.modifyModal({
+        title: "Error",
+        text: data.data,
+        variant: "alert",
+        buttonClickHandle: null,
+      });
+      setModalVisibility(true);
+      setPreview(profilePicURL);
+    } else if (data?.code == "031") {
+      modalInfo.current.modifyModal({
+        title: "Error",
+        text: data.data,
+        variant: "alert",
+        buttonClickHandle: null,
+      });
+      setModalVisibility(true);
+      setPreview(profilePicURL);
+    } else if (data?.code == "032") {
+      modalInfo.current.modifyModal({
+        title: "Success",
+        text: data.data,
+        variant: "alert",
+        buttonClickHandle: null,
+      });
+      setModalVisibility(true);
+      setEditStuff(false);
+    }
+  }, [data, error]);
+    
 
   return (
     <>
