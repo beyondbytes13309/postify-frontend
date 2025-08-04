@@ -36,7 +36,7 @@ export function useSafeFetch(url='', options={}) {
               return setState(data, null, false)
             }
           } catch (e) {
-            return setState(null, 'A client error occurred: '+e.message, false)
+            return setState(null, e, false)
           }
         } else if (response.status >= 500) {
           try {
@@ -45,16 +45,11 @@ export function useSafeFetch(url='', options={}) {
               return setState(null, data, false)
             }
           } catch (e) {
-            return setState(null, 'Server responded with an error.', false)
+            return setState(null, e, false)
           }
         }
       } catch (e) {
-        if (e.name == "TypeError") {
-          return setState(null, 'A network related issue occurred.', false)
-        } else if (e.name == "AbortError") {
-          return setState(null, 'Request was aborted.', false)
-        }
-        return setState(null, e.message||'An unknown error occurred.', false)
+        return setState(null, e, false)
       }
     };
 

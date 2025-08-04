@@ -2,17 +2,24 @@ import { createContext, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Modal from "../components/common/Modal";
 import API from '../../apiRoutes.js';
+import { useSafeFetch } from "../hooks/useSafeFetch";
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
+
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [user, setUser] = useState(null);
   const location = useLocation();
   const [modalVisibility, setModalVisibility] = useState(false);
   const modalInfo = useRef({});
+  const [url, setUrl] = useState('')
+
+  const { data, error, loading, abort } = useSafeFetch(url, {method: 'GET', credentials: 'include'})
 
   useEffect(() => {
+
+    /*
     const controller = new AbortController();
 
     const fetchUserData = async () => {
@@ -54,6 +61,7 @@ const AuthProvider = ({ children }) => {
         setIsLoggedIn(false);
       }
     };
+    */
 
     if (
       location.pathname == "/auth" ||
@@ -61,13 +69,47 @@ const AuthProvider = ({ children }) => {
       location.pathname == "/profile" ||
       location.pathname == "/create"
     ) {
-      fetchUserData();
+      setUrl(API.USER.getUserData)
     }
 
-    return () => {
-      controller.abort();
-    };
+    return () => abort();
   }, [location.pathname]);
+
+  useEffect(() => {
+    const setFetchedData = () => {
+      if (data?.code == "055") {
+        setUser(data?.user);
+        setIsLoggedIn(true);
+        return;
+      } else if (data?.code == "006") {
+        setUser(null);
+        setIsLoggedIn(false);
+        return;
+      } 
+
+      if (error) {
+        if (error.name == "AbortError") {
+          return;
+        }
+
+        if (error.name == "TypeError") {
+          modalInfo.current?.modifyModal?.({
+            title: "Error",
+            text: "A network related error occured",
+            setButtonClick: null,
+          });
+          setModalVisibility(true);
+        }
+        
+
+        setIsLoggedIn(false);
+        
+      }
+    };
+
+    setFetchedData()
+
+  }, [data, error]);
 
   return (
     <>
