@@ -1,17 +1,22 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "../styles/CreateComment.module.css";
 
 import { FaCommentMedical } from "react-icons/fa6";
 
 import { GiCancel } from "react-icons/gi";
 import API from "../../../apiRoutes";
+import { useSafeFetch } from '../../hooks/useSafeFetch'
 
 export default function CreateComment({
   setCreateCommentVisibility,
   postID,
   setCommentCreationState,
 }) {
+  
   const [commentText, setCommentText] = useState("");
+  const [url, setUrl] = useState('')
+  const [options, setOptions] = useState({})
+  const { data, error, loading, abort } = useSafeFetch(url, options)
 
   const handleMakeComment = async () => {
     if (commentText.length < 5) {
@@ -27,19 +32,20 @@ export default function CreateComment({
       return;
     }
 
-    const response = await fetch(API.COMMENT.makeComment, {
+    setOptions({
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ commentText, postID }),
       credentials: "include",
     });
-
-    if (response.status >= 200 && response.status < 500) {
-      const parsed = await response.json();
-
-      setCommentCreationState(parsed);
-    }
+    setUrl(API.COMMENT.makeComment);
   };
+
+  useEffect(() => {
+    if (data) {
+      setCommentCreationState(data)
+    } 
+  }, [data])
 
   return (
     <>

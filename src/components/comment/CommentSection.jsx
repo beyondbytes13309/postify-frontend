@@ -9,11 +9,10 @@ import Modal from "../common/Modal.jsx";
 
 import Loading from "../common/Loading";
 import API from "../../../apiRoutes.js";
+import { useSafeFetch } from '../../hooks/useSafeFetch'
 
 export default function CommentSection({ postID, toggleCommentSection }) {
   const [comments, setComments] = useState([]);
-  const [isFetching, setIsFetching] = useState(false);
-  const [failed, setFailed] = useState(false);
   const [createCommentVisibility, setCreateCommentVisibility] = useState(false);
 
   const [modalVisibility, setModalVisibility] = useState(false);
@@ -21,26 +20,21 @@ export default function CommentSection({ postID, toggleCommentSection }) {
 
   const [commentCreationState, setCommentCreationState] = useState(false);
 
-  useEffect(() => {
-    const fetchAndSetComments = async () => {
-      try {
-        const response = await fetch(
-          `${API.COMMENT.getComments}?postID=${postID}`,
-          { credentials: "include" },
-        );
-        const parsed = await response.json();
+  const [url, setUrl] = useState('')
+  const [options, setOptions] = useState({})
+  const { data, error, loading, abort } = useSafeFetch(url, options)
 
-        if (parsed.code == "032") {
-          setComments(parsed.data);
-          setIsFetching(false);
-        }
-      } catch (e) {
-        setFailed(true);
-      }
-    };
-    setIsFetching(true);
-    fetchAndSetComments();
+  useEffect(() => {
+    setOptions({ method: 'GET', credentials: 'include' })
+    setUrl(`${API.COMMENT.getComments}?postID=${postID}`)
+
   }, []);
+
+  useEffect(() => {
+    if (data?.code == '032') {
+      setComments(data.data)
+    }
+  }, [data, error])
 
   useEffect(() => {
     if (commentCreationState?.code == "031") {
@@ -92,8 +86,7 @@ export default function CommentSection({ postID, toggleCommentSection }) {
               setCommentCreationState={setCommentCreationState}
             />
           )}
-          {comments?.length > 0
-            ? comments.map((comment, index) => (
+          {comments.length != 0 && comments.map((comment, index) => (
                 <Comment
                   key={index}
                   resource={comment}
@@ -103,12 +96,12 @@ export default function CommentSection({ postID, toggleCommentSection }) {
                     );
                   }}
                 />
-              ))
-            : "No comments yet."}
+              ))}
         </div>
 
-        {isFetching && !failed && <Loading />}
-        {failed && <p className={styles.error}>An error occured!</p>}
+        {(comments?.length == 0 && !error && !loading) && <p>No comments yet.</p> }
+        {loading && !error && <Loading />}
+        {error && <p className={styles.error}>An error occured!</p>}
       </div>
 
       <Modal

@@ -5,6 +5,7 @@ import { CiMenuKebab } from "react-icons/ci";
 import Options from "../common/Options";
 import useCan from "../../utils/permissions";
 import API from "../../../apiRoutes";
+import { useSafeFetch } from '../../hooks/useSafeFetch'
 
 export default function Comment({ resource, onDelete }) {
   const can = useCan();
@@ -12,24 +13,28 @@ export default function Comment({ resource, onDelete }) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const commentID = resource?._id;
 
+  const [url, setUrl] = useState('')
+  const [options, setOptions] = useState({})
+  const { data, error, loading, abort } = useSafeFetch(url, options)
+
   const allowedToDelete = can(
     ["delete_own_comment", "delete_any_comment"],
     resource,
   );
 
   const handleDelete = async () => {
-    const response = await fetch(`${API.COMMENT.deleteComment}/${commentID}`, {
+    setOptions({
       method: "DELETE",
       credentials: "include",
-    });
-
-    if (response.status >= 200 && response.status < 500) {
-      const parsed = await response.json();
-      if (parsed.code == "033") {
-        onDelete(commentID);
-      }
-    }
+    })
+    setUrl(`${API.COMMENT.deleteComment}/${commentID}`)
   };
+
+  useEffect(() => {
+    if (data?.code == '033') {
+      onDelete(commentID)
+    }
+  }, [data])
 
   return (
     <>
