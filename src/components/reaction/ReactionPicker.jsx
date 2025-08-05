@@ -2,33 +2,9 @@ import { useEffect, useState } from "react";
 import styles from "../styles/ReactionPicker.module.css";
 import API from "../../../apiRoutes";
 import { MdCancel } from "react-icons/md";
+import { useSafeFetch } from "../../hooks/useSafeFetch";
 
-const reactionHandler = async ({
-  action = "create",
-  reactionType,
-  postID,
-  reactionID,
-}) => {
-  if (action == "create") {
-    const response = await fetch(API.REACTION.makeReaction, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({
-        postID: postID,
-        reactionType,
-      }),
-    });
-  } else if (action == "delete") {
-    const response = await fetch(
-      `${API.REACTION.deleteReaction}/${reactionID}`,
-      {
-        method: "DELETE",
-        credentials: "include",
-      },
-    );
-  }
-};
+
 
 export default function ReactionPicker({
   postID,
@@ -37,6 +13,44 @@ export default function ReactionPicker({
   userReactionID,
 }) {
   const [selected, setSelected] = useState(0);
+  const [url, setUrl] = useState('')
+  const [options, setOptions] = useState({})
+  const { data, error, loading, abort } = useSafeFetch(url, options)
+
+  const reactionHandler = async ({
+    action = "create",
+    reactionType,
+    postID,
+    reactionID,
+  }) => {
+    if (action == "create") {
+      setOptions({
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          postID: postID,
+          reactionType,
+        }),
+      })
+      setUrl(API.REACTION.makeReaction)
+      
+    } else if (action == "delete") {
+
+      setOptions({
+        method: "DELETE",
+        credentials: "include",
+      })
+      setUrl(`${API.REACTION.deleteReaction}/${reactionID}`)
+    }
+  };
+
+  useEffect(() => {
+    if (data?.code == '017' || data?.code == '018') {
+      setShowReactionPicker(null);
+    }
+  }, [data])
+  
 
   useEffect(() => {
     setSelected(userReaction);
@@ -81,7 +95,6 @@ export default function ReactionPicker({
           title={label}
           onClick={() => {
             handleMakeReaction(key);
-            setShowReactionPicker(null);
           }}
           className={
             selected == key
