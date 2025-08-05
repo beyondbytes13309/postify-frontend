@@ -1,5 +1,5 @@
 import styles from "../styles/AuthForm.module.css";
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
 import { FaEyeSlash, FaEye, FaGithub, FaTwitter, FaUser } from "react-icons/fa";
 
 import { IoLockClosed } from "react-icons/io5";
@@ -11,6 +11,8 @@ import googleIcon from "../../assets/googleIcon.svg";
 import Button from "../common/Button";
 import Modal from "../common/Modal";
 import { AuthContext } from "../../contexts/AuthContext";
+
+import { useSafeFetch } from "../../hooks/useSafeFetch";
 
 export default function AuthForm({ type, toggleMethod }) {
   const titles = {
@@ -30,6 +32,10 @@ export default function AuthForm({ type, toggleMethod }) {
   const modalInfo = useRef({});
 
   const [errors, setErrors] = useState({});
+
+  const [url, setUrl] = useState('')
+  const [options, setOptions] = useState({})
+  const { data, error, loading, abort } = useSafeFetch(url, options)
 
   const validateForm = () => {
     const newErrors = {};
@@ -73,57 +79,26 @@ export default function AuthForm({ type, toggleMethod }) {
   };
 
   const handleAuth = async (authType) => {
-    // no need to cut muahs here cuz im only doing frontend rightnow backend will be later
-    // alert(`In the future, you will probably ${titles[type] || 'do something great'}`)
-
     setUser(null);
 
     if (authType == "local_auth") {
       if (type == "signin") {
-        try {
-          const response = await fetch(API.AUTH.loginLocal, {
+        setOptions({
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, password }),
             credentials: "include",
-          });
-          const parsed = await response.json();
-          if (parsed?.code == "005") {
-            setUser(parsed.data);
-            setIsLoggedIn(true);
-          } else if (parsed?.code == "001") {
-            setErrors({ username: "User does not exist!" });
-          } else if (parsed?.code == "002") {
-            setErrors({ password: "Password is incorrect!" });
-          } else if (parsed?.code == "009") {
-            setErrors({ username: parsed?.data });
-          }
-        } catch (e) {
-          if (e.name == "TypeError") {
-            modalInfo.current.modifyModal({
-              variant: "alert",
-              title: "Error",
-              text: "Couldn't make request to the server due to internet",
-              setButtonClick: null,
-            });
-            setModalVisibility(true);
-          }
-        }
+          })
+        setUrl(API.AUTH.loginLocal)
+
       } else if (type == "signup") {
-        const response = await fetch(API.AUTH.registerLocal, {
+        setOptions({
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
           credentials: "include",
-        });
-        const parsed = await response.json();
-
-        if (parsed?.code == "003") {
-          setErrors({ email: "User with this email already exists!" });
-        } else if (parsed?.code == "004") {
-          setUser(parsed.data);
-          setIsLoggedIn(true);
-        }
+        })
+        setUrl(API.AUTH.registerLocal)
       }
     }
 
@@ -135,6 +110,36 @@ export default function AuthForm({ type, toggleMethod }) {
       window.location.href = API.AUTH.githubAuth;
     }
   };
+
+  useEffect(() => {
+
+    if (data?.code == "005") {
+      setUser(data.data);
+      setIsLoggedIn(true);
+    } else if (data?.code == "001") {
+      setErrors({ username: "User does not exist!" });
+    } else if (data?.code == "002") {
+      setErrors({ password: "Password is incorrect!" });
+    } else if (data?.code == "009") {
+      setErrors({ username: data?.data });
+    }else if (data?.code == "003") {
+      setErrors({ email: "User with this email already exists!" });
+    } else if (data?.code == "004") {
+      setUser(data.data);
+      setIsLoggedIn(true);
+    }
+
+    if (error?.name == "TypeError") {
+      modalInfo.current.modifyModal({
+        variant: "alert",
+        title: "Error",
+        text: "Couldn't make request to the server due to internet",
+        setButtonClick: null,
+      });
+      setModalVisibility(true);
+    }
+
+  }, [data, error])
 
   return (
     <>
@@ -203,9 +208,10 @@ export default function AuthForm({ type, toggleMethod }) {
           <div className={styles.signup_btn}>
             <Button
               onClick={() => {
-                if (validateForm()) handleAuth("local_auth");
+                if (validateForm() && !loading) handleAuth("local_auth");
               }}
               variant="primary"
+              disabled={loading}
             >
               {type == "signin"
                 ? "Sign in"
