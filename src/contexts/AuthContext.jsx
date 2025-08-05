@@ -99,10 +99,8 @@ const AuthProvider = ({ children }) => {
             setButtonClick: null,
           });
           setModalVisibility(true);
+          setIsLoggedIn(false);
         }
-        
-
-        setIsLoggedIn(false);
         
       }
     };
@@ -110,6 +108,7 @@ const AuthProvider = ({ children }) => {
     setFetchedData()
 
   }, [data, error]);
+
 
   return (
     <>
