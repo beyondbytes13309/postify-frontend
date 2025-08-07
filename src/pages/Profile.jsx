@@ -1,9 +1,12 @@
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 import UserCard from "../components/user/UserCard";
+import PostShower from '../components/post/PostShower.jsx'
 
-import { useNavigate } from "react-router-dom";
+import API from "../../apiRoutes.js";
+
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -25,6 +28,7 @@ export default function Profile() {
           }
 
           {user ? <UserCard user={user} setIsLoggedIn={setIsLoggedIn} /> : null}
+          {user ? <PostShower url={`${API.POST.getUserPosts}/${user?._id}`}/> : null}
         </>
       )}
     </>

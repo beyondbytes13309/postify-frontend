@@ -7,6 +7,7 @@ import Modal from "../common/Modal";
 import { useSafeFetch } from "../../hooks/useSafeFetch";
 import API from "../../../apiRoutes";
 
+
 export default function UserCard({
   user: {
     _id,
@@ -230,7 +231,6 @@ export default function UserCard({
       setEditStuff(false);
     }
   }, [data, error]);
-    
 
   return (
     <>
