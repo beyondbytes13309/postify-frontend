@@ -1,23 +1,114 @@
 # Postify Frontend
 
-This readme will define all the features of this frontend application. The backend will be integrated later.
+A modular React frontend for the Postify social platform.  
+Handles authentication, posts, comments, reactions, and user profiles with a clean UI and robust state management.
 
-## Pages
+---
 
-This react application will use react-dom-router for making a single-page-site. It will have multiple pages.
+## Features
 
-1. Signin/Signup page: This page will do what the name says
-2. Home Page: This page will show the feed of all the posts and stuff which it will fetch from the API.
-3. Profile Page: This page will show the user's profile in which they can change their profile and stuff; and if the user is not logged in it will be a signin/signup button instead
-4. New Post Page: This page will allow the user to create a post. This user can use text and images in their post
+- **🔒 Authentication:**  
+  Sign up, log in, and log out with local, Google, or GitHub accounts.
 
-## Components
+- **📝 Posts:**  
+  Create, view, and interact with posts.
 
-The pages of the application will be made up of components. Btw why are you reading this?
+- **💬 Comments:**  
+  Add, view, and delete comments on posts.
 
-1. Signup component
-2. Signin component
-3. NavBar component
-4. PostCard component
-5. Button components
-6. Heading/Footer components
+- **😮 Reactions:**  
+  Like or react to posts and comments.
+
+- **👥 User Profiles:**  
+  View and edit your profile.
+
+- **🖥️ Responsive UI:**  
+  Built with modular components and CSS modules for maintainable styling.
+
+---
+
+## 🧰Tech Stack
+
+- ⚛️[React](https://react.dev/)
+- ⚡[Vite](https://vitejs.dev/)
+- 🔀[React Router](https://reactrouter.com/)
+- 🔗[Custom Hooks & Context API](https://react.dev/reference/react/useContext)
+
+---
+
+## ⚙️Getting Started
+
+### 📦 Prerequisites
+
+- [Node.js](https://nodejs.org/) (v18+ recommended)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+
+### 📥 Installation
+
+```bash
+git clone https://github.com/beyondbytes13309/postify-frontend.git
+cd postify-frontend
+npm install
+```
+
+### ▶️ Running the App
+
+```bash
+npm run dev
+```
+
+The app will be available at [http://localhost:5173](http://localhost:5173).
+
+---
+
+## 📂Project Structure
+
+```
+src/
+  assets/           # Images and icons
+  components/       # Modular React components
+    auth/
+    comment/
+    common/
+    post/
+    reaction/
+    user/
+  contexts/         # React Context providers (e.g., AuthContext)
+  hooks/            # Custom React hooks (e.g., useSafeFetch)
+  pages/            # Route-level components
+  utils/            # Utility functions
+  App.jsx           # Main app component
+  main.jsx          # Entry point
+```
+
+---
+
+## 🌐API Integration
+
+All API endpoints are defined in [`apiRoutes.js`](./apiRoutes.js).  
+Network requests are handled via the custom [`useSafeFetch`](./src/hooks/useSafeFetch.jsx) hook for safe, consistent data fetching.
+
+The backend can be found at [postify-backend](https://github.com/beyondbytes13309/postify-backend)
+
+---
+
+## 🤝Contributing
+
+1. Fork the repo
+2. Create your feature branch (`git checkout -b feature/YourFeature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin feature/YourFeature`)
+5. Open a pull request
+
+---
+
+## 🎉Acknowledgements
+
+- [React](https://react.dev/)
+- [Vite](https://vitejs.dev/)
+- [FontAwesome](https://fontawesome.com/)
+- [React Icons](https://react-icons.github.io/react-icons/)
+
+---
+
+**Happy Posting!**
