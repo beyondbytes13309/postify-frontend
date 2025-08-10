@@ -6,12 +6,11 @@ import Options from "../common/Options";
 import useCan from "../../utils/permissions";
 import API from "../../../apiRoutes";
 import { useSafeFetch } from '../../hooks/useSafeFetch'
-import CreateComment from "./CreateComment";
 
-export default function Comment({ resource, onDelete }) {
+
+export default function Comment({ resource, onDelete, setCreateCommentVisibility, setCurrentCommentID, setCommentOption, setInitialCommentText }) {
   const can = useCan();
   const [showOptions, setShowOptions] = useState(false);
-  const [editingComment, setEditingComment] = useState(false)
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const commentID = resource?._id;
 
@@ -37,7 +36,6 @@ export default function Comment({ resource, onDelete }) {
     setUrl(`${API.COMMENT.deleteComment}/${commentID}`)
   };
 
-
   useEffect(() => {
     if (data?.code == '033') {
       onDelete(commentID)
@@ -46,7 +44,7 @@ export default function Comment({ resource, onDelete }) {
 
   return (
     <>
-      {!editingComment ? <div className={styles.wrapper}>
+      <div className={styles.wrapper}>
         <div className={styles.profile}>
           <img
             src={
@@ -80,7 +78,7 @@ export default function Comment({ resource, onDelete }) {
                 },
                 {
                   text: allowedToEdit ? "Edit" : "Chill",
-                  callback: allowedToEdit && (() => setEditingComment(true))
+                  callback: allowedToEdit && (() => {setCreateCommentVisibility(true); setCurrentCommentID(resource?._id); setCommentOption('edit'); setInitialCommentText(resource?.commentText)})
                 }
               ]}
               position={position}
@@ -91,7 +89,7 @@ export default function Comment({ resource, onDelete }) {
         <div className={styles.body}>
           <p className={styles.commentText}>{resource?.commentText}</p>
         </div>
-      </div> : "editing the comment!"}
+      </div>
     </>
   );
 }

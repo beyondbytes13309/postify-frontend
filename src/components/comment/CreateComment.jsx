@@ -11,9 +11,13 @@ export default function CreateComment({
   setCreateCommentVisibility,
   postID,
   setCommentCreationState,
+  commentID,
+  initialCommentText="",
+  setInitialCommentText,
+  option="create"
 }) {
   
-  const [commentText, setCommentText] = useState("");
+  const [commentText, setCommentText] = useState(initialCommentText);
   const [url, setUrl] = useState('')
   const [options, setOptions] = useState({})
   const { data, error, loading, abort } = useSafeFetch(url, options)
@@ -32,13 +36,25 @@ export default function CreateComment({
       return;
     }
 
-    setOptions({
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ commentText, postID }),
-      credentials: "include",
-    });
-    setUrl(API.COMMENT.makeComment);
+    if (option == 'create') {
+      setOptions({
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ commentText, postID }),
+        credentials: "include",
+      });
+      setUrl(API.COMMENT.makeComment);
+    } else if (option == 'edit') {
+      setOptions({
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ commentText }),
+        credentials: "include",
+      });
+      setUrl(`${API.COMMENT.editComment}/${commentID}`);
+    }
+
+    
   };
 
   useEffect(() => {
@@ -62,11 +78,11 @@ export default function CreateComment({
 
         <div className={styles.commentButtonsWrapper}>
           <button className={styles.addCommentBtn} onClick={handleMakeComment}>
-            <FaCommentMedical /> Comment
+            <FaCommentMedical /> {option=="create" ? 'Create' : 'Edit'}
           </button>
           <button
             className={styles.cancelBtn}
-            onClick={() => setCreateCommentVisibility((prev) => !prev)}
+            onClick={() => {setCreateCommentVisibility((prev) => !prev); setInitialCommentText("")}}
           >
             <GiCancel /> Cancel
           </button>

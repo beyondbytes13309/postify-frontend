@@ -14,6 +14,10 @@ import { useSafeFetch } from '../../hooks/useSafeFetch'
 export default function CommentSection({ postID, toggleCommentSection }) {
   const [comments, setComments] = useState([]);
   const [createCommentVisibility, setCreateCommentVisibility] = useState(false);
+  const [commentOption, setCommentOption] = useState("create")
+  const [currentCommentID, setCurrentCommentID] = useState(null)
+
+  const [initialCommentText, setInitialCommentText] = useState("")
 
   const [modalVisibility, setModalVisibility] = useState(false);
   const modalInfo = useRef({});
@@ -48,6 +52,21 @@ export default function CommentSection({ postID, toggleCommentSection }) {
       const comment = commentCreationState?.data?.comment;
       setComments((prev) => [comment, ...prev]);
       setCreateCommentVisibility(false);
+    } else if (commentCreationState?.code == "035") {
+      modalInfo?.current?.modifyModal({
+        variant: "alert",
+        title: "Success",
+        text: commentCreationState.data?.message,
+        setButtonClick: null,
+      });
+      setModalVisibility(true);
+      const comment = commentCreationState?.data?.comment;
+      setComments((prev) => {
+        const filtered = prev.filter(c => c._id != currentCommentID)
+        return [comment, ...filtered]
+      })
+      setCurrentCommentID(null)
+      setCreateCommentVisibility(false);
     } else if (commentCreationState) {
       modalInfo?.current?.modifyModal({
         variant: "alert",
@@ -56,7 +75,7 @@ export default function CommentSection({ postID, toggleCommentSection }) {
         setButtonClick: null,
       });
       setModalVisibility(true);
-    }
+    } 
   }, [commentCreationState]);
 
   return (
@@ -73,7 +92,7 @@ export default function CommentSection({ postID, toggleCommentSection }) {
 
         <button
           className={styles.addCommentBtn}
-          onClick={() => setCreateCommentVisibility((prev) => !prev)}
+          onClick={() => {setCreateCommentVisibility((prev) => !prev); setCommentOption("create")}}
         >
           <IoMdAdd className={styles.addCommentIcon} />
         </button>
@@ -84,17 +103,25 @@ export default function CommentSection({ postID, toggleCommentSection }) {
               setCreateCommentVisibility={setCreateCommentVisibility}
               postID={postID}
               setCommentCreationState={setCommentCreationState}
+              commentID={currentCommentID}
+              initialCommentText={initialCommentText}
+              setInitialCommentText={setInitialCommentText}
+              option={commentOption}
             />
           )}
-          {comments.length != 0 && comments.map((comment, index) => (
+          {comments.length != 0 && comments.map((comment) => (
                 <Comment
-                  key={index}
+                  key={comment?._id}
                   resource={comment}
                   onDelete={(id) => {
                     setComments((prev) =>
                       prev.filter((comment) => comment._id != id),
                     );
                   }}
+                  setCreateCommentVisibility={setCreateCommentVisibility}
+                  setCurrentCommentID={setCurrentCommentID}
+                  setCommentOption={setCommentOption}
+                  setInitialCommentText={setInitialCommentText}
                 />
               ))}
         </div>
