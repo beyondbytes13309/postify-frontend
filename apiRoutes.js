@@ -27,6 +27,7 @@ const API = {
     makeComment: `${BASE_URL}/comment/createComment`,
     getComments: `${BASE_URL}/comment/getComments`,
     deleteComment: `${BASE_URL}/comment/deleteComment`,
+    editComment: `${BASE_URL}/comment/editComment`
   },
 };
 

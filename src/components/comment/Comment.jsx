@@ -6,10 +6,12 @@ import Options from "../common/Options";
 import useCan from "../../utils/permissions";
 import API from "../../../apiRoutes";
 import { useSafeFetch } from '../../hooks/useSafeFetch'
+import CreateComment from "./CreateComment";
 
 export default function Comment({ resource, onDelete }) {
   const can = useCan();
   const [showOptions, setShowOptions] = useState(false);
+  const [editingComment, setEditingComment] = useState(false)
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const commentID = resource?._id;
 
@@ -22,6 +24,11 @@ export default function Comment({ resource, onDelete }) {
     resource,
   );
 
+  const allowedToEdit = can(
+    ['edit_own_comment'],
+    resource
+  )
+
   const handleDelete = async () => {
     setOptions({
       method: "DELETE",
@@ -29,6 +36,7 @@ export default function Comment({ resource, onDelete }) {
     })
     setUrl(`${API.COMMENT.deleteComment}/${commentID}`)
   };
+
 
   useEffect(() => {
     if (data?.code == '033') {
@@ -38,7 +46,7 @@ export default function Comment({ resource, onDelete }) {
 
   return (
     <>
-      <div className={styles.wrapper}>
+      {!editingComment ? <div className={styles.wrapper}>
         <div className={styles.profile}>
           <img
             src={
@@ -70,6 +78,10 @@ export default function Comment({ resource, onDelete }) {
                   text: allowedToDelete ? "Delete" : "Chill",
                   callback: allowedToDelete && handleDelete,
                 },
+                {
+                  text: allowedToEdit ? "Edit" : "Chill",
+                  callback: allowedToEdit && (() => setEditingComment(true))
+                }
               ]}
               position={position}
               setShowOptions={setShowOptions}
@@ -79,7 +91,7 @@ export default function Comment({ resource, onDelete }) {
         <div className={styles.body}>
           <p className={styles.commentText}>{resource?.commentText}</p>
         </div>
-      </div>
+      </div> : "editing the comment!"}
     </>
   );
 }
