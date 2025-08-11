@@ -78,6 +78,12 @@ export default function CommentSection({ postID, toggleCommentSection }) {
     } 
   }, [commentCreationState]);
 
+  const handleSetCommentState = (id, option, text) => {
+    setCurrentCommentID(id);
+    setCommentOption(option);
+    setInitialCommentText(text);
+  };
+
   return (
     <>
       <div className={styles.wrapper}>
@@ -119,9 +125,9 @@ export default function CommentSection({ postID, toggleCommentSection }) {
                     );
                   }}
                   setCreateCommentVisibility={setCreateCommentVisibility}
-                  setCurrentCommentID={setCurrentCommentID}
-                  setCommentOption={setCommentOption}
-                  setInitialCommentText={setInitialCommentText}
+                  setCommentState={handleSetCommentState}
+                  modalUpdater={modalInfo?.current.modifyModal}
+                  setModalVisibility={setModalVisibility}
                 />
               ))}
         </div>

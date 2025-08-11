@@ -8,11 +8,12 @@ import API from "../../../apiRoutes";
 import { useSafeFetch } from '../../hooks/useSafeFetch'
 
 
-export default function Comment({ resource, onDelete, setCreateCommentVisibility, setCurrentCommentID, setCommentOption, setInitialCommentText }) {
+export default function Comment({ resource, onDelete, setCreateCommentVisibility, setCommentState, modalUpdater, setModalVisibility}) {
   const can = useCan();
   const [showOptions, setShowOptions] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const commentID = resource?._id;
+  const [modalBtnClick, setModalBtnClick] = useState(-1);
 
   const [url, setUrl] = useState('')
   const [options, setOptions] = useState({})
@@ -29,18 +30,49 @@ export default function Comment({ resource, onDelete, setCreateCommentVisibility
   )
 
   const handleDelete = async () => {
-    setOptions({
-      method: "DELETE",
-      credentials: "include",
+    modalUpdater?.({
+      variant: "warning",
+      title: "Danger",
+      text: "Are you sure you want to delete this comment?",
+      setButtonClick: setModalBtnClick,
     })
-    setUrl(`${API.COMMENT.deleteComment}/${commentID}`)
+    setModalVisibility(true)
+    return
+
+    
   };
+
+  useEffect(() => {
+    if (modalBtnClick == 0) {
+        setOptions({
+        method: "DELETE",
+        credentials: "include",
+      })
+      setUrl(`${API.COMMENT.deleteComment}/${commentID}`)
+      setModalBtnClick(-1);
+    }
+  }, [modalBtnClick]);
 
   useEffect(() => {
     if (data?.code == '033') {
       onDelete(commentID)
     }
   }, [data])
+
+  const optionsArray = []
+  if (allowedToDelete) {
+    optionsArray.push({
+      text: "Delete",
+      callback: handleDelete,
+    })
+  }
+
+  if (allowedToEdit) {
+    optionsArray.push({
+      text: "Edit",
+      callback: (() => {setCreateCommentVisibility(true); ; setCommentState(resource?._id, 'edit', resource?.commentText)})
+    })
+  }
 
   return (
     <>
@@ -71,16 +103,7 @@ export default function Comment({ resource, onDelete, setCreateCommentVisibility
           </button>
           {showOptions && (
             <Options
-              options={[
-                {
-                  text: allowedToDelete ? "Delete" : "Chill",
-                  callback: allowedToDelete && handleDelete,
-                },
-                {
-                  text: allowedToEdit ? "Edit" : "Chill",
-                  callback: allowedToEdit && (() => {setCreateCommentVisibility(true); setCurrentCommentID(resource?._id); setCommentOption('edit'); setInitialCommentText(resource?.commentText)})
-                }
-              ]}
+              options={optionsArray}
               position={position}
               setShowOptions={setShowOptions}
             />
