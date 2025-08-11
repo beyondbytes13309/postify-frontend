@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "../styles/PostCard.module.css";
+import { useSafeFetch } from "../../hooks/useSafeFetch";
 
 import React from "react";
 
@@ -34,6 +35,8 @@ export default React.memo(function PostCard({
   setShowCommentSection,
   updateCurrentReactionForPost,
   onDelete,
+  modalUpdater,
+  setModalVisibility
 }) {
   const can = useCan();
   const [showOptions, setShowOptions] = useState(false);
@@ -44,6 +47,11 @@ export default React.memo(function PostCard({
   const [reactionCount, setReactionCount] = useState(null);
 
   const [showReactionEmoji, setShowReactionEmoji] = useState(0);
+  const [modalBtnClick, setModalBtnClick] = useState(-1);
+
+  const [url, setUrl] = useState('')
+  const [options, setOptions] = useState({})
+  const { data, error, loading, abort } = useSafeFetch(url, options)
 
   const summarizeReactions = () => {
     const reactions = resource?.reactions;
@@ -76,26 +84,57 @@ export default React.memo(function PostCard({
 
 
   const allowedToDelete = can(["delete_own_post", "delete_any_post"], resource);
+  const allowedToEdit = can(["edit_own_post"], resource)
 
   const handleDelete = async () => {
-    const response = await fetch(`${API.POST.deletePost}/${postID}`, {
-      method: "DELETE",
-      credentials: "include",
-    });
-
-    if (response.status >= 200 && response.status < 500) {
-      const parsed = await response.json();
-      if (parsed.code == "012") {
-        onDelete(postID);
-      }
-    }
+    modalUpdater?.({
+      variant: "warning",
+      title: "Danger",
+      text: "Are you sure you want to delete this post?",
+      setButtonClick: setModalBtnClick,
+    })
+    setModalVisibility(true)
   };
+
+  
+  const optionsArray = []
+  if (allowedToDelete) {
+    optionsArray.push({
+      text: "Delete",
+      callback: handleDelete,
+    })
+  }
+
+  if (allowedToEdit) {
+    optionsArray.push({
+      text: "Edit",
+      callback: (() => alert("ayo"))
+    })
+  }
+
 
   useEffect(() => {
     setCommentCount(resource?.numOfComments || 0);
     setReactionCount(resource?.reactions?.length || 0);
     setShowReactionEmoji(summarizeReactions());
   }, [resource]);
+
+  useEffect(() => {
+    if (modalBtnClick == 0) {
+        setOptions({
+        method: "DELETE",
+        credentials: "include",
+      })
+      setUrl(`${API.POST.deletePost}/${postID}`)
+      setModalBtnClick(-1);
+    }
+  }, [modalBtnClick]);
+
+  useEffect(() => {
+    if (data?.code == '012') {
+      onDelete(postID)
+    }
+  }, [data])
 
   return (
     <>
@@ -131,12 +170,7 @@ export default React.memo(function PostCard({
           </button>
           {showOptions && (
             <Options
-              options={[
-                {
-                  text: allowedToDelete ? "Delete" : "Chill",
-                  callback: allowedToDelete && handleDelete,
-                },
-              ]}
+              options={optionsArray}
               position={position}
               setShowOptions={setShowOptions}
             />

@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSafeFetch } from "../../hooks/useSafeFetch";
 import { motion, AnimatePresence } from "motion/react";
 
 import PostCard from "./PostCard";
 import ReactionPicker from "../reaction/ReactionPicker";
 import CommentSection from "../comment/CommentSection";
+import Modal from "../common/Modal.jsx";
 
 import styles from "../styles/Feed.module.css";
 import API from "../../../apiRoutes";
@@ -25,6 +26,9 @@ export default function PostShower({ url }) {
   const [userReactionID, setUserReactionID] = useState(null);
 
   const [posts, setPosts] = useState([]);
+  
+  const [modalVisibility, setModalVisibility] = useState(false);
+  const modalInfo = useRef({});
 
   useEffect(() => {
     setPosts(data?.data || [])
@@ -48,6 +52,8 @@ export default function PostShower({ url }) {
                 onDelete={(id) => {
                   setPosts((prev) => prev.filter((post) => post._id !== id));
                 }}
+                modalUpdater={modalInfo?.current.modifyModal}
+                setModalVisibility={setModalVisibility}
               />
             );
           })
@@ -98,6 +104,12 @@ export default function PostShower({ url }) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <Modal
+        ref={modalInfo}
+        visibility={modalVisibility}
+        setVisibility={setModalVisibility}
+      />
     </>
   );
 }
