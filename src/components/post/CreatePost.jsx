@@ -1,6 +1,7 @@
 import styles from "../styles/CreatePost.module.css";
 import Button from "../common/Button";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useSafeFetch } from "../../hooks/useSafeFetch.jsx";
 import Modal from "../common/Modal.jsx";
 import API from "../../../apiRoutes.js";
 
@@ -8,6 +9,10 @@ export default function CreatePost() {
   const [postText, setPostText] = useState("");
   const [modalVisibility, setModalVisibility] = useState(false);
   const modalInfo = useRef({});
+
+  const [url, setUrl] = useState('')
+  const [options, setOptions] = useState({})
+  const { data, error, loading, abort } = useSafeFetch(url, options)
 
   const handlePost = async () => {
     modalInfo.current.modifyModal({
@@ -42,40 +47,33 @@ export default function CreatePost() {
       return;
     }
 
-    try {
-      const response = await fetch(API.POST.createPost, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ postText }),
-        credentials: "include",
-      });
+    setOptions({
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ postText }),
+      credentials: "include",
+    })
+    setUrl(API.POST.createPost)
+    
+  };
 
-      if (response.status >= 200 && response.status < 500) {
-        const parsed = await response.json();
-
-        if (parsed.code == "015") {
-          modalInfo.current.modifyModal({
-            title: "Success",
-            text: parsed.data,
-          });
-          setModalVisibility(true);
-          setPostText("");
-        } else if (parsed.code == "010") {
-          modalInfo.current.modifyModal({ title: "Error", text: parsed.data });
-          setModalVisibility(true);
-        } else if (parsed.code == "022") {
-          modalInfo.current.modifyModal({ title: "Error", text: parsed.data });
-          setModalVisibility(true);
-        }
-      }
-    } catch (e) {
+  useEffect(() => {
+    if (data?.code == "015") {
       modalInfo.current.modifyModal({
-        title: "Error",
-        text: "Something went wrong. Please try again later.",
+        title: "Success",
+        text: data.data,
       });
       setModalVisibility(true);
+      setPostText("");
+    } else if (data?.code == "010") {
+      modalInfo.current.modifyModal({ title: "Error", text: data.data });
+      setModalVisibility(true);
+    } else if (data?.code == "022") {
+      modalInfo.current.modifyModal({ title: "Error", text: data.data });
+      setModalVisibility(true);
     }
-  };
+
+  }, [data])
 
   return (
     <>
