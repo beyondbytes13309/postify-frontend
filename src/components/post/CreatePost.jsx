@@ -4,17 +4,21 @@ import { useEffect, useRef, useState } from "react";
 import { useSafeFetch } from "../../hooks/useSafeFetch.jsx";
 import Modal from "../common/Modal.jsx";
 import API from "../../../apiRoutes.js";
+import { useNavigate } from 'react-router-dom'
 
 export default function CreatePost({ option="create", resource }) {
   const [postText, setPostText] = useState("");
   const [modalVisibility, setModalVisibility] = useState(false);
   const modalInfo = useRef({});
+  const navigate = useNavigate()
+  const [modalBtnClick, setModalBtnClick] = useState(-1)
 
   const [url, setUrl] = useState('')
   const [options, setOptions] = useState({})
   const { data, error, loading, abort } = useSafeFetch(url, options)
 
   const handlePost = async () => {
+
     modalInfo.current.modifyModal({
       setButtonClick: null,
       variant: "alert",
@@ -78,6 +82,7 @@ export default function CreatePost({ option="create", resource }) {
       modalInfo.current.modifyModal({
         title: "Success",
         text: data.data,
+        setButtonClick: setModalBtnClick
       });
       setModalVisibility(true);
       setPostText("");
@@ -91,12 +96,19 @@ export default function CreatePost({ option="create", resource }) {
       modalInfo.current.modifyModal({
         title: "Success",
         text: data?.data?.message,
+        setButtonClick: setModalBtnClick
       });
       setModalVisibility(true);
       setPostText("");
     }
 
   }, [data])
+
+  useEffect(() => {
+    if (modalBtnClick == 0) {
+      navigate('/')
+    }
+  }, [modalBtnClick])
 
   return (
     <>
@@ -118,6 +130,8 @@ export default function CreatePost({ option="create", resource }) {
           >
             {option=="create" ? 'Post' : 'Save'}
           </Button>
+
+          <Button variant="secondary" onClick={() => navigate('/')}>Cancel</Button>
         </div>
 
         <span

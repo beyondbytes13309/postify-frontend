@@ -1,5 +1,6 @@
 .wrapper {
   isolation: isolate;
+  height: 100%
 }
 
 .buttonPrimary,
@@ -33,6 +34,7 @@
   background-color: #f8fafc;
   border: 1px solid #cbd5e1;
   color: black;
+  height: 100%;
 }
 
 .buttonSecondary:hover {
