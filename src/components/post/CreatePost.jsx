@@ -85,7 +85,6 @@ export default function CreatePost({ option="create", resource }) {
         setButtonClick: setModalBtnClick
       });
       setModalVisibility(true);
-      setPostText("");
     } else if (data?.code == "010") {
       modalInfo.current.modifyModal({ title: "Error", text: data.data });
       setModalVisibility(true);
@@ -99,7 +98,6 @@ export default function CreatePost({ option="create", resource }) {
         setButtonClick: setModalBtnClick
       });
       setModalVisibility(true);
-      setPostText("");
     }
 
   }, [data])

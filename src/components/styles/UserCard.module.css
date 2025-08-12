@@ -54,6 +54,7 @@
 .btnWrapper {
   display: flex;
   gap: 0.45rem;
+  height: 2rem
 }
 
 .bio {
