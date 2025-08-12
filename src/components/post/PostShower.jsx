@@ -102,12 +102,13 @@ export default function PostShower({ url }) {
       <AnimatePresence mode="wait">
         {showCommentSection && (
           <motion.div
+            style={{ position: 'relative', zIndex: 5 }}
             method={showCommentSection.toString()}
             variants={commentSectionVariants}
             initial="initial"
             animate="animate"
             exit="exit"
-            transition={{ duration: 0.2, ease: "easeInOut" }}
+            transition={{ duration: 0.35, ease: "easeInOut" }}
           >
             {
               <CommentSection

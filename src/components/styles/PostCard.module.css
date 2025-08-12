@@ -42,6 +42,7 @@
 .contentWrapper p {
   color: rgb(29, 29, 29);
   margin-bottom: 0.5rem;
+  white-space: pre-wrap;
 }
 
 .postMenuBtn {
