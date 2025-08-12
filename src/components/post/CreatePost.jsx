@@ -5,7 +5,7 @@ import { useSafeFetch } from "../../hooks/useSafeFetch.jsx";
 import Modal from "../common/Modal.jsx";
 import API from "../../../apiRoutes.js";
 
-export default function CreatePost() {
+export default function CreatePost({ option="create", resource }) {
   const [postText, setPostText] = useState("");
   const [modalVisibility, setModalVisibility] = useState(false);
   const modalInfo = useRef({});
@@ -24,7 +24,7 @@ export default function CreatePost() {
     // functionality added in future
     //modifyModal(modalInfo, { title: 'Success', text})
     //setModalVisibility(true)
-
+    
     if (!postText) {
       modalInfo.current.modifyModal({ title: "Error", text: "Invalid Data" });
       setModalVisibility(true);
@@ -47,15 +47,31 @@ export default function CreatePost() {
       return;
     }
 
-    setOptions({
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ postText }),
-      credentials: "include",
-    })
-    setUrl(API.POST.createPost)
+    if (option == "create") {
+      setOptions({
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ postText }),
+        credentials: "include",
+      })
+      setUrl(API.POST.createPost)
+      
+    } else if (option == "edit") {
+      setOptions({
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ postText }),
+        credentials: "include",
+      })
+      setUrl(`${API.POST.editPost}/${resource?._id}`)
+    }
+    
     
   };
+
+  useEffect(() => {
+    setPostText(resource?.postText || "")
+  }, [])
 
   useEffect(() => {
     if (data?.code == "015") {
@@ -71,6 +87,13 @@ export default function CreatePost() {
     } else if (data?.code == "022") {
       modalInfo.current.modifyModal({ title: "Error", text: data.data });
       setModalVisibility(true);
+    } else if (data?.code == "037") {
+      modalInfo.current.modifyModal({
+        title: "Success",
+        text: data?.data?.message,
+      });
+      setModalVisibility(true);
+      setPostText("");
     }
 
   }, [data])
@@ -81,8 +104,9 @@ export default function CreatePost() {
         <textarea
           placeholder="Enter post text..."
           className={styles.postTextInput}
-          onChange={(e) =>
+          onChange={(e) => {
             postText.length <= 300 && setPostText(e.target.value)
+          }
           }
           value={postText}
         ></textarea>
@@ -92,13 +116,13 @@ export default function CreatePost() {
             variant="post"
             onClick={handlePost}
           >
-            Post
+            {option=="create" ? 'Post' : 'Save'}
           </Button>
         </div>
 
         <span
           className={styles.postLengthCount}
-        >{`${postText.length}/300`}</span>
+        >{`${postText?.length}/300`}</span>
       </div>
 
       <Modal

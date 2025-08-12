@@ -6,9 +6,11 @@ import PostCard from "./PostCard";
 import ReactionPicker from "../reaction/ReactionPicker";
 import CommentSection from "../comment/CommentSection";
 import Modal from "../common/Modal.jsx";
+import CreatePost from './CreatePost.jsx'
 
 import styles from "../styles/Feed.module.css";
 import API from "../../../apiRoutes";
+import { useNavigate } from "react-router-dom";
 
 
 export default function PostShower({ url }) {
@@ -27,12 +29,24 @@ export default function PostShower({ url }) {
 
   const [posts, setPosts] = useState([]);
   
+  const [selectedPost, setSelectedPost] = useState(null)
+
   const [modalVisibility, setModalVisibility] = useState(false);
   const modalInfo = useRef({});
+  
+  const [editingPost, setEditingPost] = useState(null)
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setPosts(data?.data || [])
   }, [data])
+
+  useEffect(() => {
+    if (editingPost) {
+      navigate('/create?option=edit', { state: selectedPost })
+    }
+  }, [editingPost])
 
   return (
     <>
@@ -54,6 +68,8 @@ export default function PostShower({ url }) {
                 }}
                 modalUpdater={modalInfo?.current.modifyModal}
                 setModalVisibility={setModalVisibility}
+                setSelectedPost={setSelectedPost}
+                setEditingPost={setEditingPost}
               />
             );
           })
@@ -110,6 +126,7 @@ export default function PostShower({ url }) {
         visibility={modalVisibility}
         setVisibility={setModalVisibility}
       />
+
     </>
   );
 }

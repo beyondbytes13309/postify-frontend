@@ -36,7 +36,9 @@ export default React.memo(function PostCard({
   updateCurrentReactionForPost,
   onDelete,
   modalUpdater,
-  setModalVisibility
+  setModalVisibility,
+  setSelectedPost,
+  setEditingPost
 }) {
   const can = useCan();
   const [showOptions, setShowOptions] = useState(false);
@@ -108,7 +110,7 @@ export default React.memo(function PostCard({
   if (allowedToEdit) {
     optionsArray.push({
       text: "Edit",
-      callback: (() => alert("ayo"))
+      callback: (() => {setEditingPost(true); setSelectedPost(resource)})
     })
   }
 
