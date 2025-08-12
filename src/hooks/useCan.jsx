@@ -1,13 +1,8 @@
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
+import permissions from '../configs/permissions.js'
 
-const permissions = {
-  user: ["delete_own_comment", "delete_own_post", "edit_own_comment", "edit_own_post"],
-  admin: ["delete_any_comment", "delete_any_post", "edit_own_comment", "edit_own_post"],
-  banned: [],
-};
-
-export default function useCan() {
+export function useCan() {
   const user = useContext(AuthContext)?.user || {};
   const userID = user._id;
   const userRole = user.role;

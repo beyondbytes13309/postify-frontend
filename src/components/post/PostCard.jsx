@@ -12,7 +12,7 @@ import Options from "../common/Options";
 import ReactionShower from "../reaction/ReactionShower";
 import convertIsoToRelativeTime from "../../utils/isoToTimeAgo";
 
-import useCan from "../../utils/permissions";
+import { useCan } from "../../hooks/useCan";
 
 import API from "../../../apiRoutes";
 

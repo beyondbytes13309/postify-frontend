@@ -3,7 +3,7 @@ import convertIsoToRelativeTime from "../../utils/isoToTimeAgo";
 import styles from "../styles/Comment.module.css";
 import { CiMenuKebab } from "react-icons/ci";
 import Options from "../common/Options";
-import useCan from "../../utils/permissions";
+import { useCan } from "../../hooks/useCan";
 import API from "../../../apiRoutes";
 import { useSafeFetch } from '../../hooks/useSafeFetch'
 

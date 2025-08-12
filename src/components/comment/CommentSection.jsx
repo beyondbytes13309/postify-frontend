@@ -132,7 +132,7 @@ export default function CommentSection({ postID, toggleCommentSection }) {
               ))}
         </div>
 
-        {(comments?.length == 0 && !error && !loading) && <p>No comments yet.</p> }
+        {(comments?.length == 0 && !error && !loading) && <p className={styles.error}>No comments yet.</p> }
         {loading && !error && <Loading />}
         {error && <p className={styles.error}>An error occured!</p>}
       </div>
