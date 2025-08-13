@@ -8,12 +8,17 @@ export function useCan() {
   const userRole = user.role;
 
   return function can(actions, resource) {
-    const rolePerms = permissions[userRole] || [];
+    let rolePerms = []
+    const restrictionObject = user?.restrictionObject
+    if (userRole == 'restricted') {
+      rolePerms = permissions[`restricted_l${restrictionObject?.level}`] || [];
+    } else {
+      rolePerms = permissions[userRole] || []
+    }
 
     // Handle '_own_' actions
     const isAllowed = actions?.some?.((action) => {
       if (action.includes("_own_") && resource) {
-        const [verb, scope, type] = action.split("_"); // e.g., 'edit_own_post'
         if (resource.authorID?._id?.toString?.() === userID) {
           return rolePerms.includes(action);
         }
