@@ -21,11 +21,11 @@ export default function Comment({ resource, onDelete, setCreateCommentVisibility
 
   const allowedToDelete = can(
     ["delete_own_comment", "delete_any_comment"],
-    resource,
+    resource
   );
 
   const allowedToEdit = can(
-    ['edit_own_comment'],
+    ['edit_own_comment', 'delete_any_comment'],
     resource
   )
 

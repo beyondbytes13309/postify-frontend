@@ -77,15 +77,19 @@ export default function PostShower({ url }) {
           <p className={styles.noPosts}></p>
         )}
 
-        {
-          error && !loading
-        }
+          <p className={styles.noPosts}>
+          {error && !loading}
+          </p>
 
         {!loading && !error && Array.isArray(data?.data) && data.data.length === 0 && (
-          <p>No posts yet.</p>
+          <p className={styles.noPosts}>No posts yet.</p>
         )}
 
-        {loading && <p >Loading posts...</p>}
+        {loading && <p className={styles.noPosts}>Loading posts...</p>}
+
+        <p>
+          {data?.code == '403' && 'You are not allowed to view posts.'}
+        </p>
 
         
         

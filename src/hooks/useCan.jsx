@@ -2,6 +2,14 @@ import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import permissions from '../configs/permissions.js'
 
+const powerMap = {
+    'deleted': -2,
+    'restricted': -1,
+    'user': 0,
+    'moderator': 1,
+    'admin': 2
+}
+
 export function useCan() {
   const user = useContext(AuthContext)?.user || {};
   const userID = user._id;
@@ -24,6 +32,17 @@ export function useCan() {
         }
         return false;
       }
+
+      if (action.includes('_any_') && resource) {
+        const ownerOfResource = resource?.authorID
+        const roleOfOwnerOfResource = ownerOfResource?.role || 'deleted'
+
+        if (powerMap[userRole] <= powerMap[roleOfOwnerOfResource]) {
+            return false
+        }
+        return rolePerms.includes(action)
+      }
+
       return rolePerms.includes(action);
     });
 

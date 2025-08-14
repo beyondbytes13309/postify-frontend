@@ -100,6 +100,8 @@ export default function CreatePost({ option="create", resource }) {
       setModalVisibility(true);
     }
 
+    console.log(data)
+
   }, [data])
 
   useEffect(() => {

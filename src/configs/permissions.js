@@ -26,9 +26,9 @@ const perms = {
     EDIT_OWN_PROFILE: 'edit_own_profile',
     EDIT_ANY_PROFILE: 'edit_any_profile',
 
-    RESTRICT_LEVEL_1: 'restrict_user_level_1',
-    RESTRICT_LEVEL_2: 'restrict_user_level_2',
-    RESTRICT_LEVEL_3: 'restrict_user_level_3'
+    RESTRICT_LEVEL_1: 'restrict_any_user_level_1',
+    RESTRICT_LEVEL_2: 'restrict_any_user_level_2',
+    RESTRICT_LEVEL_3: 'restrict_any_user_level_3'
 }
 
 const permissions = {

@@ -86,7 +86,7 @@ export default React.memo(function PostCard({
 
 
   const allowedToDelete = can(["delete_own_post", "delete_any_post"], resource);
-  const allowedToEdit = can(["edit_own_post"], resource)
+  const allowedToEdit = can(["edit_own_post", "edit_any_post"], resource)
 
   const handleDelete = async () => {
     modalUpdater?.({

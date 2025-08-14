@@ -3,7 +3,7 @@ import styles from "../styles/ReactionPicker.module.css";
 import API from "../../../apiRoutes";
 import { MdCancel } from "react-icons/md";
 import { useSafeFetch } from "../../hooks/useSafeFetch";
-
+import { useCan } from '../../hooks/useCan'
 
 
 export default function ReactionPicker({
@@ -12,10 +12,15 @@ export default function ReactionPicker({
   userReaction,
   userReactionID,
 }) {
+  const can = useCan()
   const [selected, setSelected] = useState(0);
   const [url, setUrl] = useState('')
   const [options, setOptions] = useState({})
   const { data, error, loading, abort } = useSafeFetch(url, options)
+
+  const allowedToMakeReaction = can(
+    ["make_reaction"]
+  );
 
   const reactionHandler = async ({
     action = "create",
@@ -86,6 +91,12 @@ export default function ReactionPicker({
     9: ["🤝", "Respect"],
     10: ["💡", "Insightful"],
   };
+
+  if (!allowedToMakeReaction) {
+    return (
+      <p>You cannot make reactions</p>
+    )
+  }
 
   return (
     <div className={styles.wrapper}>
