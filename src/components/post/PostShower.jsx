@@ -11,9 +11,21 @@ import CreatePost from './CreatePost.jsx'
 import styles from "../styles/Feed.module.css";
 import API from "../../../apiRoutes";
 import { useNavigate } from "react-router-dom";
+import { useCan } from '../../hooks/useCan'
 
 
 export default function PostShower({ url }) {
+  const can = useCan()
+  const allowedToViewPosts = can(
+    ['view_posts']
+  )
+
+  if (!allowedToViewPosts) {
+    return (
+      <p className={styles.noPosts}>You are not allowed to view posts.</p>
+    )
+  }
+  
   const { data, error, loading, abort } = useSafeFetch(url, {method: 'GET', credentials: 'include'})
   const commentSectionVariants = {
     initial: { opacity: 0 },
@@ -47,6 +59,7 @@ export default function PostShower({ url }) {
       navigate('/create?option=edit', { state: selectedPost })
     }
   }, [editingPost])
+
 
   return (
     <>
@@ -87,7 +100,7 @@ export default function PostShower({ url }) {
 
         {loading && <p className={styles.noPosts}>Loading posts...</p>}
 
-        <p>
+        <p className={styles.noPosts}>
           {data?.code == '403' && 'You are not allowed to view posts.'}
         </p>
 

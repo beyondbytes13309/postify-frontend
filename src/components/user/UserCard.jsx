@@ -6,32 +6,49 @@ import Button from "../common/Button";
 import Modal from "../common/Modal";
 import { useSafeFetch } from "../../hooks/useSafeFetch";
 import API from "../../../apiRoutes";
-
+import { useCan } from '../../hooks/useCan'
 
 export default function UserCard({
-  user: {
-    _id,
-    username,
-    displayName,
-    email,
-    bio,
-    profilePicURL,
-    numOfPosts,
-    numOfMembers,
-    createdAt,
-  },
+  resource,
   setIsLoggedIn,
 }) {
   /* 
     This will greet the user
     show their pfp, their userID
     */
+  const can = useCan()
+
+  const allowedToEditProfile = can(
+    ['edit_own_profile', 'edit_any_profile'],
+    resource
+  )
+
+  const allowedToRestrictUser = can(
+    [
+      'restrict_any_user_level_1',
+      'restrict_any_user_level_2',
+      'restrict_any_user_level_3'
+    ],
+    resource
+  )
+
+  if (allowedToRestrictUser) {
+    return (
+      <p>You can restrict this user</p>
+    )
+  }
+
+  if (!allowedToEditProfile) {
+    return (
+      <p>You cannot edit profile</p>
+    )
+  }
 
   const [file, setFile] = useState(null);
-  const [userBio, setUserBio] = useState(bio);
-  const [userUsername, setUserUsername] = useState(username);
-  const [userDisplayName, setUserDisplayName] = useState(displayName);
-  const [preview, setPreview] = useState(profilePicURL);
+  const [userBio, setUserBio] = useState(resource?.bio);
+  const [userUsername, setUserUsername] = useState(resource?.bio);
+  const [userDisplayName, setUserDisplayName] = useState(resource?.displayName);
+  const [preview, setPreview] = useState(resource?.profilePicURL);
   const [modalVisibility, setModalVisibility] = useState(false);
   const modalInfo = useRef({});
   const [modalBtnClick, setModalBtnClick] = useState(-1);
@@ -263,6 +280,7 @@ export default function UserCard({
             </div>
 
             <div className={styles.btnWrapper}>
+
               <Button
                 variant="secondary"
                 onClick={() => setEditStuff((prev) => !prev)}
@@ -343,18 +361,18 @@ export default function UserCard({
 
           <div className={styles.basicNumbers}>
             <div className={styles.numDiv}>
-              <p className={styles.item1}>{numOfPosts || 0}</p>
+              <p className={styles.item1}>{resource?.numOfPosts || 0}</p>
               <p className={styles.item2}>Posts</p>
             </div>
 
             <div className={styles.numDiv}>
-              <p className={styles.item1}>{numOfMembers || 0}</p>
+              <p className={styles.item1}>{resource?.numOfMembers || 0}</p>
               <p className={styles.item2}>Members</p>
             </div>
 
             <div className={styles.numDiv}>
               <p className={styles.item1}>Joined</p>
-              <p className={styles.item2}>{formatToMMDDYYYY(createdAt)}</p>
+              <p className={styles.item2}>{formatToMMDDYYYY(resource?.createdAt)}</p>
             </div>
           </div>
 

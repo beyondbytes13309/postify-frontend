@@ -27,14 +27,17 @@ export function useCan() {
     // Handle '_own_' actions
     const isAllowed = actions?.some?.((action) => {
       if (action.includes("_own_") && resource) {
-        if (resource.authorID?._id?.toString?.() === userID) {
+        const ownerOfResource = resource?.authorID || resource
+        const idOfOwnerOfResource = ownerOfResource?._id?.toString?.()
+        
+        if (idOfOwnerOfResource === userID) {
           return rolePerms.includes(action);
         }
         return false;
       }
 
       if (action.includes('_any_') && resource) {
-        const ownerOfResource = resource?.authorID
+        const ownerOfResource = resource?.authorID || resource // this for the user object
         const roleOfOwnerOfResource = ownerOfResource?.role || 'deleted'
 
         if (powerMap[userRole] <= powerMap[roleOfOwnerOfResource]) {

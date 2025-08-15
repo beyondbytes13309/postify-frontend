@@ -55,6 +55,7 @@ export default React.memo(function PostCard({
   const [options, setOptions] = useState({})
   const { data, error, loading, abort } = useSafeFetch(url, options)
 
+
   const summarizeReactions = () => {
     const reactions = resource?.reactions;
     if (!Array.isArray(reactions) || reactions.length === 0) {
@@ -211,6 +212,8 @@ export default React.memo(function PostCard({
           </div>
         </div>
       </div>
+
+      
     </>
   );
 });

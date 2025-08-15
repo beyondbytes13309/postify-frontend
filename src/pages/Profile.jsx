@@ -27,7 +27,7 @@ export default function Profile() {
             /*<UserCard userID={} username={user.username} pfpURL={user.profilePicURL} />*/ null
           }
 
-          {user ? <UserCard user={user} setIsLoggedIn={setIsLoggedIn} /> : null}
+          {user ? <UserCard resource={user} setIsLoggedIn={setIsLoggedIn} /> : null}
           {user ? <PostShower url={`${API.POST.getUserPosts}/${user?._id}`}/> : null}
         </>
       )}
