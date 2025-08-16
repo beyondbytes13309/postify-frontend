@@ -25,6 +25,7 @@ const perms = {
 
     EDIT_OWN_PROFILE: 'edit_own_profile',
     EDIT_ANY_PROFILE: 'edit_any_profile',
+    LOGOUT_OWN_USER: 'logout_own_user',
 
     RESTRICT_LEVEL_1: 'restrict_any_user_level_1',
     RESTRICT_LEVEL_2: 'restrict_any_user_level_2',
@@ -34,6 +35,7 @@ const perms = {
 const permissions = {
     user: [
         perms.EDIT_OWN_PROFILE,
+        perms.LOGOUT_OWN_USER,
 
         perms.CREATE_POST,
         perms.EDIT_OWN_POST,
@@ -50,6 +52,7 @@ const permissions = {
     ],
     moderator: [
         perms.EDIT_OWN_PROFILE,
+        perms.LOGOUT_OWN_USER,
 
         perms.CREATE_POST,
         perms.EDIT_OWN_POST,
@@ -72,6 +75,7 @@ const permissions = {
     admin: Object.values(perms),
     restricted_l1: [
         perms.EDIT_OWN_PROFILE,
+        perms.LOGOUT_OWN_USER,
         perms.MAKE_COMMENT,
         perms.EDIT_OWN_COMMENT,
         perms.DELETE_OWN_COMMENT,
@@ -83,6 +87,7 @@ const permissions = {
     ],
     restricted_l2: [
         perms.EDIT_OWN_COMMENT,
+        perms.LOGOUT_OWN_USER,
         perms.MAKE_REACTION,
         perms.DELETE_OWN_REACTION,
         

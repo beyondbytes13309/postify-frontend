@@ -26,13 +26,13 @@ export function useCan() {
 
     // Handle '_own_' actions
     const isAllowed = actions?.some?.((action) => {
-      if (action.includes("_own_" || action.includes("_any_"))) {
+      
+      if (action.includes("_own_") || action.includes("_any_")) {
         if (!resource) return false;
+        const ownerOfResource = resource?.authorID || resource;
+        const idOfOwnerOfResource = ownerOfResource?._id?.toString?.();
 
         if (action.includes("_own_")) {
-          const ownerOfResource = resource?.authorID || resource;
-          const idOfOwnerOfResource = ownerOfResource?._id?.toString?.();
-
           if (idOfOwnerOfResource === userID) {
             return rolePerms.includes(action);
           }
@@ -40,8 +40,11 @@ export function useCan() {
         }
 
         if (action.includes("_any_") && resource) {
-          const ownerOfResource = resource?.authorID || resource; // this for the user object
           const roleOfOwnerOfResource = ownerOfResource?.role || "deleted";
+
+          if (idOfOwnerOfResource === userID) {
+            return false
+          }
 
           if (powerMap[userRole] <= powerMap[roleOfOwnerOfResource]) {
             return false;

@@ -1,58 +1,62 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
-import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
-
+import { useNavigate, useLocation } from "react-router-dom";
 
 import UserCard from "../components/user/UserCard";
 import PostShower from '../components/post/PostShower.jsx'
 
-import API from "../../apiRoutes.js";
 import { useSafeFetch } from "../hooks/useSafeFetch.jsx";
+import API from "../../apiRoutes.js";
 
 
 export default function Profile() {
   const location = useLocation()
   const params = new URLSearchParams(location.search);
+  const navigate = useNavigate()
 
   const [url, setUrl] = useState(null)
   const [options, setOptions] = useState(null)
   const { data, error, loading, abort } = useSafeFetch(url, options)
-  const [fetchedUser, setFetchedUser] = useState()
+  const [userToPass, setUserToPass] = useState(null)
+  const [option, setOption] = useState(null)
 
   const userID = params.get("userID"); 
-  
-  useEffect(() => {
-    setOptions({
-      method: 'GET',
-      credentials: 'include'
-    })
-    setUrl(`${API.USER.getAnyUserData}/${userID}`)
-  }, [])
-
-  useEffect(() => {
-    if (data?.code == '055') {
-      setFetchedUser(data?.user)
-    }
-  }, [data])
 
   const { isLoggedIn, user, setIsLoggedIn } = useContext(AuthContext);
+
 
   useEffect(() => {
     if (isLoggedIn == false) {
       navigate("/auth");
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn]);  
+
+  useEffect(() => {
+    if (userID) {
+      setOptions({
+        method: 'GET',
+        credentials: 'include'
+      })
+      setUrl(`${API.USER.getAnyUserData}/${userID}`)
+    } else {
+       setUserToPass(user)
+       setOption('ownProfile')
+    }
+  }, [userID])
+
+  useEffect(() => {
+    if (data?.code == '056') {
+      setUserToPass(data.user)
+      setOption('otherProfile')
+    }
+  }, [data])
 
   return (
     <>
       {isLoggedIn == true && (
         <>
-          {
-            /*<UserCard userID={} username={user.username} pfpURL={user.profilePicURL} />*/ null
-          }
-
-          {<UserCard resource={fetchedUser} setIsLoggedIn={setIsLoggedIn} />}
-          {user ? <PostShower url={`${API.POST.getUserPosts}/${fetchedUser?._id}`}/> : null}
+          {<UserCard resource={userToPass} setIsLoggedIn={setIsLoggedIn} option={option}/>}
+          {user ? <PostShower url={`${API.POST.getUserPosts}/${userToPass?._id}`}/> : null}
         </>
       )}
     </>

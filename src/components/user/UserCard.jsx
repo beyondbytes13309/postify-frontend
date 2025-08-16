@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import styles from "../styles/UserCard.module.css";
 
@@ -36,18 +36,21 @@ export default function UserCard({
   const { data, error, loading, abort } = useSafeFetch(url, options)
   const can = useCan()
 
-
-  const allowedToEditProfile = can(
-    ['edit_own_profile', 'edit_any_profile'],
-    resource
+  // Permission checks
+  const allowedToEditProfile = useMemo(
+    () => can(['edit_own_profile', 'edit_any_profile'], resource),
+    [resource, can]
   )
 
-  const allowedToRestrictUser = can(
-    ['restrict_any_user_level_1', 'restrict_any_user_level_2', 'restrict_any_user_level_3'],
-    resource
+  const allowedToLogOut = useMemo(
+    () => can(['logout_own_user'],  resource),
+    [resource, can]
   )
 
-  console.log(allowedToEditProfile, allowedToRestrictUser)
+  const allowedToRestrictUser = useMemo(
+    () => can(['restrict_any_user_level_1', 'restrict_any_user_level_2', 'restrict_any_user_level_3'], resource),
+    [resource, can]
+  );
 
 
   // Effects
@@ -206,6 +209,10 @@ export default function UserCard({
   };
 
   const save = async () => {
+    if (!allowedToEditProfile) {
+      return
+    }
+
     if (validateUserData()) {
       return;
     }
@@ -276,16 +283,22 @@ export default function UserCard({
 
             <div className={styles.btnWrapper}>
 
-              <Button
+              {allowedToEditProfile && <Button
                 variant="secondary"
                 onClick={() => setEditStuff((prev) => !prev)}
               >
                 {editStuff ? "Cancel" : "Edit Profile"}
-              </Button>
+              </Button>}
 
-              <Button variant="destructive" onClick={logout}>
+              {allowedToLogOut  && <Button variant="destructive" onClick={logout}>
                 Logout
-              </Button>
+              </Button>}
+
+                {allowedToRestrictUser && <Button
+                variant="destructive"
+                onClick={() => prompt("are you sure brother?")}>
+                  Restrict
+                </Button>}
             </div>
           </div>
 
