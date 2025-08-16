@@ -16,34 +16,38 @@ export function useCan() {
   const userRole = user.role;
 
   return function can(actions, resource) {
-    let rolePerms = []
-    const restrictionObject = user?.restrictionObject
-    if (userRole == 'restricted') {
+    let rolePerms = [];
+    const restrictionObject = user?.restrictionObject;
+    if (userRole == "restricted") {
       rolePerms = permissions[`restricted_l${restrictionObject?.level}`] || [];
     } else {
-      rolePerms = permissions[userRole] || []
+      rolePerms = permissions[userRole] || [];
     }
 
     // Handle '_own_' actions
     const isAllowed = actions?.some?.((action) => {
-      if (action.includes("_own_") && resource) {
-        const ownerOfResource = resource?.authorID || resource
-        const idOfOwnerOfResource = ownerOfResource?._id?.toString?.()
-        
-        if (idOfOwnerOfResource === userID) {
+      if (action.includes("_own_" || action.includes("_any_"))) {
+        if (!resource) return false;
+
+        if (action.includes("_own_")) {
+          const ownerOfResource = resource?.authorID || resource;
+          const idOfOwnerOfResource = ownerOfResource?._id?.toString?.();
+
+          if (idOfOwnerOfResource === userID) {
+            return rolePerms.includes(action);
+          }
+          return false;
+        }
+
+        if (action.includes("_any_") && resource) {
+          const ownerOfResource = resource?.authorID || resource; // this for the user object
+          const roleOfOwnerOfResource = ownerOfResource?.role || "deleted";
+
+          if (powerMap[userRole] <= powerMap[roleOfOwnerOfResource]) {
+            return false;
+          }
           return rolePerms.includes(action);
         }
-        return false;
-      }
-
-      if (action.includes('_any_') && resource) {
-        const ownerOfResource = resource?.authorID || resource // this for the user object
-        const roleOfOwnerOfResource = ownerOfResource?.role || 'deleted'
-
-        if (powerMap[userRole] <= powerMap[roleOfOwnerOfResource]) {
-            return false
-        }
-        return rolePerms.includes(action)
       }
 
       return rolePerms.includes(action);
