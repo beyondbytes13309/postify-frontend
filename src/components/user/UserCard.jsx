@@ -161,13 +161,13 @@ export default function UserCard({
     }
 
     const updateObject = {};
-    if (userBio != bio) {
+    if (userBio != resource?.bio) {
       updateObject.bio = userBio;
     }
-    if (userUsername != username) {
+    if (userUsername != resource?.username) {
       updateObject.username = userUsername;
     }
-    if (userDisplayName != displayName) {
+    if (userDisplayName != resource?.displayName) {
       updateObject.displayName = userDisplayName;
     }
 
@@ -336,7 +336,7 @@ export default function UserCard({
                   className={styles.bioInput}
                   type="text"
                   value={userBio}
-                  placeholder={`My name is ${displayName}...`}
+                  placeholder={`My name is ${resource?.displayName}...`}
                   onChange={(e) =>
                     e.target.value.length < 160 && setUserBio(e.target.value)
                   }
