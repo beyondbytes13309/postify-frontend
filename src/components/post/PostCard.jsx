@@ -15,6 +15,7 @@ import convertIsoToRelativeTime from "../../utils/isoToTimeAgo";
 import { useCan } from "../../hooks/useCan";
 
 import API from "../../../apiRoutes";
+import { useNavigate } from "react-router-dom";
 
 const reactionsEmojis = {
   1: ["👍", "Like"],
@@ -41,6 +42,7 @@ export default React.memo(function PostCard({
   setEditingPost
 }) {
   const can = useCan();
+  const navigate = useNavigate()
   const [showOptions, setShowOptions] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
@@ -143,7 +145,7 @@ export default React.memo(function PostCard({
     <>
       <div className={styles.wrapper}>
         <div className={styles.authorWrapper}>
-          <div className={styles.authorWrapperChild}>
+          <div className={styles.authorWrapperChild}  onClick={() => navigate(`/profile?userID=${resource?.authorID?._id}`)}>
             <img
               src={
                 resource?.authorID?.profilePicURL ||

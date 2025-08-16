@@ -32,6 +32,7 @@ export default function UserCard({
     resource
   )
 
+  /*
   if (allowedToRestrictUser) {
     return (
       <p>You can restrict this user</p>
@@ -43,17 +44,25 @@ export default function UserCard({
       <p>You cannot edit profile</p>
     )
   }
+    */
 
   const [file, setFile] = useState(null);
-  const [userBio, setUserBio] = useState(resource?.bio);
-  const [userUsername, setUserUsername] = useState(resource?.bio);
-  const [userDisplayName, setUserDisplayName] = useState(resource?.displayName);
-  const [preview, setPreview] = useState(resource?.profilePicURL);
+  const [userBio, setUserBio] = useState();
+  const [userUsername, setUserUsername] = useState();
+  const [userDisplayName, setUserDisplayName] = useState();
+  const [preview, setPreview] = useState();
   const [modalVisibility, setModalVisibility] = useState(false);
   const modalInfo = useRef({});
   const [modalBtnClick, setModalBtnClick] = useState(-1);
   const [editStuff, setEditStuff] = useState(false);
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    setUserBio(resource?.bio)
+    setUserUsername(resource?.username)
+    setUserDisplayName(resource?.displayName)
+    setPreview(resource?.profilePicURL)
+  }, [resource])
 
   const [url, setUrl] = useState('')
   const [options, setOptions] = useState({})
@@ -117,23 +126,23 @@ export default function UserCard({
 
     if (userBio.length > 160) {
       validationErrors.bio = "Bio is too long";
-      setUserBio(bio);
+      setUserBio(resource?.bio);
     }
     if (userUsername.length < 6) {
       validationErrors.username = "Username is too short";
-      setUserUsername(username);
+      setUserUsername(resource?.username);
     }
     if (userUsername.length > 32) {
       validationErrors.username = "Username is too long";
-      setUserUsername(username);
+      setUserUsername(resource?.username);
     }
     if (userDisplayName.length < 3) {
       validationErrors.displayName = "Display name is too short";
-      setUserDisplayName(displayName);
+      setUserDisplayName(resource?.displayName);
     }
     if (userDisplayName.length > 32) {
       validationErrors.displayName = "Display name is too long";
-      setUserDisplayName(displayName);
+      setUserDisplayName(resource?.displayName);
     }
 
     if (file && file.size > 1 * 1024 * 1024) {
