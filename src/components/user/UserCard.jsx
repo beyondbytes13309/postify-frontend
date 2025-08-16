@@ -1,22 +1,41 @@
 import { useEffect, useRef, useState } from "react";
-import styles from "../styles/UserCard.module.css";
 import { FaEdit } from "react-icons/fa";
+import styles from "../styles/UserCard.module.css";
 
 import Button from "../common/Button";
 import Modal from "../common/Modal";
+
 import { useSafeFetch } from "../../hooks/useSafeFetch";
-import API from "../../../apiRoutes";
 import { useCan } from '../../hooks/useCan'
+import API from "../../../apiRoutes";
+
+import { formatToMMDDYYYY } from '../../utils/conversion'
+
 
 export default function UserCard({
   resource,
   setIsLoggedIn,
+  option="ownProfile" // ownProfile or othersProfile
 }) {
-  /* 
-    This will greet the user
-    show their pfp, their userID
-    */
+
+  // State
+  const [file, setFile] = useState(null);
+  const [userBio, setUserBio] = useState();
+  const [userUsername, setUserUsername] = useState();
+  const [userDisplayName, setUserDisplayName] = useState();
+  const [preview, setPreview] = useState();
+  const [modalVisibility, setModalVisibility] = useState(false);
+  const [modalBtnClick, setModalBtnClick] = useState(-1);
+  const [editStuff, setEditStuff] = useState(false);
+  const [errors, setErrors] = useState({});
+  const modalInfo = useRef({});
+  const [url, setUrl] = useState('')
+  const [options, setOptions] = useState({})
+
+  // Hooks
+  const { data, error, loading, abort } = useSafeFetch(url, options)
   const can = useCan()
+
 
   const allowedToEditProfile = can(
     ['edit_own_profile', 'edit_any_profile'],
@@ -24,57 +43,20 @@ export default function UserCard({
   )
 
   const allowedToRestrictUser = can(
-    [
-      'restrict_any_user_level_1',
-      'restrict_any_user_level_2',
-      'restrict_any_user_level_3'
-    ],
+    ['restrict_any_user_level_1', 'restrict_any_user_level_2', 'restrict_any_user_level_3'],
     resource
   )
 
-  /*
-  if (allowedToRestrictUser) {
-    return (
-      <p>You can restrict this user</p>
-    )
-  }
+  console.log(allowedToEditProfile, allowedToRestrictUser)
 
-  if (!allowedToEditProfile) {
-    return (
-      <p>You cannot edit profile</p>
-    )
-  }
-    */
 
-  const [file, setFile] = useState(null);
-  const [userBio, setUserBio] = useState();
-  const [userUsername, setUserUsername] = useState();
-  const [userDisplayName, setUserDisplayName] = useState();
-  const [preview, setPreview] = useState();
-  const [modalVisibility, setModalVisibility] = useState(false);
-  const modalInfo = useRef({});
-  const [modalBtnClick, setModalBtnClick] = useState(-1);
-  const [editStuff, setEditStuff] = useState(false);
-  const [errors, setErrors] = useState({});
-
+  // Effects
   useEffect(() => {
     setUserBio(resource?.bio)
     setUserUsername(resource?.username)
     setUserDisplayName(resource?.displayName)
     setPreview(resource?.profilePicURL)
   }, [resource])
-
-  const [url, setUrl] = useState('')
-  const [options, setOptions] = useState({})
-  const { data, error, loading, abort } = useSafeFetch(url, options)
-
-  const formatToMMDDYYYY = (isoString) => {
-    const date = new Date(isoString);
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const year = date.getFullYear();
-    return `${month}/${day}/${year}`;
-  };
 
   useEffect(() => {
     if (file) {
@@ -85,11 +67,6 @@ export default function UserCard({
     }
   }, [file]);
 
-  const continueLogout = async () => {
-     setOptions({ method: 'POST', credentials: 'include'})
-     setUrl(API.AUTH.logout)
-  };
-
   useEffect(() => {
     if (modalBtnClick == 0) {
       continueLogout();
@@ -97,16 +74,63 @@ export default function UserCard({
     }
   }, [modalBtnClick]);
 
-  const logout = () => {
-    modalInfo.current.modifyModal({
-      text: "Are you sure you want to logout?",
-      title: "Danger",
-      variant: "warning",
-      setButtonClick: setModalBtnClick,
-    });
-    setModalVisibility(true);
-  };
+  useEffect(() => {
+    if (data?.code == "011") {
+      // logged out successfully
+      setIsLoggedIn(false);
+    } else if (data?.code == "020") {
+      // success in updating fields
+      modalInfo.current.modifyModal({
+        variant: "alert",
+        title: "Success",
+        text: `Successfuly updated fields.`,
+        setButtonClick: null,
+      });
+      setModalVisibility(true);
+      setEditStuff(false);
+    } else if (data?.code == "021") {
+      // error in updating fields
+      modalInfo.current.modifyModal({
+        variant: "alert",
+        title: "Error",
+        text: data.data,
+        setButtonClick: null,
+      });
+      setModalVisibility(true);
+    }
 
+    if (data?.code == "030") {
+      modalInfo.current.modifyModal({
+        title: "Error",
+        text: data.data,
+        variant: "alert",
+        buttonClickHandle: null,
+      });
+      setModalVisibility(true);
+      setPreview(profilePicURL);
+    } else if (data?.code == "031") {
+      modalInfo.current.modifyModal({
+        title: "Error",
+        text: data.data,
+        variant: "alert",
+        buttonClickHandle: null,
+      });
+      setModalVisibility(true);
+      setPreview(profilePicURL);
+    } else if (data?.code == "032") {
+      modalInfo.current.modifyModal({
+        title: "Success",
+        text: data.data,
+        variant: "alert",
+        buttonClickHandle: null,
+      });
+      setModalVisibility(true);
+      setEditStuff(false);
+    }
+  }, [data, error]);
+
+
+  // Helpers
   const validateUserData = () => {
     const allowedTypes = [
       "image/jpeg",
@@ -164,6 +188,23 @@ export default function UserCard({
     }
   };
 
+
+  // Handlers
+  const logout = () => {
+    modalInfo.current.modifyModal({
+      text: "Are you sure you want to logout?",
+      title: "Danger",
+      variant: "warning",
+      setButtonClick: setModalBtnClick,
+    });
+    setModalVisibility(true);
+  };
+  
+  const continueLogout = async () => {
+     setOptions({ method: 'POST', credentials: 'include'})
+     setUrl(API.AUTH.logout)
+  };
+
   const save = async () => {
     if (validateUserData()) {
       return;
@@ -202,61 +243,6 @@ export default function UserCard({
       setUrl(API.USER.uploadPfp)
     }
   };
-
-  useEffect(() => {
-    if (data?.code == "011") {
-      // logged out successfully
-      setIsLoggedIn(false);
-    } else if (data?.code == "020") {
-      // success in updating fields
-      modalInfo.current.modifyModal({
-        variant: "alert",
-        title: "Success",
-        text: `Successfuly updated fields.`,
-        setButtonClick: null,
-      });
-      setModalVisibility(true);
-      setEditStuff(false);
-    } else if (data?.code == "021") {
-      // error in updating fields
-      modalInfo.current.modifyModal({
-        variant: "alert",
-        title: "Error",
-        text: data.data,
-        setButtonClick: null,
-      });
-      setModalVisibility(true);
-    }
-
-    if (data?.code == "030") {
-      modalInfo.current.modifyModal({
-        title: "Error",
-        text: data.data,
-        variant: "alert",
-        buttonClickHandle: null,
-      });
-      setModalVisibility(true);
-      setPreview(profilePicURL);
-    } else if (data?.code == "031") {
-      modalInfo.current.modifyModal({
-        title: "Error",
-        text: data.data,
-        variant: "alert",
-        buttonClickHandle: null,
-      });
-      setModalVisibility(true);
-      setPreview(profilePicURL);
-    } else if (data?.code == "032") {
-      modalInfo.current.modifyModal({
-        title: "Success",
-        text: data.data,
-        variant: "alert",
-        buttonClickHandle: null,
-      });
-      setModalVisibility(true);
-      setEditStuff(false);
-    }
-  }, [data, error]);
 
   return (
     <>
