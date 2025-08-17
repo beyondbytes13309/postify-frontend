@@ -248,7 +248,10 @@ export default function UserCard({
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(updateObject),
       });
-      setUrl(API.USER.editUser)
+      const url = option=="ownProfile" ? API.USER.editUser 
+                : option=="othersProfile" ? `${API.USER.editSpecificUser}/${resource?._id}`
+                : null
+      setUrl(url)
     }
 
     if (file) {
