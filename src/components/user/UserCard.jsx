@@ -32,6 +32,7 @@ export default function UserCard({
   const modalInfo = useRef({});
   const [url, setUrl] = useState('')
   const [options, setOptions] = useState({})
+  const [showRestrictUserMenu, setShowRestrictUserMenu] = useState(false)
 
   // Hooks
   const { data, error, loading, abort } = useSafeFetch(url, options)
@@ -308,7 +309,7 @@ export default function UserCard({
 
                 {(allowedToRestrictUserL1 || allowedToRestrictUserL2 || allowedToRestrictUserL3) && <Button
                 variant="destructive"
-                onClick={() => prompt("are you sure brother?")}>
+                onClick={() => setShowRestrictUserMenu(true)}>
                   Restrict
                 </Button>}
             </div>
@@ -404,7 +405,12 @@ export default function UserCard({
         </div>
       </div>
 
-      <RestrictUser restrictUserArray={restrictUserArray} resource={resource}/>
+      {showRestrictUserMenu && 
+      <RestrictUser 
+        restrictUserArray={restrictUserArray} 
+        resource={resource} 
+        setShowRestrictUserMenu={setShowRestrictUserMenu}
+      />}
     </>
   );
 }

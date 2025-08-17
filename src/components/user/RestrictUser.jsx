@@ -1,7 +1,7 @@
 import styles from '../styles/RestrictUser.module.css'
 import Button from '../common/Button'
 
-export default function RestrictUser({restrictUserArray, resource}) {
+export default function RestrictUser({restrictUserArray, resource, setShowRestrictUserMenu}) {
     return (
         <div className={styles.restrictUserWrapper}>
 
@@ -16,6 +16,7 @@ export default function RestrictUser({restrictUserArray, resource}) {
             
             <input type="text" defaultValue='I restricted this user because...'/> <br />
 
+            <button onClick={() => setShowRestrictUserMenu(prev => !prev)}>Go</button>
         </div>
     )
 }
