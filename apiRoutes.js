@@ -9,8 +9,10 @@ const API = {
     logout: `${BASE_URL}/auth/logout`,
   },
   USER: {
-    uploadPfp: `${BASE_URL}/user/uploadPfp`,
+    editPfp: `${BASE_URL}/user/editPfp`,
+    editSpecificPfp: `${BASE_URL}/user/editSpecificPfp`,
     editUser: `${BASE_URL}/user/editUser`,
+    editSpecificUser: `${BASE_URL}/user/editSpecificUser`,
     getUserData: `${BASE_URL}/user/getUserData`,
     getAnyUserData: `${BASE_URL}/user/getAnyUserData`
   },

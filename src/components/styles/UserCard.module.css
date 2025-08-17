@@ -101,6 +101,7 @@
 .error {
   color: rgb(255, 0, 0);
   font-size: 0.85rem;
+  display: block;
 }
 
 .bioLengthCount {

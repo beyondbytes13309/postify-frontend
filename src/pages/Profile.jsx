@@ -47,7 +47,7 @@ export default function Profile() {
   useEffect(() => {
     if (data?.code == '056') {
       setUserToPass(data.user)
-      setOption('otherProfile')
+      setOption('othersProfile')
     }
   }, [data])
 
