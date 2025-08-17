@@ -4,6 +4,7 @@ import styles from "../styles/UserCard.module.css";
 
 import Button from "../common/Button";
 import Modal from "../common/Modal";
+import RestrictUser from './RestrictUser'
 
 import { useSafeFetch } from "../../hooks/useSafeFetch";
 import { useCan } from '../../hooks/useCan'
@@ -47,11 +48,22 @@ export default function UserCard({
     [resource, can]
   )
 
-  const allowedToRestrictUser = useMemo(
-    () => can(['restrict_any_user_level_1', 'restrict_any_user_level_2', 'restrict_any_user_level_3'], resource),
+  const allowedToRestrictUserL1 = useMemo(
+    () => can(['restrict_any_user_level_1'], resource),
     [resource, can]
   );
 
+  const allowedToRestrictUserL2 = useMemo(
+    () => can(['restrict_any_user_level_2'], resource),
+    [resource, can]
+  );
+
+  const allowedToRestrictUserL3 = useMemo(
+    () => can(['restrict_any_user_level_3'], resource),
+    [resource, can]
+  );
+
+  const restrictUserArray = [allowedToRestrictUserL1, allowedToRestrictUserL2, allowedToRestrictUserL3]
 
   // Effects
   useEffect(() => {
@@ -294,7 +306,7 @@ export default function UserCard({
                 Logout
               </Button>}
 
-                {allowedToRestrictUser && <Button
+                {(allowedToRestrictUserL1 || allowedToRestrictUserL2 || allowedToRestrictUserL3) && <Button
                 variant="destructive"
                 onClick={() => prompt("are you sure brother?")}>
                   Restrict
@@ -391,6 +403,8 @@ export default function UserCard({
           />
         </div>
       </div>
+
+      <RestrictUser restrictUserArray={restrictUserArray} resource={resource}/>
     </>
   );
 }
