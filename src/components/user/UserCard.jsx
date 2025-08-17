@@ -123,7 +123,7 @@ export default function UserCard({
         buttonClickHandle: null,
       });
       setModalVisibility(true);
-      setPreview(profilePicURL);
+      setPreview(resource?.profilePicURL);
     } else if (data?.code == "031") {
       modalInfo.current.modifyModal({
         title: "Error",
@@ -132,7 +132,7 @@ export default function UserCard({
         buttonClickHandle: null,
       });
       setModalVisibility(true);
-      setPreview(profilePicURL);
+      setPreview(resource?.profilePicURL);
     } else if (data?.code == "032") {
       modalInfo.current.modifyModal({
         title: "Success",
@@ -243,7 +243,7 @@ export default function UserCard({
 
     if (Object.values(updateObject).length > 0) {
       setOptions({
-        method: "POST",
+        method: "PATCH",
         credentials: "include",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(updateObject),
