@@ -259,11 +259,14 @@ export default function UserCard({
       formData.append("image", file);
 
       setOptions({
-        method: "POST",
+        method: "PATCH",
         credentials: "include",
         body: formData,
       });
-      setUrl(API.USER.uploadPfp)
+      const url = option=="ownProfile" ? API.USER.editPfp 
+                : option=="othersProfile" ? `${API.USER.editSpecificPfp}/${resource?._id}`
+                : null
+      setUrl(url)
     }
   };
 
