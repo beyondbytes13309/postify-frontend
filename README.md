@@ -10,6 +10,9 @@ Handles authentication, posts, comments, reactions, and user profiles with a cle
 - **🔒 Authentication:**  
   Sign up, log in, and log out with local, Google, or GitHub accounts.
 
+- **🔑 Authorization:**
+  Role and owner-based access control for users (e.g., regular user, admin, moderator).
+
 - **📝 Posts:**  
   Create, view, and interact with posts.
 
@@ -77,6 +80,7 @@ src/
   hooks/            # Custom React hooks (e.g., useSafeFetch)
   pages/            # Route-level components
   utils/            # Utility functions
+  configs/          # Configuration files (e.g., permissions)
   App.jsx           # Main app component
   main.jsx          # Entry point
 ```
