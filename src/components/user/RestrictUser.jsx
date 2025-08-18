@@ -1,6 +1,8 @@
 import styles from '../styles/RestrictUser.module.css'
 import Button from '../common/Button'
 import { useEffect, useState } from 'react'
+import { useSafeFetch } from '../../hooks/useSafeFetch'
+import API from '../../../apiRoutes'
 
 
 const commonDurations = {
@@ -19,7 +21,12 @@ export default function RestrictUser({restrictUserArray, resource, setShowRestri
     const [reason, setReason] = useState('')
     const [chosenDuration, setChosenDuration] = useState(null)
     const [selectedType, setSelectedType] = useState('level-1')
+    const [duration, setDuration] = useState(0)
     const [stage, setStage] = useState(0)
+    const [url, setUrl] = useState(null)
+    const [options, setOptions] = useState(null)
+    const { data, error, loading, abort } = useSafeFetch(url, options)
+
 
     const handleContinue = () => {
         modalUpdater({
@@ -72,6 +79,8 @@ export default function RestrictUser({restrictUserArray, resource, setShowRestri
             return
         } 
 
+        setDuration(newDuration)
+
         if (!reason) {
             modalUpdater({
                 text: "You didn't write a reason!"
@@ -90,8 +99,53 @@ export default function RestrictUser({restrictUserArray, resource, setShowRestri
     }
 
     const finalContinue = () => {
-        alert("yeah do it 😈")
+        setOptions({ method: 'PATCH', credentials: 'include'})
+        const url = `${API.USER.restrictUser}/${resource?._id}?type=${selectedType}&duration=${duration}&reason=${reason}`
+        setUrl(url)
     }
+
+    useEffect(() => {
+        if (data?.code == '001') {
+            modalUpdater({
+                title: 'Error',
+                text: data.data,
+            })
+            setModalVisibility(true)
+        } else if (data?.code == '038') {
+            modalUpdater({
+                title: 'Success',
+                text: data.data,
+                variant: 'alert'
+            })
+            setModalVisibility(true)
+            setShowRestrictUserMenu(false)
+        } else if (data?.code == '040') {
+            modalUpdater({
+                title: 'Error',
+                text: data.data,
+            })
+            setModalVisibility(true)
+        } else if (data?.code == '042') {
+            modalUpdater({
+                title: 'Error',
+                text: data.data,
+            })
+            setModalVisibility(true)
+        } else if (data?.code == '043') {
+            modalUpdater({
+                title: 'Error',
+                text: data.data,
+            })
+            setModalVisibility(true)
+        } else if (data?.code == '550') {
+            modalUpdater({
+                title: 'Error',
+                text: data.data,
+            })
+            setModalVisibility(true)
+        }
+
+    }, [data])
 
     if (stage==0) {
         return (
