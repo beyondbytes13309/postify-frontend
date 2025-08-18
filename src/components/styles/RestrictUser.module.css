@@ -9,7 +9,8 @@
   padding: 1rem;
   z-index: 1;
   padding-inline: 2rem;
-  width: 27%
+  width: 100%;
+  max-width: 600px
 }
 
 .section {
@@ -51,7 +52,8 @@
 
 .presetsDiv {
   display: flex;
-  gap: 0.5rem
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .durationBtn {
@@ -62,7 +64,8 @@
   cursor: pointer;
   color: rgb(22, 21, 21);
   border-radius: 2px;
-  flex: 1;
+  flex: 1 1 100px; 
+  min-width: 80px;  
 }
 
 .durationBtn:hover {
@@ -141,4 +144,16 @@
 .confirmationHeading {
   color:red;
   text-overflow: 1px  1px 1px red;
+}
+
+@media (min-width: 350px) {
+  .restrictUserWrapper {
+    width: 70%;
+  }
+}
+
+@media (min-width: 900px) {
+  .restrictUserWrapper {
+    width: 40%;
+  }
 }

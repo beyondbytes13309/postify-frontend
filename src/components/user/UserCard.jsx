@@ -5,6 +5,7 @@ import styles from "../styles/UserCard.module.css";
 import Button from "../common/Button";
 import Modal from "../common/Modal";
 import RestrictUser from './RestrictUser'
+import { motion, AnimatePresence } from "motion/react";
 
 import { useSafeFetch } from "../../hooks/useSafeFetch";
 import { useCan } from '../../hooks/useCan'
@@ -33,6 +34,12 @@ export default function UserCard({
   const [url, setUrl] = useState('')
   const [options, setOptions] = useState({})
   const [showRestrictUserMenu, setShowRestrictUserMenu] = useState(false)
+
+  const restrictUserVariants = {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 },
+  };
 
   // Hooks
   const { data, error, loading, abort } = useSafeFetch(url, options)
@@ -411,14 +418,25 @@ export default function UserCard({
         </div>
       </div>
 
-      {showRestrictUserMenu && 
-      <RestrictUser 
-        restrictUserArray={restrictUserArray} 
-        resource={resource} 
-        setShowRestrictUserMenu={setShowRestrictUserMenu}
-        setModalVisibility={setModalVisibility}
-        modalUpdater={modalInfo?.current?.modifyModal}
-      />}
+      <AnimatePresence mode="wait">
+        {showRestrictUserMenu && 
+        <motion.div
+          style={{ position: 'relative', zIndex: 5 }}
+          variants={restrictUserVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          transition={{ duration: 0.15, ease: "easeInOut" }}
+        >
+          <RestrictUser 
+            restrictUserArray={restrictUserArray} 
+            resource={resource} 
+            setShowRestrictUserMenu={setShowRestrictUserMenu}
+            setModalVisibility={setModalVisibility}
+            modalUpdater={modalInfo?.current?.modifyModal}
+          />
+        </motion.div>}
+      </AnimatePresence>
     </>
   );
 }
