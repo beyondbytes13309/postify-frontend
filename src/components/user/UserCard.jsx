@@ -416,6 +416,8 @@ export default function UserCard({
         restrictUserArray={restrictUserArray} 
         resource={resource} 
         setShowRestrictUserMenu={setShowRestrictUserMenu}
+        setModalVisibility={setModalVisibility}
+        modalUpdater={modalInfo?.current?.modifyModal}
       />}
     </>
   );
