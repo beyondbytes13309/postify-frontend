@@ -67,7 +67,8 @@ const AuthProvider = ({ children }) => {
       location.pathname == "/auth" ||
       location.pathname == "/" ||
       location.pathname == "/profile" ||
-      location.pathname == "/create"
+      location.pathname == "/create" ||
+      location.pathname == '/dashboard'
     ) {
       setUrl(API.USER.getUserData)
     }

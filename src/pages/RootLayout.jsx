@@ -8,14 +8,7 @@ export default function RootLayout() {
   return (
     <>
       <AuthProvider>
-        <Header
-          showOptions={{
-            search: true,
-            home: true,
-            profile: true,
-            create: true,
-          }}
-        />
+        <Header />
         <div className={styles.outlet}>
           <Outlet />
         </div>

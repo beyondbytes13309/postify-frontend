@@ -9,6 +9,8 @@ import Home from "./pages/Home";
 import AuthPage from "./pages/AuthPage";
 import Profile from "./pages/Profile";
 import Create from "./pages/Create";
+import AdminDashBoard from './pages/AdminDashBoard'
+
 
 import RootLayout from "./pages/RootLayout.jsx";
 
@@ -33,6 +35,10 @@ const router = createBrowserRouter([
         path: "create",
         element: <Create />,
       },
+      {
+        path: 'dashboard',
+        element: <AdminDashBoard />
+      }
     ],
   },
 ]);

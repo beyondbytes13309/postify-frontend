@@ -4,6 +4,7 @@ import { FaHome } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoSearchSharp } from "react-icons/io5";
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
 
 import Search from "./Search";
 
@@ -16,12 +17,24 @@ import postify from "../../assets/postify.avif";
 import styles from "../styles/Header.module.css";
 import { useContext, useEffect, useState } from "react";
 
-function Header({
-  showOptions = { search: false, home: false, create: false, profile: false },
-}) {
+const showOptions = { search: false, home: false, profile: false, create: false }
+
+function Header() {
   const [HBMenuVisibility, setHBMenuVisibility] = useState(false);
   const { isLoggedIn, user } = useContext(AuthContext);
   const [showSearch, setShowSearch] = useState(false);
+  const [showOptions, setShowOptions] = useState({ search: false, home: false, profile: false, create: false, admin: false })
+
+  useEffect(() => {
+    let newObj = showOptions
+    if (isLoggedIn) {
+      newObj = Object.fromEntries(Object.keys(newObj).map(key => [key, true]))
+    }
+    if (['moderator', 'admin'].includes(user?.role)) {
+      newObj.admin = true
+    }
+    setShowOptions(newObj)
+  }, [isLoggedIn, user])
 
   return (
     <div className={styles.wrapper}>
@@ -48,6 +61,11 @@ function Header({
                 >
                   <IoSearchSharp className={styles.navIcon} />
                 </button>
+              )}
+              {showOptions.admin && (
+                <Link title="Admin dashboard" className={styles.navItem} to="/dashboard">
+                  <MdOutlineAdminPanelSettings className={styles.navIcon}/>
+                </Link>
               )}
               {showOptions.profile && (
                 <Link title="Profile" className={styles.navItem} to="/profile">
