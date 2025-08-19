@@ -5,22 +5,18 @@ import { useEffect, useState, useRef } from "react";
 
 import { IoMdCloseCircle } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
-import Modal from "../common/Modal.jsx";
 
 import Loading from "../common/Loading";
 import API from "../../../apiRoutes.js";
 import { useSafeFetch } from '../../hooks/useSafeFetch'
 
-export default function CommentSection({ postID, toggleCommentSection }) {
+export default function CommentSection({ postID, toggleCommentSection, modalUpdater, setModalVisibility }) {
   const [comments, setComments] = useState([]);
   const [createCommentVisibility, setCreateCommentVisibility] = useState(false);
   const [commentOption, setCommentOption] = useState("create")
   const [currentCommentID, setCurrentCommentID] = useState(null)
 
   const [initialCommentText, setInitialCommentText] = useState("")
-
-  const [modalVisibility, setModalVisibility] = useState(false);
-  const modalInfo = useRef({});
 
   const [commentCreationState, setCommentCreationState] = useState(false);
 
@@ -42,7 +38,7 @@ export default function CommentSection({ postID, toggleCommentSection }) {
 
   useEffect(() => {
     if (commentCreationState?.code == "031") {
-      modalInfo?.current?.modifyModal({
+      modalUpdater({
         variant: "alert",
         title: "Success",
         text: commentCreationState.data?.message,
@@ -53,7 +49,7 @@ export default function CommentSection({ postID, toggleCommentSection }) {
       setComments((prev) => [comment, ...prev]);
       setCreateCommentVisibility(false);
     } else if (commentCreationState?.code == "035") {
-      modalInfo?.current?.modifyModal({
+      modalUpdater({
         variant: "alert",
         title: "Success",
         text: commentCreationState.data?.message,
@@ -68,7 +64,7 @@ export default function CommentSection({ postID, toggleCommentSection }) {
       setCurrentCommentID(null)
       setCreateCommentVisibility(false);
     } else if (commentCreationState) {
-      modalInfo?.current?.modifyModal({
+      modalUpdater({
         variant: "alert",
         title: "Error",
         text: commentCreationState.data,
@@ -126,7 +122,7 @@ export default function CommentSection({ postID, toggleCommentSection }) {
                   }}
                   setCreateCommentVisibility={setCreateCommentVisibility}
                   setCommentState={handleSetCommentState}
-                  modalUpdater={modalInfo?.current.modifyModal}
+                  modalUpdater={modalUpdater}
                   setModalVisibility={setModalVisibility}
                 />
               ))}
@@ -137,11 +133,6 @@ export default function CommentSection({ postID, toggleCommentSection }) {
         {error && <p className={styles.error}>An error occured!</p>}
       </div>
 
-      <Modal
-        ref={modalInfo}
-        visibility={modalVisibility}
-        setVisibility={setModalVisibility}
-      />
     </>
   );
 }
