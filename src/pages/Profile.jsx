@@ -24,7 +24,6 @@ export default function Profile() {
 
   const { isLoggedIn, user, setIsLoggedIn } = useContext(AuthContext);
 
-
   useEffect(() => {
     if (isLoggedIn == false) {
       navigate("/auth");
@@ -42,7 +41,7 @@ export default function Profile() {
        setUserToPass(user)
        setOption('ownProfile')
     }
-  }, [userID])
+  }, [userID, user])
 
   useEffect(() => {
     if (data?.code == '056') {

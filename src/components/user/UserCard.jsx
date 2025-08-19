@@ -19,7 +19,6 @@ export default function UserCard({
   setIsLoggedIn,
   option="ownProfile" // ownProfile or othersProfile
 }) {
-
   // State
   const [file, setFile] = useState(null);
   const [userBio, setUserBio] = useState();
@@ -419,7 +418,7 @@ export default function UserCard({
       </div>
 
       <AnimatePresence mode="wait">
-        {showRestrictUserMenu && 
+        {showRestrictUserMenu && option!='ownProfile' && 
         <motion.div
           style={{ position: 'relative', zIndex: 5 }}
           variants={restrictUserVariants}
