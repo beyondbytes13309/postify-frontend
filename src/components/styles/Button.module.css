@@ -35,20 +35,24 @@
   background-color: #f8fafc;
   border: 1px solid #cbd5e1;
   color: black;
+  transition: box-shadow 0.15s ease-in-out, background-color 0.15s ease-in-out
 }
 
 .buttonSecondary:hover {
   background-color: #e2e8f0;
+  box-shadow: 0px 0px 7px 4px #d3e9ff5c;
 }
 
 .buttonDestructive {
   background-color: #dc2626;
   color: white;
   font-weight: bold;
+  transition: box-shadow 0.15s ease-in-out, background-color 0.15s ease-in-out
 }
 
 .buttonDestructive:hover {
   background-color: #b91c1c;
+  box-shadow: 0px 0px 10px 3px #b91c1c1a;
 }
 
 .buttonSuccess {
@@ -56,10 +60,12 @@
   color: white;
   font-weight: bold;
   border-radius: 1000px;
+  transition: box-shadow 0.15s ease-in-out, background-color 0.15s ease-in-out
 }
 
 .buttonSuccess:hover {
   background-color: #15803d;
+  box-shadow: 0px 0px 10px 3px #15803c23
 }
 
 .buttonWarning {
@@ -73,10 +79,11 @@
 }
 
 .buttonPost {
-  background: linear-gradient(to bottom right, rgb(0, 212, 0), rgb(0, 230, 0));
-  color: rgb(15, 13, 13);
+  background: linear-gradient(to bottom right, rgb(104, 255, 104), rgb(0, 230, 0));
+  color: rgb(0, 0, 0);
   font-weight: bold;
   padding: 0.35rem 1rem;
+  
 }
 
 .buttonPost:hover {

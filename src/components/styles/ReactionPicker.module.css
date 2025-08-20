@@ -1,6 +1,6 @@
 .wrapper {
   background-color: rgb(206, 255, 255);
-  position: absolute;
+  position: fixed;
   display: flex;
   gap: 1.3rem;
   align-items: center;
