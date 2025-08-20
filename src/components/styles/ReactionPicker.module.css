@@ -1,19 +1,41 @@
 .wrapper {
-  background-color: rgb(206, 255, 255);
   position: fixed;
-  display: flex;
-  gap: 1.3rem;
-  align-items: center;
   border-radius: 5px;
-  box-shadow: 0px 0px 3px gray;
-  padding: 0.45rem;
-
-  top: 40%;
+  top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
+  background: transparent;
+
+  border-radius: 50%;
+}
+
+.wheel {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: inset 0 0 0 60px rgb(206, 255, 255);
+  border: 1px solid rgb(78, 255, 255)
+}
+
+.wheel::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 180px;
+  height: 180px;
+  background: white;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
 }
 
 .reactionBtn {
+  position: absolute;
+  top: 45%;
+  left: 45%;
   background-color: inherit;
   border: none;
   border-radius: 50%;
@@ -21,16 +43,54 @@
   width: 2rem;
   height: 2rem;
   cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: font-size 0.15s ease-in-out;
 }
 
+.wheel button:nth-child(1) { transform: rotate(0deg) translate(120px) rotate(0deg); }
+.wheel button:nth-child(2) { transform: rotate(36deg) translate(120px) rotate(-36deg); }
+.wheel button:nth-child(3) { transform: rotate(72deg) translate(120px) rotate(-72deg); }
+.wheel button:nth-child(4) { transform: rotate(108deg) translate(120px) rotate(-108deg); }
+.wheel button:nth-child(5) { transform: rotate(144deg) translate(120px) rotate(-144deg); }
+.wheel button:nth-child(6) { transform: rotate(180deg) translate(120px) rotate(-180deg); }
+.wheel button:nth-child(7) { transform: rotate(216deg) translate(120px) rotate(-216deg); }
+.wheel button:nth-child(8) { transform: rotate(252deg) translate(120px) rotate(-252deg); }
+.wheel button:nth-child(9) { transform: rotate(288deg) translate(120px) rotate(-288deg); }
+.wheel button:nth-child(10) { transform: rotate(324deg) translate(120px) rotate(-324deg); }
+
 .reactionBtnSelected {
-  transform: scale(1.25);
+  background-color: rgb(96, 239, 255);
+  box-shadow: 0px 0px 10px 10px rgb(96, 239, 255);
+  font-size: 1.8rem;
+}
+
+.reactionBtn:hover {
+  font-size: 1.7rem;
 }
 
 .cancelBtn {
-  background-color: inherit;
+  background: white;
   border: none;
-  outline: line;
+  outline: none;
   cursor: pointer;
-  font-size: 1.5rem;
+  font-size: 2rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 5;
+  transform: translateX(-50%) translateY(-50%);
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out
+}
+
+.cancelBtn:hover {
+  box-shadow: 0 0 15px 10px rgba(255, 0, 0, 0.6);
+  background-color: red;
+  color: white;
 }

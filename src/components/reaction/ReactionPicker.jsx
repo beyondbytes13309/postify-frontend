@@ -100,28 +100,30 @@ export default function ReactionPicker({
 
   return (
     <div className={styles.wrapper}>
-      {Object.entries(reactions).map(([key, [emoji, label]]) => (
+      <div className={styles.wheel}>
+        {Object.entries(reactions).map(([key, [emoji, label]]) => (
+          <button
+            key={key}
+            title={label}
+            onClick={() => {
+              handleMakeReaction(key);
+            }}
+            className={
+              selected == key
+                ? `${styles.reactionBtn} ${styles.reactionBtnSelected}`
+                : styles.reactionBtn
+            }
+          >
+            {emoji}
+          </button>
+        ))}
         <button
-          key={key}
-          title={label}
-          onClick={() => {
-            handleMakeReaction(key);
-          }}
-          className={
-            selected == key
-              ? `${styles.reactionBtn} ${styles.reactionBtnSelected}`
-              : styles.reactionBtn
-          }
+          className={styles.cancelBtn}
+          onClick={() => setShowReactionPicker(null)}
         >
-          {emoji}
+          <MdCancel />
         </button>
-      ))}
-      <button
-        className={styles.cancelBtn}
-        onClick={() => setShowReactionPicker(null)}
-      >
-        <MdCancel />
-      </button>
+      </div>
     </div>
   );
 }
