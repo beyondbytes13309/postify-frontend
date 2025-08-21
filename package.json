@@ -1,5 +1,6 @@
 {
-  "name": "react-1",
+  "name": "postify-frontend",
+  "description": "a simple frontend for a social media app",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,7 +8,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "cp": "(git diff && echo 'cook me a commit message for this') | clip"
   },
   "dependencies": {
     "date-fns": "^4.1.0",
