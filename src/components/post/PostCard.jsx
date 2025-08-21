@@ -65,7 +65,7 @@ export default React.memo(function PostCard({
     }
 
     const reactionNums = reactions
-      .map((reaction) => Number(reaction.reactionType))
+      .map((reaction) => Number(reaction))
       .filter((num) => num >= 1 && num <= 10);
 
     if (reactionNums.length === 0) {
@@ -83,7 +83,6 @@ export default React.memo(function PostCard({
       .sort((a, b) => b[1] - a[1]) // sort by count
       .slice(0, 3) // take top 3
       .map(([reaction]) => reactionsEmojis[Number(reaction)][0]); // map to emoji
-
     return sortedReactions;
   };
 
@@ -156,12 +155,13 @@ export default React.memo(function PostCard({
             />
             <p className={styles.authorName}>
               {resource?.authorID?.displayName || "Deleted User"}
-            </p>
-          </div>
+            </p> ·
 
-          <span className={styles.timeAgo}>
-            {convertIsoToRelativeTime(resource?.createdAt)}
-          </span>
+            <span className={styles.timeAgoAndIsEdited}>
+              {convertIsoToRelativeTime(resource?.createdAt)} 
+              {resource?.isEdited && ' · Edited'}
+            </span>
+          </div>
 
           <button
             className={styles.postMenuBtn}
