@@ -3,7 +3,6 @@ import { FaEdit } from "react-icons/fa";
 import styles from "../styles/UserCard.module.css";
 
 import Button from "../common/Button";
-import Modal from "../common/Modal";
 import RestrictUser from './RestrictUser'
 import { motion, AnimatePresence } from "motion/react";
 
@@ -17,7 +16,9 @@ import { formatToMMDDYYYY } from '../../utils/conversion'
 export default function UserCard({
   resource,
   setIsLoggedIn,
-  option="ownProfile" // ownProfile or othersProfile
+  option="ownProfile" /* ownProfile or othersProfile */,
+  modalUpdater,
+  setModalVisibility
 }) {
   // State
   const [file, setFile] = useState(null);
@@ -25,11 +26,10 @@ export default function UserCard({
   const [userUsername, setUserUsername] = useState();
   const [userDisplayName, setUserDisplayName] = useState();
   const [preview, setPreview] = useState();
-  const [modalVisibility, setModalVisibility] = useState(false);
   const [modalBtnClick, setModalBtnClick] = useState(-1);
   const [editStuff, setEditStuff] = useState(false);
   const [errors, setErrors] = useState({});
-  const modalInfo = useRef({});
+  
   const [url, setUrl] = useState('')
   const [options, setOptions] = useState({})
   const [showRestrictUserMenu, setShowRestrictUserMenu] = useState(false)
@@ -102,7 +102,7 @@ export default function UserCard({
       setIsLoggedIn(false);
     } else if (data?.code == "020") {
       // success in updating fields
-      modalInfo.current.modifyModal({
+      modalUpdater({
         variant: "alert",
         title: "Success",
         text: `Successfuly updated fields.`,
@@ -112,7 +112,7 @@ export default function UserCard({
       setEditStuff(false);
     } else if (data?.code == "021") {
       // error in updating fields
-      modalInfo.current.modifyModal({
+      modalUpdater({
         variant: "alert",
         title: "Error",
         text: data.data,
@@ -122,7 +122,7 @@ export default function UserCard({
     }
 
     if (data?.code == "030") {
-      modalInfo.current.modifyModal({
+      modalUpdater({
         title: "Error",
         text: data.data,
         variant: "alert",
@@ -131,7 +131,7 @@ export default function UserCard({
       setModalVisibility(true);
       setPreview(resource?.profilePicURL);
     } else if (data?.code == "031") {
-      modalInfo.current.modifyModal({
+      modalUpdater({
         title: "Error",
         text: data.data,
         variant: "alert",
@@ -140,7 +140,7 @@ export default function UserCard({
       setModalVisibility(true);
       setPreview(resource?.profilePicURL);
     } else if (data?.code == "032") {
-      modalInfo.current.modifyModal({
+      modalUpdater({
         title: "Success",
         text: data.data,
         variant: "alert",
@@ -164,7 +164,7 @@ export default function UserCard({
     ];
     const validationErrors = {};
 
-    modalInfo.current.modifyModal({
+    modalUpdater({
       variant: "alert",
       title: "Error",
       setButtonClick: null,
@@ -213,7 +213,7 @@ export default function UserCard({
 
   // Handlers
   const logout = () => {
-    modalInfo.current.modifyModal({
+    modalUpdater({
       text: "Are you sure you want to logout?",
       title: "Danger",
       variant: "warning",
@@ -409,11 +409,6 @@ export default function UserCard({
             </div>
           </div>
 
-          <Modal
-            ref={modalInfo}
-            visibility={modalVisibility}
-            setVisibility={setModalVisibility}
-          />
         </div>
       </div>
 
@@ -432,7 +427,7 @@ export default function UserCard({
             resource={resource} 
             setShowRestrictUserMenu={setShowRestrictUserMenu}
             setModalVisibility={setModalVisibility}
-            modalUpdater={modalInfo?.current?.modifyModal}
+            modalUpdater={modalUpdater}
           />
         </motion.div>}
       </AnimatePresence>
