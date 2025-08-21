@@ -5,7 +5,7 @@ import { useSafeFetch } from "../../hooks/useSafeFetch.jsx";
 import API from "../../../apiRoutes.js";
 import { useNavigate } from 'react-router-dom'
 
-export default function CreatePost({ option="create", resource, modalUpdater, setModalVisibility }) {
+export default function CreatePost({ option="create", resource, modalUpdaterFac, setModalVisibility }) {
   const [postText, setPostText] = useState("");
   const navigate = useNavigate()
   const [modalBtnClick, setModalBtnClick] = useState(-1)
@@ -15,6 +15,8 @@ export default function CreatePost({ option="create", resource, modalUpdater, se
   const { data, error, loading, abort } = useSafeFetch(url, options)
 
   const handlePost = async () => {
+    
+    const modalUpdater = modalUpdaterFac()
 
     modalUpdater({
       setButtonClick: null,
@@ -75,6 +77,7 @@ export default function CreatePost({ option="create", resource, modalUpdater, se
   }, [])
 
   useEffect(() => {
+    const modalUpdater = modalUpdaterFac()
     if (data?.code == "015") {
       modalUpdater({
         title: "Success",
@@ -96,8 +99,6 @@ export default function CreatePost({ option="create", resource, modalUpdater, se
       });
       setModalVisibility(true);
     }
-
-    console.log(data)
 
   }, [data])
 

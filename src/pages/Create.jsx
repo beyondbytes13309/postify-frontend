@@ -1,6 +1,6 @@
 import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
-import { useEffect, useContext, useRef } from "react";
+import { useEffect, useContext, useRef, useState } from "react";
 import Modal from "../components/common/Modal";
 
 import styles from "./styles/Create.module.css";
@@ -26,7 +26,7 @@ export default function Create() {
   return (
     <>
       <div className={styles.wrapper}>
-        <CreatePost option={option} resource={resource} modalUpdater={modalInfo?.current?.modifyModal} setModalVisibility={setModalVisibility}/>
+        <CreatePost option={option} resource={resource} modalUpdaterFac={() => modalInfo?.current?.modifyModal} setModalVisibility={setModalVisibility} modalInfo={modalInfo}/>
       </div>
       <Modal
         ref={modalInfo}
