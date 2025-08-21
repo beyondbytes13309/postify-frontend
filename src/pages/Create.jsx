@@ -1,6 +1,7 @@
 import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useRef } from "react";
+import Modal from "../common/Modal.jsx";
 
 import styles from "./styles/Create.module.css";
 
@@ -12,6 +13,8 @@ export default function Create() {
 
   const option = searchParams.get('option') || 'create'
   const resource = location.state || {}
+  const [modalVisibility, setModalVisibility] = useState(false);
+  const modalInfo = useRef({});
 
   const { isLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -23,8 +26,13 @@ export default function Create() {
   return (
     <>
       <div className={styles.wrapper}>
-        <CreatePost option={option} resource={resource}/>
+        <CreatePost option={option} resource={resource} modalUpdater={modalInfo?.current?.modifyModal} setModalVisibility={setModalVisibility}/>
       </div>
+      <Modal
+        ref={modalInfo}
+        visibility={modalVisibility}
+        setVisibility={setModalVisibility}
+      />
     </>
   );
 }

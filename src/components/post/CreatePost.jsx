@@ -2,14 +2,11 @@ import styles from "../styles/CreatePost.module.css";
 import Button from "../common/Button";
 import { useEffect, useRef, useState } from "react";
 import { useSafeFetch } from "../../hooks/useSafeFetch.jsx";
-import Modal from "../common/Modal.jsx";
 import API from "../../../apiRoutes.js";
 import { useNavigate } from 'react-router-dom'
 
-export default function CreatePost({ option="create", resource }) {
+export default function CreatePost({ option="create", resource, modalUpdater, setModalVisibility }) {
   const [postText, setPostText] = useState("");
-  const [modalVisibility, setModalVisibility] = useState(false);
-  const modalInfo = useRef({});
   const navigate = useNavigate()
   const [modalBtnClick, setModalBtnClick] = useState(-1)
 
@@ -19,7 +16,7 @@ export default function CreatePost({ option="create", resource }) {
 
   const handlePost = async () => {
 
-    modalInfo.current.modifyModal({
+    modalUpdater({
       setButtonClick: null,
       variant: "alert",
       setModalInput: null,
@@ -30,12 +27,12 @@ export default function CreatePost({ option="create", resource }) {
     //setModalVisibility(true)
     
     if (!postText) {
-      modalInfo.current.modifyModal({ title: "Error", text: "Invalid Data" });
+      modalUpdater({ title: "Error", text: "Invalid Data" });
       setModalVisibility(true);
       return;
     }
     if (postText.length < 10) {
-      modalInfo.current.modifyModal({
+      modalUpdater({
         title: "Error",
         text: "Post is shorter than minimum allowed length",
       });
@@ -43,7 +40,7 @@ export default function CreatePost({ option="create", resource }) {
       return;
     }
     if (postText.length > 300) {
-      modalInfo.current.modifyModal({
+      modalUpdater({
         title: "Error",
         text: "Post is longer than maximum allowed length",
       });
@@ -79,20 +76,20 @@ export default function CreatePost({ option="create", resource }) {
 
   useEffect(() => {
     if (data?.code == "015") {
-      modalInfo.current.modifyModal({
+      modalUpdater({
         title: "Success",
         text: data.data,
         setButtonClick: setModalBtnClick
       });
       setModalVisibility(true);
     } else if (data?.code == "010") {
-      modalInfo.current.modifyModal({ title: "Error", text: data.data });
+      modalUpdater({ title: "Error", text: data.data });
       setModalVisibility(true);
     } else if (data?.code == "022") {
-      modalInfo.current.modifyModal({ title: "Error", text: data.data });
+      modalUpdater({ title: "Error", text: data.data });
       setModalVisibility(true);
     } else if (data?.code == "037") {
-      modalInfo.current.modifyModal({
+      modalUpdater({
         title: "Success",
         text: data?.data?.message,
         setButtonClick: setModalBtnClick
@@ -138,12 +135,6 @@ export default function CreatePost({ option="create", resource }) {
           className={styles.postLengthCount}
         >{`${postText?.length}/300`}</span>
       </div>
-
-      <Modal
-        ref={modalInfo}
-        visibility={modalVisibility}
-        setVisibility={setModalVisibility}
-      />
     </>
   );
 }
