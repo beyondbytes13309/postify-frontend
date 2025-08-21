@@ -26,14 +26,15 @@ function Header() {
   const [showOptions, setShowOptions] = useState({ search: false, home: false, profile: false, create: false, admin: false })
 
   useEffect(() => {
-    let newObj = showOptions
-    if (isLoggedIn) {
-      newObj = Object.fromEntries(Object.keys(newObj).map(key => [key, true]))
-    }
-    if (['moderator', 'admin'].includes(user?.role)) {
-      newObj.admin = true
-    }
+    const baseKeys = Object.keys(showOptions)
+
+    const newObj = Object.fromEntries(
+      baseKeys.map(key => [key, isLoggedIn])
+    )
+    newObj.admin = ['moderator', 'admin'].includes(user?.role)
+
     setShowOptions(newObj)
+
   }, [isLoggedIn, user])
 
   return (
