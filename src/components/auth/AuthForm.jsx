@@ -9,12 +9,11 @@ import API from "../../../apiRoutes";
 
 import googleIcon from "../../assets/googleIcon.svg";
 import Button from "../common/Button";
-import Modal from "../common/Modal";
 import { AuthContext } from "../../contexts/AuthContext";
 
 import { useSafeFetch } from "../../hooks/useSafeFetch";
 
-export default function AuthForm({ type, toggleMethod }) {
+export default function AuthForm({ type, toggleMethod, modalUpdater, setModalVisibility }) {
   const titles = {
     signin: "Sign in now",
     signup: "Sign up now",
@@ -27,9 +26,6 @@ export default function AuthForm({ type, toggleMethod }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-
-  const [modalVisibility, setModalVisibility] = useState(false);
-  const modalInfo = useRef({});
 
   const [errors, setErrors] = useState({});
 
@@ -130,7 +126,7 @@ export default function AuthForm({ type, toggleMethod }) {
     }
 
     if (error?.name == "TypeError") {
-      modalInfo.current.modifyModal({
+      modalUpdater({
         variant: "alert",
         title: "Error",
         text: "Couldn't make request to the server due to internet",
@@ -249,12 +245,6 @@ export default function AuthForm({ type, toggleMethod }) {
           </p>
         </div>
       </div>
-
-      <Modal
-        ref={modalInfo}
-        visibility={modalVisibility}
-        setVisibility={setModalVisibility}
-      />
     </>
   );
 }

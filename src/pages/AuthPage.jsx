@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import AuthForm from "../components/auth/AuthForm";
+import Modal from "../components/common/Modal";
 
 import { AuthContext } from "../contexts/AuthContext";
 
@@ -11,6 +12,8 @@ export default function AuthPage() {
   const location = useLocation();
   const { isLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
+  const modalInfo = useRef({});
+  const [modalVisibility, setModalVisibility] = useState(false);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -45,9 +48,17 @@ export default function AuthPage() {
             className={styles.authForm}
             type={method}
             toggleMethod={toggleMethod}
+            modalUpdater={modalInfo?.current?.modifyModal}
+            setModalVisibility={setModalVisibility}
           />
         </motion.div>
       </AnimatePresence>
+      <Modal
+        ref={modalInfo}
+        visibility={modalVisibility}
+        setVisibility={setModalVisibility}
+      />
     </div>
+    
   );
 }
