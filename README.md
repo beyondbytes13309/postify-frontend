@@ -113,6 +113,19 @@ The backend can be found at [postify-backend](https://github.com/beyondbytes1330
 - [FontAwesome](https://fontawesome.com/)
 - [React Icons](https://react-icons.github.io/react-icons/)
 
+
+## 📸 Some screenshots
+
+<p align="center">
+  <img src="./screenshots/ss-1.png" alt="Sign up / Sign in" width="45%" />
+  <img src="./screenshots/ss-2.png" alt="Home Page" width="45%" />
+</p>
+
+<p align="center">
+  <img src="./screenshots/ss-3.png" alt="Comments" width="45%" />
+  <img src="./screenshots/ss-4.png" alt="Profile" width="45%" />
+</p>
+
 ---
 
 **Happy Posting!**
