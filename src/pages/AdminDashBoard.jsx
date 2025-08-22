@@ -5,13 +5,16 @@ import { AuthContext } from "../contexts/AuthContext";
 
 export default function AdminDashBoard() {
   const navigate = useNavigate();
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, user } = useContext(AuthContext);
 
   useEffect(() => {
+  const allowedToVisit = ['admin', 'moderator'].includes(user?.role)
       if (isLoggedIn == false) {
         navigate("/auth");
+      } else if (!allowedToVisit) {
+        navigate('/')
       }
-    }, [isLoggedIn]);
+    }, [isLoggedIn, user]);
 
   if (isLoggedIn) return (
     <p className={styles.test}>Hey, this is only for testing!</p>
