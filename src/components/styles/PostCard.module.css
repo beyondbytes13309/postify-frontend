@@ -125,3 +125,23 @@
 .reactBtn:active {
   opacity: 0.5;
 }
+
+.deleted {
+  color: #9CA3AF; 
+}
+
+.restricted {
+  color: #000000c6; 
+}
+
+.user {
+  color: #416fa9;
+}
+
+.moderator {
+  color: #a80000a8;
+}
+
+.admin {
+  color: #ff0000; 
+}

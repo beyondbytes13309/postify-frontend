@@ -112,7 +112,7 @@ export default React.memo(function PostCard({
               alt="Pfp"
               className={styles.pfp}
             />
-            <p className={styles.authorName}>
+            <p className={`${styles.authorName} ${styles[resource?.authorID?.role || 'deleted']}`}>
               {resource?.authorID?.displayName || "Deleted User"}
             </p> ·
 
