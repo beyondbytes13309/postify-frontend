@@ -7,17 +7,18 @@ import { useCan } from '../../hooks/useCan'
 
 
 export default function ReactionPicker({
-  postID,
+  resourceID,
   setShowReactionPicker,
   userReaction,
   userReactionID,
+  resType
 }) {
   const can = useCan()
   const [selected, setSelected] = useState(0);
   const [url, setUrl] = useState('')
   const [options, setOptions] = useState({})
   const { data, error, loading, abort } = useSafeFetch(url, options)
-
+  
   const allowedToMakeReaction = can(
     ["make_reaction"]
   );
@@ -25,7 +26,7 @@ export default function ReactionPicker({
   const reactionHandler = async ({
     action = "create",
     reactionType,
-    postID,
+    resourceID,
     reactionID,
   }) => {
     if (action == "create") {
@@ -34,8 +35,9 @@ export default function ReactionPicker({
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({
-          postID: postID,
+          resourceID: resourceID,
           reactionType,
+          resType
         }),
       })
       setUrl(API.REACTION.makeReaction)
@@ -75,7 +77,7 @@ export default function ReactionPicker({
     reactionHandler({
       action: "create",
       reactionType: finalReaction,
-      postID: postID,
+      resourceID: resourceID,
     });
   };
 

@@ -1,5 +1,6 @@
 import Comment from "./Comment";
 import CreateComment from "./CreateComment";
+import ReactionPicker from "../reaction/ReactionPicker";
 import styles from "../styles/CommentSection.module.css";
 import { useEffect, useState, useRef } from "react";
 
@@ -15,10 +16,14 @@ export default function CommentSection({ postID, toggleCommentSection, modalUpda
   const [createCommentVisibility, setCreateCommentVisibility] = useState(false);
   const [commentOption, setCommentOption] = useState("create")
   const [currentCommentID, setCurrentCommentID] = useState(null)
+  const [showReactionPicker, setShowReactionPicker] = useState(false)
 
   const [initialCommentText, setInitialCommentText] = useState("")
 
   const [commentCreationState, setCommentCreationState] = useState(false);
+
+  const [userReaction, setUserReaction] = useState(null);
+  const [userReactionID, setUserReactionID] = useState(null);
 
   const [url, setUrl] = useState('')
   const [options, setOptions] = useState({})
@@ -26,7 +31,7 @@ export default function CommentSection({ postID, toggleCommentSection, modalUpda
 
   useEffect(() => {
     setOptions({ method: 'GET', credentials: 'include' })
-    setUrl(`${API.COMMENT.getComments}?postID=${postID}`)
+    setUrl(`${API.COMMENT.getComments}/${postID}`)
 
   }, []);
 
@@ -124,6 +129,12 @@ export default function CommentSection({ postID, toggleCommentSection, modalUpda
                   setCommentState={handleSetCommentState}
                   modalUpdater={modalUpdater}
                   setModalVisibility={setModalVisibility}
+                  setShowReactionPicker={setShowReactionPicker}
+                  updateCurrentReactionForComment={() => {
+                    console.log(comment?.userReaction, comment?.userReactionID)
+                    setUserReaction(comment?.userReaction);
+                    setUserReactionID(comment?.userReactionID);
+                  }}
                 />
               ))}
         </div>
@@ -132,6 +143,16 @@ export default function CommentSection({ postID, toggleCommentSection, modalUpda
         {loading && !error && <Loading />}
         {error && <p className={styles.error}>An error occured!</p>}
       </div>
+
+      {showReactionPicker && (
+        <ReactionPicker
+          resourceID={showReactionPicker}
+          setShowReactionPicker={setShowReactionPicker}
+          userReaction={userReaction}
+          userReactionID={userReactionID}
+          resType="comment"
+        />
+      )}
 
     </>
   );

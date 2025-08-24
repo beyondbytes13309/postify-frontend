@@ -6,9 +6,10 @@ import Options from "../common/Options";
 import { useCan } from "../../hooks/useCan";
 import API from "../../../apiRoutes";
 import { useSafeFetch } from '../../hooks/useSafeFetch'
+import { MdOutlineAddReaction } from "react-icons/md";
 
 
-export default function Comment({ resource, onDelete, setCreateCommentVisibility, setCommentState, modalUpdater, setModalVisibility}) {
+export default function Comment({ resource, onDelete, setCreateCommentVisibility, setCommentState, modalUpdater, setModalVisibility, setShowReactionPicker, updateCurrentReactionForComment }) {
   const can = useCan();
   const [showOptions, setShowOptions] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -112,6 +113,7 @@ export default function Comment({ resource, onDelete, setCreateCommentVisibility
         <div className={styles.body}>
           <p className={styles.commentText}>{resource?.commentText}</p>
         </div>
+        <button onClick={() => {setShowReactionPicker(resource?._id); updateCurrentReactionForComment();}}><MdOutlineAddReaction /></button>
       </div>
     </>
   );

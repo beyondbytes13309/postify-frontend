@@ -104,10 +104,11 @@ export default function PostShower({ url, modalUpdater, setModalVisibility }) {
 
       {showReactionPicker && (
         <ReactionPicker
-          postID={showReactionPicker}
+          resourceID={showReactionPicker}
           setShowReactionPicker={setShowReactionPicker}
           userReaction={userReaction}
           userReactionID={userReactionID}
+          resType="post"
         />
       )}
       <AnimatePresence mode="wait">
