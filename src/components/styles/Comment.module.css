@@ -59,3 +59,31 @@
 .commentMenuBtn:active {
   opacity: 0.6;
 }
+
+.reactBtnWrapper {
+  display: flex;
+  align-items: center;
+  color: rgb(88, 88, 88);
+  font-size: 0.9rem;
+}
+
+.reactBtn {
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+  height: 35px;
+  padding: 4px;
+  font-size: 1.29rem;
+}
+
+.reactBtnIcon {
+  width: 100%;
+  height: 100%;
+}
+
+
+.reactCount {
+  color: rgb(88, 88, 88);
+  font-size: 0.8rem;
+  margin-left: 5px;
+}

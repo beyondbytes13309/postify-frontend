@@ -7,6 +7,8 @@ import { useCan } from "../../hooks/useCan";
 import API from "../../../apiRoutes";
 import { useSafeFetch } from '../../hooks/useSafeFetch'
 import { MdOutlineAddReaction } from "react-icons/md";
+import { reactionSummarizer } from "../../utils/reactionSummarizer";
+import ReactionShower from "../reaction/ReactionShower";
 
 
 export default function Comment({ resource, onDelete, setCreateCommentVisibility, setCommentState, modalUpdater, setModalVisibility, setShowReactionPicker, updateCurrentReactionForComment }) {
@@ -15,6 +17,7 @@ export default function Comment({ resource, onDelete, setCreateCommentVisibility
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const commentID = resource?._id;
   const [modalBtnClick, setModalBtnClick] = useState(-1);
+  const [showReactionEmoji, setShowReactionEmoji] = useState(0)
 
   const [url, setUrl] = useState('')
   const [options, setOptions] = useState({})
@@ -42,6 +45,10 @@ export default function Comment({ resource, onDelete, setCreateCommentVisibility
 
     
   };
+
+  useEffect(() => {
+    setShowReactionEmoji(reactionSummarizer(resource?.reactions))
+  }, [resource])
 
   useEffect(() => {
     if (modalBtnClick == 0) {
@@ -113,7 +120,24 @@ export default function Comment({ resource, onDelete, setCreateCommentVisibility
         <div className={styles.body}>
           <p className={styles.commentText}>{resource?.commentText}</p>
         </div>
-        <button onClick={() => {setShowReactionPicker(resource?._id); updateCurrentReactionForComment();}}><MdOutlineAddReaction /></button>
+        {/* <button onClick={() => {setShowReactionPicker(resource?._id); updateCurrentReactionForComment();}}><MdOutlineAddReaction /></button> */}
+
+        <div className={styles.reactBtnWrapper} title="Reactions">
+          <button
+            className={styles.reactBtn}
+            onClick={() => {
+              setShowReactionPicker(resource?._id);
+              updateCurrentReactionForPost();
+            }}>{ showReactionEmoji.length!= 0 ?
+              <div className={styles.reactBtnIcon}>
+                <ReactionShower reactions={showReactionEmoji}/>
+              </div>
+              
+              : <MdOutlineAddReaction className={styles.reactBtnIcon} />
+            }
+          </button>
+          <span className={styles.reactCount}>{resource?.reactions?.length || 0}</span>
+        </div>
       </div>
     </>
   );
