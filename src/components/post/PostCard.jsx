@@ -13,22 +13,11 @@ import ReactionShower from "../reaction/ReactionShower";
 import convertIsoToRelativeTime from "../../utils/isoToTimeAgo";
 
 import { useCan } from "../../hooks/useCan";
+import { reactionSummarizer } from "../../utils/reactionSummarizer";
 
 import API from "../../../apiRoutes";
 import { useNavigate } from "react-router-dom";
 
-const reactionsEmojis = {
-  1: ["👍", "Like"],
-  2: ["👎", "Dislike"],
-  3: ["💗", "Love"],
-  4: ["😂", "Funny"],
-  5: ["😮", "Surprised"],
-  6: ["😢", "Sad"],
-  7: ["😡", "Angry"],
-  8: ["🧐", "Curious"],
-  9: ["🤝", "Respect"],
-  10: ["💡", "Insightful"],
-};
 
 export default React.memo(function PostCard({
   resource,
@@ -56,36 +45,6 @@ export default React.memo(function PostCard({
   const [url, setUrl] = useState('')
   const [options, setOptions] = useState({})
   const { data, error, loading, abort } = useSafeFetch(url, options)
-
-
-  const summarizeReactions = () => {
-    const reactions = resource?.reactions;
-    if (!Array.isArray(reactions) || reactions.length === 0) {
-      return [];
-    }
-
-    const reactionNums = reactions
-      .map((reaction) => Number(reaction))
-      .filter((num) => num >= 1 && num <= 10);
-
-    if (reactionNums.length === 0) {
-      return [];
-    }
-
-    // Count each reaction
-    const counts = {};
-    for (const num of reactionNums) {
-      counts[num] = (counts[num] || 0) + 1;
-    }
-
-    // Sort reactions by count descending
-    const sortedReactions = Object.entries(counts)
-      .sort((a, b) => b[1] - a[1]) // sort by count
-      .slice(0, 3) // take top 3
-      .map(([reaction]) => reactionsEmojis[Number(reaction)][0]); // map to emoji
-    return sortedReactions;
-  };
-
 
   const allowedToDelete = can(["delete_own_post", "delete_any_post"], resource);
   const allowedToEdit = can(["edit_own_post", "edit_any_post"], resource)
@@ -120,7 +79,7 @@ export default React.memo(function PostCard({
   useEffect(() => {
     setCommentCount(resource?.numOfComments || 0);
     setReactionCount(resource?.reactions?.length || 0);
-    setShowReactionEmoji(summarizeReactions());
+    setShowReactionEmoji(reactionSummarizer(resource?.reactions));
   }, [resource]);
 
   useEffect(() => {
