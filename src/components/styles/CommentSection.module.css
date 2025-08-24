@@ -1,3 +1,17 @@
+.commentSectionOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  backdrop-filter: blur(0.05rem);
+  background-color: rgba(0, 0, 0, 0.200);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
 .wrapper {
   position: fixed;
   top: 50%;

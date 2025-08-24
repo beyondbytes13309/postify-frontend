@@ -87,73 +87,74 @@ export default function CommentSection({ postID, toggleCommentSection, modalUpda
 
   return (
     <>
-      <div className={styles.wrapper}>
-        <h2>Comments</h2>
+      <div className={styles.commentSectionOverlay}>
+        <div className={styles.wrapper}>
+          <h2>Comments</h2>
 
-        <button className={styles.closeBtn}>
-          <IoMdCloseCircle
-            className={styles.closeBtnIcon}
-            onClick={toggleCommentSection}
-          />
-        </button>
-
-        <button
-          className={styles.addCommentBtn}
-          onClick={() => {setCreateCommentVisibility((prev) => !prev); setCommentOption("create")}}
-        >
-          <IoMdAdd className={styles.addCommentIcon} />
-        </button>
-
-        <div className={styles.comments}>
-          {createCommentVisibility && (
-            <CreateComment
-              setCreateCommentVisibility={setCreateCommentVisibility}
-              postID={postID}
-              setCommentCreationState={setCommentCreationState}
-              commentID={currentCommentID}
-              initialCommentText={initialCommentText}
-              setInitialCommentText={setInitialCommentText}
-              option={commentOption}
+          <button className={styles.closeBtn}>
+            <IoMdCloseCircle
+              className={styles.closeBtnIcon}
+              onClick={toggleCommentSection}
             />
-          )}
-          {comments.length != 0 && comments.map((comment) => (
-                <Comment
-                  key={comment?._id}
-                  resource={comment}
-                  onDelete={(id) => {
-                    setComments((prev) =>
-                      prev.filter((comment) => comment._id != id),
-                    );
-                  }}
-                  setCreateCommentVisibility={setCreateCommentVisibility}
-                  setCommentState={handleSetCommentState}
-                  modalUpdater={modalUpdater}
-                  setModalVisibility={setModalVisibility}
-                  setShowReactionPicker={setShowReactionPicker}
-                  updateCurrentReactionForComment={() => {
-                    console.log(comment?.userReaction, comment?.userReactionID)
-                    setUserReaction(comment?.userReaction);
-                    setUserReactionID(comment?.userReactionID);
-                  }}
-                />
-              ))}
+          </button>
+
+          <button
+            className={styles.addCommentBtn}
+            onClick={() => {setCreateCommentVisibility((prev) => !prev); setCommentOption("create")}}
+          >
+            <IoMdAdd className={styles.addCommentIcon} />
+          </button>
+
+          <div className={styles.comments}>
+            {createCommentVisibility && (
+              <CreateComment
+                setCreateCommentVisibility={setCreateCommentVisibility}
+                postID={postID}
+                setCommentCreationState={setCommentCreationState}
+                commentID={currentCommentID}
+                initialCommentText={initialCommentText}
+                setInitialCommentText={setInitialCommentText}
+                option={commentOption}
+              />
+            )}
+            {comments.length != 0 && comments.map((comment) => (
+                  <Comment
+                    key={comment?._id}
+                    resource={comment}
+                    onDelete={(id) => {
+                      setComments((prev) =>
+                        prev.filter((comment) => comment._id != id),
+                      );
+                    }}
+                    setCreateCommentVisibility={setCreateCommentVisibility}
+                    setCommentState={handleSetCommentState}
+                    modalUpdater={modalUpdater}
+                    setModalVisibility={setModalVisibility}
+                    setShowReactionPicker={setShowReactionPicker}
+                    updateCurrentReactionForComment={() => {
+                      console.log(comment?.userReaction, comment?.userReactionID)
+                      setUserReaction(comment?.userReaction);
+                      setUserReactionID(comment?.userReactionID);
+                    }}
+                  />
+                ))}
+          </div>
+
+          {(comments?.length == 0 && !error && !loading) && <p className={styles.error}>No comments yet.</p> }
+          {loading && !error && <Loading />}
+          {error && <p className={styles.error}>An error occured!</p>}
         </div>
 
-        {(comments?.length == 0 && !error && !loading) && <p className={styles.error}>No comments yet.</p> }
-        {loading && !error && <Loading />}
-        {error && <p className={styles.error}>An error occured!</p>}
-      </div>
-
-      {showReactionPicker && (
-        <ReactionPicker
-          resourceID={showReactionPicker}
-          setShowReactionPicker={setShowReactionPicker}
-          userReaction={userReaction}
-          userReactionID={userReactionID}
-          resType="comment"
-        />
-      )}
-
+        {showReactionPicker && (
+          <ReactionPicker
+            resourceID={showReactionPicker}
+            setShowReactionPicker={setShowReactionPicker}
+            userReaction={userReaction}
+            userReactionID={userReactionID}
+            resType="comment"
+          />
+        )}
+    </div>
     </>
   );
 }
