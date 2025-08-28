@@ -1,5 +1,4 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import Feed from "../components/post/Feed";
 import PostShower from '../components/post/PostShower'
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +20,7 @@ export default function Home() {
   //return <>{isLoggedIn && <Feed />}</>;
 
   return <>
-    {isLoggedIn && <PostShower url={API.POST.getPosts} modalUpdater={modalInfo?.current?.modifyModal} setModalVisibility={setModalVisibility}/>}
+    {isLoggedIn && <PostShower url={API.POST.getRecommendedPosts} modalUpdater={modalInfo?.current?.modifyModal} setModalVisibility={setModalVisibility}/>}
     <Modal 
     ref={modalInfo}
     visibility={modalVisibility}

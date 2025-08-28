@@ -20,6 +20,7 @@ const API = {
   POST: {
     createPost: `${BASE_URL}/post/createPost`,
     getPosts: `${BASE_URL}/post/getPosts`,
+    getRecommendedPosts: `${BASE_URL}/post/getRecommendedPosts`,
     deletePost: `${BASE_URL}/post/deletePost`,
     getUserPosts: `${BASE_URL}/post/getUserPosts`,
     editPost: `${BASE_URL}/post/editPost`

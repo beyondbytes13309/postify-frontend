@@ -57,7 +57,7 @@ export default function Profile() {
       {isLoggedIn == true && (
         <>
           {<UserCard resource={userToPass} setIsLoggedIn={setIsLoggedIn} option={option} modalUpdater={modalInfo?.current?.modifyModal} setModalVisibility={setModalVisibility}/>}
-          {user ? <PostShower url={`${API.POST.getUserPosts}/${userToPass?._id}`}/> : null}
+          {user && userToPass?._id ? <PostShower url={`${API.POST.getUserPosts}/${userToPass?._id}`}/> : null}
           <Modal
             ref={modalInfo}
             visibility={modalVisibility}

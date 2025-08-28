@@ -9,3 +9,7 @@
 .noPosts {
   margin-top: 1rem
 }
+
+.postShowerLoader {
+  width: 100%;
+}
