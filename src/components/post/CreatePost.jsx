@@ -114,9 +114,8 @@ export default function CreatePost({ option="create", resource, modalUpdaterFac,
         <textarea
           placeholder="Enter post text..."
           className={styles.postTextInput}
-          onChange={(e) => {
-            postText.length <= 300 && setPostText(e.target.value)
-          }
+          onChange={(e) => setPostText(e.target.value)
+          
           }
           value={postText}
         ></textarea>
@@ -133,8 +132,8 @@ export default function CreatePost({ option="create", resource, modalUpdaterFac,
         </div>
 
         <span
-          className={styles.postLengthCount}
-        >{`${postText?.length}/300`}</span>
+          className={`${styles.postLengthCount} ${postText?.length>300 && styles.postLengthExceeded}`}
+        >{postText?.length}/300</span>
       </div>
     </>
   );

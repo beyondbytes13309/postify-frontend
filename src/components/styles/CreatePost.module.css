@@ -36,3 +36,8 @@
   gap: 0.5rem;
   align-items: center;
 }
+
+.postLengthExceeded {
+  color: red;
+  font-weight: 500;
+}

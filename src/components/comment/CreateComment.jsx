@@ -73,8 +73,8 @@ export default function CreateComment({
           onChange={(e) => setCommentText(e.target.value)}
         />
         <span
-          className={styles.commentTextLength}
-        >{`${commentText.length}/150`}</span>
+          className={`${styles.commentTextLength} ${commentText?.length>150 && styles.commentLengthExceeded}`}
+        >{`${commentText?.length}/150`}</span>
 
         <div className={styles.commentButtonsWrapper}>
           <button className={styles.addCommentBtn} onClick={handleMakeComment}>

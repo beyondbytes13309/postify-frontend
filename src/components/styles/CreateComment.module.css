@@ -69,3 +69,8 @@
 .commentTextLength {
   margin-right: auto;
 }
+
+.commentLengthExceeded {
+  color: red;
+  font-weight: 500;
+}

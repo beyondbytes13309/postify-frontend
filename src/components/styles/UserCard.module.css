@@ -109,6 +109,11 @@
   margin-left: 0.2rem;
 }
 
+.bioLengthExceeded {
+  color: red;
+  font-weight: 500;
+}
+
 .label:hover {
   opacity: 0.9;
   cursor: pointer;

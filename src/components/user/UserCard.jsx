@@ -370,15 +370,14 @@ export default function UserCard({
                   type="text"
                   value={userBio}
                   placeholder={`My name is ${resource?.displayName}...`}
-                  onChange={(e) =>
-                    e.target.value.length < 160 && setUserBio(e.target.value)
+                  onChange={(e) => setUserBio(e.target.value)
                   }
                 />
               )}
               {editStuff && (
                 <span
-                  className={styles.bioLengthCount}
-                >{`${userBio.length}/159`}</span>
+                  className={`${styles.bioLengthCount} ${userBio?.length>159 && styles.bioLengthExceeded}`}
+                >{`${userBio?.length}/159`}</span>
               )}
               {editStuff && <span className={styles.error}>{errors.bio}</span>}
             </div>
