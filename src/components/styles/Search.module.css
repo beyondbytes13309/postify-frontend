@@ -6,8 +6,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 30%;
-  height: 7%;
+  width: 27%;
+  height: 39%;
+  margin: 1rem;
 }
 
 .wrapper input {
@@ -17,13 +18,14 @@
   background-color: rgba(145, 171, 255, 0.514);
   outline: none;
   border: 1px solid rgb(76, 104, 196);
-  font-size: 1.125rem;
+  font-size: 1.015rem;
   padding-left: 1rem;
-  color: rgba(0, 0, 0, 0.795);
+  color: rgb(44, 37, 37);
+  transition: box-shadow 0.125s ease-in-out;
 }
 
 .wrapper input:focus {
-  border: 1px solid blue;
+  box-shadow: 0px 0px 10px 1px rgba(49, 49, 57, 0.574);
 }
 
 .searchBtn {
