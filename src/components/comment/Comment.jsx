@@ -95,11 +95,13 @@ export default function Comment({ resource, onDelete, setCreateCommentVisibility
           />
           <h2 className={styles.authorName}>
             {resource?.authorID?.displayName || "Deleted User"}
-          </h2>
+          </h2> ·
 
-          <span className={styles.timeAgo}>
-            {convertIsoToRelativeTime(resource?.createdAt)}
-          </span>
+            <span className={styles.timeAgo}>
+              {convertIsoToRelativeTime(resource?.createdAt)} 
+              {resource?.isEdited && ' · Edited'}
+            </span>
+
           <button
             onClick={(e) => {
               setPosition({ x: e.clientX, y: e.clientY });
