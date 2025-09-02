@@ -419,7 +419,7 @@ export default function UserCard({
           initial="initial"
           animate="animate"
           exit="exit"
-          transition={{ duration: 0.15, ease: "easeInOut" }}
+          transition={{ duration: 0.2, ease: "easeInOut" }}
         >
           <RestrictUser 
             restrictUserArray={restrictUserArray} 
