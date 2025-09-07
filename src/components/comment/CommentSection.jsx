@@ -8,6 +8,7 @@ import { IoMdCloseCircle } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
 
 import Loading from "../common/Loading";
+import InfiniteScroll from 'react-infinite-scroll-component'
 import API from "../../../apiRoutes.js";
 import { useSafeFetch } from '../../hooks/useSafeFetch'
 
@@ -25,19 +26,27 @@ export default function CommentSection({ postID, toggleCommentSection, modalUpda
   const [userReaction, setUserReaction] = useState(null);
   const [userReactionID, setUserReactionID] = useState(null);
 
+  const [pageNumber, setPageNumber] = useState(1)
+  const [hasMore, setHasMore] = useState(true)
+  const [curUrl, setCurUrl] = useState(`${API.COMMENT.getComments}/${postID}?page=${pageNumber || 1}`)
+
   const [url, setUrl] = useState('')
   const [options, setOptions] = useState({})
-  const { data, error, loading, abort } = useSafeFetch(url, options)
+  const { data, error, loading, abort } = useSafeFetch(curUrl, options)
 
   useEffect(() => {
     setOptions({ method: 'GET', credentials: 'include' })
-    setUrl(`${API.COMMENT.getComments}/${postID}`)
 
   }, []);
 
   useEffect(() => {
     if (data?.code == '032') {
-      setComments(data.data)
+      const newComments = data?.data;
+      if (newComments?.length==0) {
+        setHasMore(false)
+        return;
+      }
+      setComments(prev => [...prev, ...newComments])
     }
   }, [data, error])
 
@@ -85,6 +94,12 @@ export default function CommentSection({ postID, toggleCommentSection, modalUpda
     setInitialCommentText(text);
   };
 
+  const fetchMoreComments = () => {
+    const newPageNum = pageNumber+1
+    setPageNumber(newPageNum)
+    setCurUrl(`${API.COMMENT.getComments}/${postID}?page=${newPageNum}`)
+  }
+
   return (
     <>
       <div className={styles.commentSectionOverlay}>
@@ -105,45 +120,54 @@ export default function CommentSection({ postID, toggleCommentSection, modalUpda
             <IoMdAdd className={styles.addCommentIcon} />
           </button>
 
-          <div className={styles.comments}>
-            {createCommentVisibility && (
-              <CreateComment
-                setCreateCommentVisibility={setCreateCommentVisibility}
-                postID={postID}
-                setCommentCreationState={setCommentCreationState}
-                commentID={currentCommentID}
-                initialCommentText={initialCommentText}
-                setInitialCommentText={setInitialCommentText}
-                option={commentOption}
-              />
-            )}
-            {comments.length != 0 && comments.map((comment) => (
-                  <Comment
-                    key={comment?._id}
-                    resource={comment}
-                    onDelete={(id) => {
-                      setComments((prev) =>
-                        prev.filter((comment) => comment._id != id),
-                      );
-                    }}
-                    setCreateCommentVisibility={setCreateCommentVisibility}
-                    setCommentState={handleSetCommentState}
-                    modalUpdater={modalUpdater}
-                    setModalVisibility={setModalVisibility}
-                    setShowReactionPicker={setShowReactionPicker}
-                    updateCurrentReactionForComment={() => {
-                      console.log(comment?.userReaction, comment?.userReactionID)
-                      setUserReaction(comment?.userReaction);
-                      setUserReactionID(comment?.userReactionID);
-                    }}
-                  />
-                ))}
-          </div>
+          {createCommentVisibility && (
+                <CreateComment
+                  setCreateCommentVisibility={setCreateCommentVisibility}
+                  postID={postID}
+                  setCommentCreationState={setCommentCreationState}
+                  commentID={currentCommentID}
+                  initialCommentText={initialCommentText}
+                  setInitialCommentText={setInitialCommentText}
+                  option={commentOption}
+                />
+              )}
+
+          <InfiniteScroll
+              dataLength={data?.data?.length || 0}
+              next={fetchMoreComments}
+              hasMore={hasMore}
+              scrollableTarget="comments-container">
+          
+            <div className={styles.comments} id="comments-container">
+              
+              {comments.length != 0 && comments.map((comment) => (
+                    <Comment
+                      key={comment?._id}
+                      resource={comment}
+                      onDelete={(id) => {
+                        setComments((prev) =>
+                          prev.filter((comment) => comment._id != id),
+                        );
+                      }}
+                      setCreateCommentVisibility={setCreateCommentVisibility}
+                      setCommentState={handleSetCommentState}
+                      modalUpdater={modalUpdater}
+                      setModalVisibility={setModalVisibility}
+                      setShowReactionPicker={setShowReactionPicker}
+                      updateCurrentReactionForComment={() => {
+                        setUserReaction(comment?.userReaction);
+                        setUserReactionID(comment?.userReactionID);
+                      }}
+                    />
+                  ))}
+            </div>
+          </InfiniteScroll>
 
           {(comments?.length == 0 && !error && !loading) && <p className={styles.error}>No comments yet.</p> }
           {loading && !error && <Loading />}
           {error && <p className={styles.error}>An error occured!</p>}
-        </div>
+          
+        </div>        
 
         {showReactionPicker && (
           <ReactionPicker

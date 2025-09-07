@@ -28,7 +28,7 @@
 .comments {
   margin-top: 1.5rem;
   overflow-y: auto;
-  height: 85%;
+  height: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
