@@ -100,7 +100,7 @@ export default function RestrictUser({restrictUserArray, resource, setShowRestri
 
     const finalContinue = () => {
         setOptions({ method: 'PATCH', credentials: 'include'})
-        const url = `${API.USER.restrictUser}/${resource?._id}?type=${selectedType}&duration=${duration}&reason=${reason}`
+        const url = `${API.ADMIN.restrictUser}/${resource?._id}?type=${selectedType}&duration=${duration}&reason=${reason}`
         setUrl(url)
     }
 

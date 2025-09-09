@@ -31,13 +31,8 @@ export default function CommentSection({ postID, toggleCommentSection, modalUpda
   const [curUrl, setCurUrl] = useState(`${API.COMMENT.getComments}/${postID}?page=${pageNumber || 1}`)
 
   const [url, setUrl] = useState('')
-  const [options, setOptions] = useState({})
+  const [options, setOptions] = useState({ method: 'GET', credentials: 'include' })
   const { data, error, loading, abort } = useSafeFetch(curUrl, options)
-
-  useEffect(() => {
-    setOptions({ method: 'GET', credentials: 'include' })
-
-  }, []);
 
   useEffect(() => {
     if (data?.code == '032') {
@@ -46,6 +41,7 @@ export default function CommentSection({ postID, toggleCommentSection, modalUpda
         setHasMore(false)
         return;
       }
+      console.log(newComments)
       setComments(prev => [...prev, ...newComments])
     }
   }, [data, error])

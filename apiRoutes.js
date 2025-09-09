@@ -14,8 +14,6 @@ const API = {
     editUser: `${BASE_URL}/user/editUser`,
     editSpecificUser: `${BASE_URL}/user/editSpecificUser`,
     getUserData: `${BASE_URL}/user/getUserData`,
-    getAnyUserData: `${BASE_URL}/user/getAnyUserData`,
-    restrictUser: `${BASE_URL}/user/restrictUser`
   },
   POST: {
     createPost: `${BASE_URL}/post/createPost`,
@@ -35,6 +33,10 @@ const API = {
     deleteComment: `${BASE_URL}/comment/deleteComment`,
     editComment: `${BASE_URL}/comment/editComment`
   },
+  ADMIN: {
+    getAnyUserData: `${BASE_URL}/admin/getAnyUserData`,
+    restrictUser: `${BASE_URL}/admin/restrictUser`
+  }
 };
 
 export default API;
