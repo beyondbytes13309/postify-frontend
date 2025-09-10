@@ -14,6 +14,7 @@ const API = {
     editUser: `${BASE_URL}/user/editUser`,
     editSpecificUser: `${BASE_URL}/user/editSpecificUser`,
     getUserData: `${BASE_URL}/user/getUserData`,
+    getAnyUserData: `${BASE_URL}/user/getAnyUserData`,
   },
   POST: {
     createPost: `${BASE_URL}/post/createPost`,
