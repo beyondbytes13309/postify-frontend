@@ -30,7 +30,6 @@ export default function CommentSection({ postID, toggleCommentSection, modalUpda
   const [hasMore, setHasMore] = useState(true)
   const [curUrl, setCurUrl] = useState(`${API.COMMENT.getComments}/${postID}?page=${pageNumber || 1}`)
 
-  const [url, setUrl] = useState('')
   const [options, setOptions] = useState({ method: 'GET', credentials: 'include' })
   const { data, error, loading, abort } = useSafeFetch(curUrl, options)
 
@@ -41,7 +40,7 @@ export default function CommentSection({ postID, toggleCommentSection, modalUpda
         setHasMore(false)
         return;
       }
-      console.log(newComments)
+      
       setComments(prev => [...prev, ...newComments])
     }
   }, [data, error])
@@ -91,9 +90,12 @@ export default function CommentSection({ postID, toggleCommentSection, modalUpda
   };
 
   const fetchMoreComments = () => {
-    const newPageNum = pageNumber+1
-    setPageNumber(newPageNum)
-    setCurUrl(`${API.COMMENT.getComments}/${postID}?page=${newPageNum}`)
+    if (!loading) {
+      const newPageNum = pageNumber+1
+      setPageNumber(newPageNum)
+      setCurUrl(`${API.COMMENT.getComments}/${postID}?page=${newPageNum}`)
+    }
+    
   }
 
   return (
