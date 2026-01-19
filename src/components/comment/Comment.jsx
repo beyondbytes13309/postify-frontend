@@ -97,7 +97,7 @@ export default function Comment({ resource, onDelete, setCreateCommentVisibility
             {resource?.authorID?.displayName || "Deleted User"}
           </h2> ·
 
-            <span className={styles.timeAgo}>
+            <span className={styles.timeAgo} title={new Date(resource?.createdAt).toLocaleString()}>
               {convertIsoToRelativeTime(resource?.createdAt)} 
               {resource?.isEdited && ' · Edited'}
             </span>

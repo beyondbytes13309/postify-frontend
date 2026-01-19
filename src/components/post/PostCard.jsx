@@ -116,7 +116,7 @@ export default React.memo(function PostCard({
               {resource?.authorID?.displayName || "Deleted User"}
             </p> ·
 
-            <span className={styles.timeAgoAndIsEdited}>
+            <span className={styles.timeAgoAndIsEdited} title={new Date(resource?.createdAt).toLocaleString()}>
               {convertIsoToRelativeTime(resource?.createdAt)} 
               {resource?.isEdited && ' · Edited'}
             </span>
