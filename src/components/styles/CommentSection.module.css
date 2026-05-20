@@ -104,3 +104,8 @@
     width: 60%;
   }
 }
+
+.createCommentWrapperCS {
+  display: flex;
+  justify-content: center;
+}

@@ -111,15 +111,18 @@ export default function CommentSection({ postID, toggleCommentSection, modalUpda
             />
           </button>
 
-          <button
+          {createCommentVisibility ? null : <button
             className={styles.addCommentBtn}
             onClick={() => {setCreateCommentVisibility((prev) => !prev); setCommentOption("create")}}
           >
             <IoMdAdd className={styles.addCommentIcon} />
-          </button>
+          </button>}
 
           {createCommentVisibility && (
+            <div className={styles.createCommentWrapperCS}>
+
                 <CreateComment
+                  
                   setCreateCommentVisibility={setCreateCommentVisibility}
                   postID={postID}
                   setCommentCreationState={setCommentCreationState}
@@ -127,7 +130,7 @@ export default function CommentSection({ postID, toggleCommentSection, modalUpda
                   initialCommentText={initialCommentText}
                   setInitialCommentText={setInitialCommentText}
                   option={commentOption}
-                />
+                /></div>
               )}
 
           <InfiniteScroll
